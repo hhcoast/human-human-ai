@@ -168,3 +168,62 @@ select option{background:#102833;color:#fff}
  .snapshot-cell strong,.snapshot-cell .snapshot-state,.snapshot-legend li{color:#111f30!important}
  .snapshot-symbol{color:#fff!important;-webkit-text-fill-color:#fff!important}
 }
+
+/* v1.0.2 | Print route correction. Legacy snapshot print rules hide
+   main > section:not(#apply); explicitly restore Accountability when printing
+   either its personal report or the general A4 reminder. */
+@media print {
+ body:has(#accountability[data-print]) main > section#accountability {
+   display:block!important;
+   visibility:visible!important;
+   position:static!important;
+   width:100%!important;
+   min-height:0!important;
+   margin:0!important;
+   padding:0!important;
+   background:#fff!important;
+   color:#111f30!important;
+ }
+ body:has(#accountability[data-print]) #accountability .container,
+ body:has(#accountability[data-print]) #accountability .ac-shell {
+   display:block!important;
+   visibility:visible!important;
+   width:100%!important;
+   max-width:none!important;
+   min-height:0!important;
+   margin:0!important;
+   padding:0!important;
+   overflow:visible!important;
+ }
+ body:has(#accountability[data-print=report]) #accountability #ac-report,
+ body:has(#accountability[data-print=poster]) #accountability #ac-poster {
+   display:block!important;
+   visibility:visible!important;
+   background:#fff!important;
+   color:#111f30!important;
+   opacity:1!important;
+ }
+ body:has(#accountability[data-print=report]) #accountability #ac-poster,
+ body:has(#accountability[data-print=poster]) #accountability #ac-report {
+   display:none!important;
+ }
+ body:has(#accountability[data-print]) #accountability .ac-report h2,
+ body:has(#accountability[data-print]) #accountability .ac-report h3,
+ body:has(#accountability[data-print]) #accountability .ac-report p,
+ body:has(#accountability[data-print]) #accountability .ac-report article,
+ body:has(#accountability[data-print]) #accountability .ac-agentic,
+ body:has(#accountability[data-print]) #accountability .ac-poster p,
+ body:has(#accountability[data-print]) #accountability .ac-poster li,
+ body:has(#accountability[data-print]) #accountability .ac-poster strong {
+   color:#111f30!important;
+   -webkit-text-fill-color:#111f30!important;
+ }
+ body:has(#accountability[data-print]) #accountability .ac-agentic {
+   background:#eff4f2!important;
+ }
+ body:has(#accountability[data-print]) #accountability .ac-report,
+ body:has(#accountability[data-print]) #accountability .ac-poster {
+   break-before:auto!important;
+   break-inside:auto!important;
+ }
+}
