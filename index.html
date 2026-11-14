@@ -268,6 +268,29 @@ footer{background:#111f30;color:#d3e0e5;padding:2.2rem 0;font-size:.87rem}
 }
 #accountability .ac-agentic{font-size:.91rem;color:#224e54;background:#eef6f2;border-left:3px solid #24796c;padding:.55rem .7rem;margin:.6rem 0}
 @media print{#accountability .ac-agentic{font-size:8pt;break-inside:avoid}}
+
+/* QA correction: prevent agent prompts from stretching circular A4 reminder elements. */
+#accountability .ac-poster-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem;align-items:center;justify-items:center}
+#accountability .ac-poster-grid>div{box-sizing:border-box;width:min(100%,240px);height:auto;aspect-ratio:1/1;border-radius:50%;padding:12%;min-width:0;overflow-wrap:break-word;display:flex;align-items:center;justify-content:center;flex-direction:column;overflow:hidden}
+#accountability .ac-poster-grid strong{font-size:clamp(.78rem,2.5vw,1.05rem);line-height:1.15}
+#accountability .ac-poster-grid p{font-size:clamp(.69rem,1.9vw,.85rem);line-height:1.28;margin:.35rem 0 0}
+#accountability .ac-poster-agent{margin:1.25rem 0 0;padding:1rem;border:1px solid #acc9be;border-radius:12px;background:#f0f7f3}
+#accountability .ac-poster-agent h3{font-size:1rem;margin:0 0 .5rem}
+#accountability .ac-poster-agent ul{padding-left:1.2rem;margin:0}
+#accountability .ac-poster-agent li{margin:.3rem 0;font-size:.86rem;line-height:1.35}
+@media(max-width:380px){#accountability .ac-poster-grid{gap:.35rem}#accountability .ac-poster-grid>div{padding:8%}#accountability .ac-poster-grid p{font-size:.67rem}}
+@media print{
+body:has(#accountability[data-print=poster]) #accountability .ac-poster{width:100%!important;max-width:none!important}
+body:has(#accountability[data-print=poster]) #accountability .ac-poster h2{font-size:24pt!important;margin:0 0 2mm!important}
+body:has(#accountability[data-print=poster]) #accountability .ac-poster>p{margin:1mm 0!important;font-size:10pt!important}
+body:has(#accountability[data-print=poster]) #accountability .ac-poster-grid{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:2mm!important;margin:3mm auto!important}
+body:has(#accountability[data-print=poster]) #accountability .ac-poster-grid>div{width:53mm!important;height:53mm!important;aspect-ratio:1/1!important;border-radius:50%!important;padding:6mm!important;overflow:hidden!important;break-inside:avoid!important}
+body:has(#accountability[data-print=poster]) #accountability .ac-poster-grid strong{font-size:10pt!important}
+body:has(#accountability[data-print=poster]) #accountability .ac-poster-grid p{font-size:8pt!important;line-height:1.2!important}
+body:has(#accountability[data-print=poster]) #accountability .ac-poster-agent{padding:2mm 4mm!important;margin:3mm 0 2mm!important;break-inside:avoid!important}
+body:has(#accountability[data-print=poster]) #accountability .ac-poster-agent h3{font-size:9pt!important}
+body:has(#accountability[data-print=poster]) #accountability .ac-poster-agent li{font-size:8pt!important;margin:0!important}
+}
 </style></head>
 <body><a class="skip" href="#main">Zum Inhalt springen</a>
 <header><div class="nav"><div class="logo">HUMAN <span>·</span> HUMAN <span>·</span> AI</div>
@@ -328,7 +351,7 @@ footer{background:#111f30;color:#d3e0e5;padding:2.2rem 0;font-size:.87rem}
 <div id="ac-export" hidden><div class="ac-tools"><button type="button" id="ac-print">Persönliches PDF drucken / speichern</button><button type="button" id="ac-copy" class="ac-outline">Ergebnis kopieren</button><button type="button" id="ac-open-share" class="ac-outline">Auswahl für E-Mail prüfen</button></div></div>
 <div id="ac-share" hidden><h3>Nur ausgewählte Inhalte teilen</h3><p>Du entscheidest. Eine E-Mail wird nur als Entwurf in deinem E-Mail-Programm geöffnet und nicht automatisch verschickt. Empfänger:in selbst festlegen. E-Mail ist nicht anonym.</p><div id="ac-share-choices"></div><h4>Vorschau der E-Mail</h4><pre id="ac-mail-preview"></pre><div class="ac-tools"><button type="button" id="ac-send">E-Mail-Entwurf öffnen</button><button type="button" class="ac-outline" id="ac-close-share">Schließen</button></div></div>
 <div class="ac-tools"><button type="button" class="ac-outline" id="ac-poster-print">Allgemeinen A4-Reminder drucken</button></div>
-<div class="ac-poster" id="ac-poster"><h2>HUMAN HUMAN AI</h2><p>Was bedenke ich bei meiner nächsten Entscheidung?</p><div class="ac-poster-grid"><div><strong>Agency</strong><p>Können Menschen eigenständig entscheiden, widersprechen und abbrechen?</p><p class="ac-agentic">Welche Handlungen darf das KI-System ohne erneute menschliche Zustimmung ausführen?</p></div><div><strong>Evidence</strong><p>Sind Fakten, Annahmen, Unsicherheiten und Quellen unterscheidbar?</p></div><div><strong>Fairness</strong><p>Sind Zugang, Sprache, Barrieren und mögliche Benachteiligung berücksichtigt?</p></div><div><strong>Responsibility</strong><p>Sind Zuständigkeiten, Prüfung und Freigabe erkennbar?</p><p class="ac-agentic">Wer kann autonome Handlungen überwachen, stoppen und verantworten?</p></div><div><strong>Consequence</strong><p>Werden Ergebnisse und tatsächliche Folgen nachvollziehbar?</p></div><div><strong>Correction</strong><p>Können Fehler und unerwünschte Wirkungen erkannt und korrigiert werden?</p><p class="ac-agentic">Wie werden unautorisierte Handlungen erkannt, begrenzt und aufgearbeitet?</p></div></div><p style="margin-top:1.2rem">Nicht alles muss sofort beantwortet werden. Entscheide selbst, was du prüfst, änderst oder offenlässt.</p><small>Goldmonkeys · v1.0 · 14.11.2026</small></div><p id="ac-live" role="status" aria-live="polite"></p>
+<div class="ac-poster" id="ac-poster"><h2>HUMAN HUMAN AI</h2><p>Was bedenke ich bei meiner nächsten Entscheidung?</p><div class="ac-poster-grid"><div><strong>Agency</strong><p>Können Menschen eigenständig entscheiden, widersprechen und abbrechen?</p></div><div><strong>Evidence</strong><p>Sind Fakten, Annahmen, Unsicherheiten und Quellen unterscheidbar?</p></div><div><strong>Fairness</strong><p>Sind Zugang, Sprache, Barrieren und mögliche Benachteiligung berücksichtigt?</p></div><div><strong>Responsibility</strong><p>Sind Zuständigkeiten, Prüfung und Freigabe erkennbar?</p></div><div><strong>Consequence</strong><p>Werden Ergebnisse und tatsächliche Folgen nachvollziehbar?</p></div><div><strong>Correction</strong><p>Können Fehler und unerwünschte Wirkungen erkannt und korrigiert werden?</p></div><aside class="ac-poster-agent" aria-label="Zusätzliche Prüffragen bei autonomen KI-Agenten"><h3>Wenn KI selbstständig handelt</h3><ul><li><strong>Agency:</strong> Welche Handlungen darf KI ohne erneute Zustimmung ausführen?</li><li><strong>Responsibility:</strong> Wer kann solche Handlungen überwachen und stoppen?</li><li><strong>Correction:</strong> Wie werden unautorisierte Handlungen erkannt und korrigiert?</li></ul></aside></div><p style="margin-top:1.2rem">Nicht alles muss sofort beantwortet werden. Entscheide selbst, was du prüfst, änderst oder offenlässt.</p><small>Goldmonkeys · v1.0 · 14.11.2026</small></div><p id="ac-live" role="status" aria-live="polite"></p>
 </div></div></section>
 <section id="evidence" class="section light"><div class="container"><p class="eyebrow">04 / Forschung und Grenzen</p>
 <h2>Von Usability zu beobachtbarer menschlicher Handlungsfähigkeit.</h2>
