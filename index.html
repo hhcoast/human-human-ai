@@ -111,6 +111,37 @@ textarea{min-height:90px;resize:vertical}.hha-snapshot{display:grid;gap:1.15rem;
 .screening-detail summary{cursor:pointer;font-weight:750;padding:.85rem;border-radius:10px;background:#fff;border:1px solid #b5d2c9}
 @media(max-width:720px){.snapshot-buttons{display:grid}.snapshot-buttons button{width:100%}.snapshot-matrix{gap:.5rem}.snapshot-cell{padding:.75rem}.snapshot-legend ul{gap:.5rem}}
 @media print{
+ @page{size:A4 portrait;margin:7mm}
+ html,body{width:auto!important;margin:0!important;padding:0!important}
+ #apply .container{max-width:none!important;width:100%!important;padding:0!important}
+ .hha-snapshot{display:block!important;font-size:9pt!important;line-height:1.22!important}
+ .snapshot-top{margin-bottom:5mm!important}
+ .snapshot-top h3{font-size:16pt!important;margin:2mm 0!important}
+ .snapshot-brand{font-size:7pt!important;margin:0!important}
+ .snapshot-context{font-size:9pt!important;margin:1mm 0!important}
+ .snapshot-statement{padding:3mm!important;margin-bottom:4mm!important}
+ .snapshot-statement strong{font-size:10pt!important}
+ .snapshot-statement p{margin:1mm 0 0!important}
+ .hha-snapshot>h4{margin:2mm 0!important;font-size:10pt!important}
+ .snapshot-matrix{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:2mm!important;margin-bottom:4mm!important}
+ .snapshot-cell{display:flex!important;padding:2mm 3mm!important;gap:1mm!important;min-height:0!important;break-inside:avoid}
+ .snapshot-cell strong{font-size:9pt!important}
+ .snapshot-state{font-size:8pt!important}
+ .snapshot-symbol{width:5mm!important;height:5mm!important;font-size:9pt!important}
+ .snapshot-legend{margin:0 0 3mm!important}
+ .snapshot-legend h4,.snapshot-priority h4,.snapshot-action h4{font-size:10pt!important;margin:1mm 0!important}
+ .snapshot-legend ul{margin:1mm 0!important;gap:1mm!important}
+ .snapshot-legend li{font-size:8pt!important}
+ .snapshot-legend .note{font-size:7pt!important;margin:1mm 0!important}
+ .snapshot-priority{padding-top:2mm!important;margin-bottom:3mm!important}
+ .snapshot-priority ul{margin:1mm 0!important}
+ .snapshot-priority li{padding:0!important;font-size:8pt!important}
+ .snapshot-action{padding:2mm 3mm!important}
+ .snapshot-action p{font-size:9pt!important}
+ .hha-snapshot>.note{display:none!important}
+ .snapshot-reminder,.snapshot-buttons{display:none!important}
+}
+@media print{
  @page{size:A4;margin:12mm}
  body{background:#fff!important;color:#142e3e}
  body>header,body>footer,body>.skip{display:none!important}
@@ -371,7 +402,7 @@ const items=[
 ["Sustainability","Ist der technische und organisatorische Aufwand angemessen?"],
 ["Consequence","Gibt es überprüfbare Hinweise auf tatsächliche Ergebnisse und Nebenwirkungen?"]
 ];
-items.forEach(([name,question],i)=>{let wrap=document.createElement("div");wrap.className="criterion";let label=document.createElement("label");label.htmlFor="criterion-"+i;label.textContent=(i+1)+". "+name;let hint=document.createElement("small");hint.textContent=question;let select=document.createElement("select");select.id="criterion-"+i;select.name="criterion-"+i;[["","Bitte wählen"],["yes","Nachweislich erfüllt"],["partial","Teilweise"],["no","Nicht erfüllt / kritisch"],["unknown","Keine ausreichende Evidenz"]].forEach(([v,t])=>{let option=document.createElement("option");option.value=v;option.textContent=t;select.append(option)});wrap.append(label,hint,select);$("criteria").append(wrap)});
+items.forEach(([name,question],i)=>{let wrap=document.createElement("div");wrap.className="criterion";let label=document.createElement("label");label.htmlFor="criterion-"+i;label.textContent=(i+1)+". "+name;let hint=document.createElement("small");hint.textContent=question;let select=document.createElement("select");select.id="criterion-"+i;select.name="criterion-"+i;[["","Bitte wählen"],["yes","Als gestützt angegeben"],["partial","Teilweise"],["no","Nicht erfüllt / kritisch"],["unknown","Keine ausreichende Evidenz"]].forEach(([v,t])=>{let option=document.createElement("option");option.value=v;option.textContent=t;select.append(option)});wrap.append(label,hint,select);$("criteria").append(wrap)});
 const screeningGuidance=[["Entscheidungsrechte und Korrekturwege sichtbar machen.","Eine Person testet, wie sie ein KI-Ergebnis zurückweisen, korrigieren oder ohne KI weiterarbeiten kann.","Beobachtete Entscheidung und erreichbarer Korrekturweg."],["Menschliche Rückfragen absichern.","Im Arbeitsablauf eine reale Rückfrage an Kolleg:innen ermöglichen und prüfen, ob die Antwort verstanden wurde.","Beobachtete Rückfrage und nachvollziehbare gemeinsame Klärung."],["Verständnis unabhängig prüfen.","Eine Person erklärt ein KI-Ergebnis ohne KI-Unterstützung in eigenen Worten.","Eigenständige Erklärung inklusive erkannter Unsicherheiten."],["Transfer ohne Assistenz erproben.","Eine kurze realitätsnahe Aufgabe ohne KI-Hilfe durchführen lassen.","Beobachtete Anwendung und dokumentierte Unterstützung."],["Zugangsbarrieren gemeinsam testen.","Eine betroffene Person testet Sprache, Tastaturbedienung, Lesbarkeit und Orientierung.","Dokumentierte Barriere und überprüfte Verbesserung."],["Fachprüfung und Verantwortung klären.","Quellen, Freigabe und Eskalation für fehlerhafte Ausgaben einer verantwortlichen Person zuordnen.","Nachvollziehbare Prüfung, Zuständigkeit und Korrektur."],["Aufwand und Nutzen vergleichen.","Ein Beispiel mit und ohne KI bearbeiten und Qualität sowie Zeit- und Ressourcenaufwand dokumentieren.","Dokumentierter Vergleich, keine bloße Effizienzvermutung."],["Reale Konsequenzen beobachten.","Vorab eine Handlung und eine mögliche Nebenwirkung definieren und nach der Nutzung beobachten.","Beobachtete Handlung, Nebenwirkung und Kontextbedingungen."]];
 $("screening").addEventListener("submit",event=>{
  event.preventDefault();
@@ -392,7 +423,7 @@ $("screening").addEventListener("submit",event=>{
  const output=["Was du als Nächstes ausprobieren kannst","Kontext"+": "+context,"Dein Snapshot macht sichtbar, was du bereits beobachtest, wo Fragen offenbleiben und was du als Nächstes ausprobieren kannst.",""];
 
  // Present an accessible summary before any detailed text. All statuses reflect user input.
- const snapshotConfig={"path":"index.html","lang":"de","title":"Dein Human–Human–AI Snapshot","strap":"KI unterstützt. Menschen verstehen, entscheiden und handeln.","sub":"Prüfe nicht nur die KI-Ausgabe. Prüfe, was sich für Menschen verändert.","legend":"Legende","legendNote":"Selbstauskunft, keine unabhängige Prüfung und kein Gesamtscore.","statuses":{"yes":"Als gestützt angegeben","partial":"Teilweise erfüllt","no":"Kritisch / nicht erfüllt","unknown":"Keine ausreichende Evidenz"},"notes":{"yes":"Nachweise wurden angegeben, aber nicht unabhängig geprüft.","partial":"Teilweise erfüllt; Verbesserung und Prüfung erforderlich.","no":"Kritischer Punkt, vor einer Ausweitung klären.","unknown":"Noch keine belastbaren Angaben vorhanden."},"priority":"Worauf du jetzt achten solltest","reminderTitle":"Mein Human–Human–AI Reminder","reminderSubtitle":"Bevor ich KI-Erfolg behaupte, frage ich:","prompts":["Verstehen Menschen, was passiert?","Bleibt menschliche Zusammenarbeit möglich?","Können Menschen weiterhin selbst entscheiden?","Welche Konsequenzen sind tatsächlich beobachtbar?"],"reminderFoot":"Human Agency First · Fairness by Design · Observable Consequences","action":"Dein nächster überprüfbarer Schritt","detail":"Ausführlichen Prüfplan öffnen","saveCard":"Reminder als SVG speichern","print":"Snapshot drucken / als PDF speichern","note":"Die farbigen Felder machen deine eigenen Beobachtungen sichtbar. Sie bewerten nicht dich als Person.","context":"Anwendungskontext","numberNote":"Acht Perspektiven · deine Momentaufnahme","saveName":"human-human-ai-reminder-de.svg"};
+ const snapshotConfig={"path":"index.html","lang":"de","title":"Dein Human–Human–AI Snapshot","strap":"KI unterstützt. Menschen verstehen, entscheiden und handeln.","sub":"Prüfe nicht nur die KI-Ausgabe. Prüfe, was sich für Menschen verändert.","legend":"Legende","legendNote":"Selbstauskunft, keine unabhängige Prüfung und kein Gesamtscore.","statuses":{"yes":"Als gestützt angegeben","partial":"Teilweise erfüllt","no":"Kritisch / nicht erfüllt","unknown":"Keine ausreichende Evidenz"},"notes":{"yes":"Nachweise wurden angegeben, aber nicht unabhängig geprüft.","partial":"Teilweise erfüllt; Verbesserung und Prüfung erforderlich.","no":"Kritischer Punkt, vor einer Ausweitung klären.","unknown":"Noch keine belastbaren Angaben vorhanden."},"priority":"Was noch offen ist","reminderTitle":"Mein Human–Human–AI Reminder","reminderSubtitle":"Bevor ich KI-Erfolg behaupte, frage ich:","prompts":["Verstehen Menschen, was passiert?","Bleibt menschliche Zusammenarbeit möglich?","Können Menschen weiterhin selbst entscheiden?","Welche Konsequenzen sind tatsächlich beobachtbar?"],"reminderFoot":"Human Agency First · Fairness by Design · Observable Consequences","action":"Dein nächster überprüfbarer Schritt","detail":"Fragen und Ideen vertiefen","saveCard":"Reminder als SVG speichern","print":"Snapshot drucken / als PDF speichern","note":"Die farbigen Felder machen deine eigenen Beobachtungen sichtbar. Sie bewerten nicht dich als Person.","context":"Anwendungskontext","numberNote":"Acht Perspektiven · deine Momentaufnahme","saveName":"human-human-ai-reminder-de.svg"};
  const statusSymbol={yes:"✓",partial:"~",no:"!",unknown:"?"};
  const statusClass={yes:"status-supported",partial:"status-partial",no:"status-critical",unknown:"status-unknown"};
  const snapshot=document.createElement("div");snapshot.className="hha-snapshot";snapshot.id="hha-snapshot";
@@ -420,14 +451,15 @@ $("screening").addEventListener("submit",event=>{
   li.append(icon,el("span",snapshotConfig.statuses[k]));legend.append(li);
  });
  key.append(legend,el("p",snapshotConfig.legendNote,"note"));snapshot.append(key);
- const priorityList=[...groups.critical,...groups.missing,...groups.partial,...groups.verified];
+ const priorityList=[...groups.critical,...groups.missing,...groups.partial];
  const priorityBlock=document.createElement("div");priorityBlock.className="snapshot-priority";
  priorityBlock.append(el("h4",snapshotConfig.priority));
  const priorityUl=document.createElement("ul");
- priorityList.slice(0,3).forEach(v=>{priorityUl.append(el("li",v.name+": "+snapshotConfig.statuses[v.value]))});
+ if(priorityList.length){priorityList.slice(0,3).forEach(v=>{priorityUl.append(el("li",v.name+": "+snapshotConfig.statuses[v.value]))})}
+ else priorityUl.append(el("li","Du hast derzeit keinen kritischen oder offenen Bereich angegeben. Wähle eine Perspektive und beobachte im Alltag, ob deine Einschätzung zutrifft."));
  priorityBlock.append(priorityUl);snapshot.append(priorityBlock);
  const firstPriority=priorityList[0];
- const actionText=firstPriority?firstPriority.suggestion[1]:"Prüfe mindestens eine Angabe unabhängig im realen Arbeitskontext.";
+ const actionText=firstPriority?firstPriority.suggestion[1]:"Du hast derzeit keinen kritischen oder offenen Bereich angegeben. Wähle eine Perspektive und beobachte im Alltag, ob deine Einschätzung zutrifft.";
  const actionBlock=document.createElement("div");actionBlock.className="snapshot-action";
  actionBlock.append(el("h4",snapshotConfig.action),el("p",actionText));snapshot.append(actionBlock);
  const reminder=document.createElement("div");reminder.className="snapshot-reminder";
@@ -482,11 +514,6 @@ $("screening").addEventListener("submit",event=>{
  const disclosure=document.createElement("details");disclosure.className="screening-detail";
  const detailSummary=document.createElement("summary");detailSummary.textContent=snapshotConfig.detail;
  disclosure.append(detailSummary,section);result.append(disclosure);
- const first=groups.critical[0]||groups.missing[0]||groups.partial[0]||groups.verified[0];
- const recommendation=first?first.suggestion[1]:"Keine kritischen Angaben. Trotzdem müssen die Selbsteinschätzungen durch Beobachtungen überprüft werden.";
- const main=document.createElement("div");main.className="screening-next";
- main.append(el("h4","Deine nächste Idee für die Praxis"),el("p",recommendation));
- result.append(main);output.push("Deine nächste Idee für die Praxis"+": "+recommendation);
  result.append(el("p","Eine persönliche Momentaufnahme zum Weiterdenken, keine Zertifizierung oder Wirkungsbehauptung.","note"),el("p","Deine Eingaben bleiben auf deinem Gerät. Du entscheidest, ob du den Reminder speicherst.","note"));
  output.push("Eine persönliche Momentaufnahme zum Weiterdenken, keine Zertifizierung oder Wirkungsbehauptung.","Deine Eingaben bleiben auf deinem Gerät. Du entscheidest, ob du den Reminder speicherst.");
  const actions=document.createElement("div");actions.className="screening-actions";
