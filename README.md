@@ -28,7 +28,7 @@ The experience contains:
 
 1. Explain: the three relationships, human agency and responsibility, with direct German/English navigation.
 2. Experience: three fictional decisions about AI outputs, human collaboration and transfer into real practice. Every choice produces an explanation. A visible progress bar and an explicit **choose → submit → read feedback → continue** sequence support mobile use. Each transition is designed to scroll and move focus to the next relevant control or result. After submission the options collapse and the feedback replaces them in the same stable decision panel; a separate change-answer control reopens the options. Two animation frames allow browser layout to settle before repositioning. A global CSS `[hidden]` rule prevents state-specific controls from remaining visible.
-3. Apply: GM-HHAI-01 exploratory eight-dimension screening, including "insufficient evidence". Results now map each selected status to a context-specific question, a feasible verification action and suggested observable evidence. Critical entries are listed before missing evidence, then partial and self-reported satisfied entries. A single next action is suggested without averaging scores. Visitors can copy or save the action plan locally. The final scenario reflection separately translates decisions into three insights and a selectable 15-minute action.
+3. Apply: explore eight perspectives on the human consequences of AI, including what remains unknown. Results now map each selected status to a context-specific question, a feasible verification action and suggested observable evidence. Critical entries are listed before missing evidence, then partial and self-reported satisfied entries. A single next action is suggested without averaging scores. Visitors can copy or save the action plan locally. The final scenario reflection separately translates decisions into three insights and a selectable 15-minute action.
 4. Evidence: direct primary-source links and explicit methodological limitations.
 
 ## Integrity and permissions
@@ -56,12 +56,12 @@ The experience contains:
 - November 14, 2026: independent public repository created.
 - Added three-step progress, post-selection guidance, extended scenario reflection, and mobile scroll/focus handling.
 - Added full English route at `en/` and bidirectional language links.
-- Added explicit answer submission and accessible focus/scroll handoffs for both languages, including screening results.
+- Added explicit answer submission and accessible focus/scroll handoffs for both languages, including reflection results.
 - November 14: rebuilt the mobile answer→submit→feedback flow in DE/EN to use a stable panel, explicit choice editing, deferred focus/scroll positioning, and real hidden-control semantics.
 - Added an upfront visitor-value preview and an outcome-oriented completion flow (insight → verification question → action → evidence → personal next step), with local copy/TXT export. No performance scoring or impact claim.
 - Both inline JavaScript blocks pass syntax compilation and no duplicate HTML IDs were detected. **No claim of WCAG 2.2 conformance or comprehensive browser QA is made.**
 
-- November 14: expanded GM-HHAI-01 (DE/EN) from generic advice to an evidence-aware, non-scoring review plan with prioritized next steps and local export. The accepted decision modal was left unchanged.
+- November 14: expanded the eight-perspective reflection (DE/EN) from generic advice to an evidence-aware, non-scoring review plan with prioritized next steps and local export. The accepted decision modal was left unchanged.
 
 ## Next QA and publication gates
 
@@ -76,7 +76,7 @@ The experience contains:
 - [ ] Manually test on Samsung/Chrome (including browser toolbar scrolling), Safari/iOS and at least one desktop browser. The GitHub connector cannot itself verify mobile browser rendering.
 - [ ] Test 8-tile matrix, text/symbol status distinctions, SVG sharing, snapshot printing/PDF, and expand/collapse on real mobile browsers.
 - [ ] Manually test reflection with eight empty selections, all critical, mixed statuses, all supported, reset, copy, export, and screen-reader announcement.
-- [ ] Test all 3×3 decision choices, restarts, focus transitions (selection, submission, next step and screening result), progress indicators, screening selections, new transfer copy/download actions and local TXT download in real browsers.
+- [ ] Test all 3×3 decision choices, restarts, focus transitions (selection, submission, next step and reflection result), progress indicators, reflection choices, new transfer copy/download actions and local TXT download in real browsers.
 - [x] Add complete English UI and scenario translations (implementation, not independently language-reviewed).
 - [ ] Review both language versions with real learners and native-level reviewers.
 - [x] Create the independent public repository `hhcoast/human-human-ai` and place its entry point in the root.
@@ -96,4 +96,4 @@ The experience contains:
 
 **Question:** Under what conditions does human-centred AI support preserve or strengthen human judgement, interpersonal learning and consequential human capability?
 
-The GM-HHAI-01 screening is a *reflection scaffold*. Its criteria and choice rationales need expert review, user research and methodological validation before any effectiveness or comparability claims can be made.
+The public activity is an exploratory prompt for reflecting on practice, not a formal test. The underlying methodological structure is maintained for research and iteration. Its criteria and choice rationales need expert review, user research and methodological validation before any effectiveness or comparability claims can be made.
