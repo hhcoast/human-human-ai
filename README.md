@@ -40,6 +40,14 @@ The experience contains:
 - This repository is an independent Goldmonkeys / HOP project, with no webinar or employer affiliation.
 - The source code is public, but the actual GitHub Pages launch and browser/accessibility checks must be verified separately. Publication does not imply scientific validation.
 
+## Visual Snapshot v0.5 (November 14, 2026)
+
+- **DE and EN:** eight accessible status tiles, symbol-and-text legend, critical/missing/partial first, and a practical next-step recommendation. Statuses reflect **self-reports**, never an independently verified score.
+- The first visible reflection result is a visual snapshot; the detailed action plan is available in a collapsible disclosure.
+- A reusable four-question Human–Human–AI reminder is available as a locally generated SVG without project or personal details.
+- A print-friendly snapshot can be saved as PDF through the browser's print dialog; the detailed TXT export and copy action remain optional.
+- **QA limit:** static JS compilation and duplicate-ID checks passed in both languages. Real-device tests of mobile rendering, SVG download, browser printing and assistive technology are still required.
+
 ## Implementation status
 
 - 14 November 2026: tightened mobile navigation (non-sticky compact header), kept choices and submission distinct, revealed the next-step button only after feedback, and added a scenario-specific practical reflection question in German and English. Restart is prioritised at completion rather than at each decision. Changes committed, not yet verified through device/screen-reader regression tests.
@@ -66,6 +74,7 @@ The experience contains:
 - [ ] Review content and primary-source URLs.
 - [x] Static source checks for JavaScript syntax and unique HTML IDs (DE/EN).
 - [ ] Manually test on Samsung/Chrome (including browser toolbar scrolling), Safari/iOS and at least one desktop browser. The GitHub connector cannot itself verify mobile browser rendering.
+- [ ] Test 8-tile matrix, text/symbol status distinctions, SVG sharing, snapshot printing/PDF, and expand/collapse on real mobile browsers.
 - [ ] Manually test reflection with eight empty selections, all critical, mixed statuses, all supported, reset, copy, export, and screen-reader announcement.
 - [ ] Test all 3×3 decision choices, restarts, focus transitions (selection, submission, next step and screening result), progress indicators, screening selections, new transfer copy/download actions and local TXT download in real browsers.
 - [x] Add complete English UI and scenario translations (implementation, not independently language-reviewed).
