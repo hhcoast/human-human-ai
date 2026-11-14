@@ -213,10 +213,63 @@ footer{background:#111f30;color:#d3e0e5;padding:2.2rem 0;font-size:.87rem}
  .snapshot-action p{font-size:8pt!important;margin:0!important}
  .snapshot-reminder,.snapshot-buttons,.hha-snapshot>.note{display:none!important}
 }
+</style>
+
+<style id="accountability-style">
+#accountability .ac-shell{max-width:920px;margin:2rem auto 0}
+#accountability .ac-grid{display:grid;gap:1rem}
+#accountability .ac-card{background:#fff;border:1px solid #cbdcd9;border-radius:16px;padding:1.35rem;min-width:0}
+#accountability .ac-card h3{margin:.1rem 0 .5rem}
+#accountability .ac-number{font-weight:850;color:#116d65;letter-spacing:.1em;font-size:.78rem}
+#accountability .ac-field{display:grid;gap:.35rem;margin-top:1rem}
+#accountability input[type=text],#accountability textarea,#accountability select{width:100%;border:1.5px solid #657981;border-radius:8px;padding:.65rem;background:white;color:#152c36}
+#accountability textarea{min-height:68px}
+#accountability .ac-choices{display:flex;flex-wrap:wrap;gap:.45rem;margin-top:.5rem}
+#accountability .ac-choices label{padding:.45rem .65rem;border:1px solid #aebfbd;border-radius:8px;background:#f6faf8;font-size:.9rem}
+#accountability .ac-choices label:has(:checked){border:2px solid #155f58;background:#e2f4ec}
+#accountability .ac-choices input{accent-color:#116d65}
+#accountability .ac-tools{display:flex;flex-wrap:wrap;gap:.7rem;margin:1.2rem 0}
+#accountability .ac-tools button{border:2px solid #155f58;border-radius:9px;background:#155f58;color:white;padding:.7rem 1rem;font-weight:700}
+#accountability .ac-tools button.ac-outline{background:#fff;color:#155f58}
+#accountability .ac-muted{color:#425c68;font-size:.9rem}
+#accountability .ac-report{border:2px solid #174b49;background:white;padding:1.5rem;border-radius:16px;margin:1.2rem 0}
+#accountability .ac-report article{padding:.7rem 0;border-bottom:1px solid #e1e7e5;overflow-wrap:anywhere}
+#accountability .ac-report article:last-child{border:0}
+#accountability .ac-report p{margin:.3rem 0}
+#accountability .ac-poster{max-width:730px;margin:auto;padding:2rem;background:white;border:2px solid #152e3d}
+#accountability .ac-poster h2{font-size:clamp(2rem,6vw,3.5rem)}
+#accountability .ac-poster-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.8rem}
+#accountability .ac-poster-grid div{border-radius:50%;border:3px solid #2a716c;aspect-ratio:1;display:flex;flex-direction:column;justify-content:center;text-align:center;padding:12%;background:#eff8f5}
+#accountability .ac-poster-grid div:nth-child(2){border-color:#3d62a0;background:#eef2fb}
+#accountability .ac-poster-grid div:nth-child(3){border-color:#7851a3;background:#f5effb}
+#accountability .ac-poster-grid div:nth-child(4){border-color:#ac7434;background:#fff3e5}
+#accountability .ac-poster-grid div:nth-child(5){border-color:#3b805a;background:#eff9ef}
+#accountability .ac-poster-grid div:nth-child(6){border-color:#a95475;background:#fceef2}
+#accountability .ac-poster-grid strong{font-size:clamp(.85rem,2.6vw,1.2rem)}
+#accountability .ac-poster-grid p{font-size:clamp(.7rem,1.8vw,.95rem);margin:.4rem 0}
+#accountability #ac-share{border:2px solid #19695f;border-radius:15px;padding:1.5rem;background:#fff}
+#accountability #ac-share label{display:block;margin:.55rem 0}
+#accountability #ac-mail-preview{white-space:pre-wrap;overflow-wrap:anywhere;background:#f1f5f3;border-radius:8px;padding:1rem;max-height:260px;overflow:auto}
+@media(max-width:580px){#accountability .ac-poster-grid{gap:.35rem}#accountability .ac-poster-grid div{padding:8%}#accountability .ac-poster-grid p{font-size:.7rem}}
+@page{size:A4;margin:12mm}
+@media print{
+ body:has(#accountability[data-print]) header,body:has(#accountability[data-print]) footer,body:has(#accountability[data-print]) main>section:not(#accountability){display:none!important}
+ body:has(#accountability[data-print]) #accountability{padding:0!important;background:#fff!important}
+ body:has(#accountability[data-print]) #accountability .container> :not(.ac-shell),body:has(#accountability[data-print]) #accountability .ac-shell> :not(.ac-report):not(.ac-poster){display:none!important}
+ body:has(#accountability[data-print=report]) #accountability .ac-poster{display:none!important}
+ body:has(#accountability[data-print=poster]) #accountability .ac-report{display:none!important}
+ body:has(#accountability[data-print]) #accountability .ac-report,body:has(#accountability[data-print]) #accountability .ac-poster{display:block!important;border:0!important;box-shadow:none!important;margin:0!important;padding:0!important}
+ body:has(#accountability[data-print]) #accountability .ac-poster-grid div{break-inside:avoid}
+ body:has(#accountability[data-print]) #accountability .ac-report article{break-inside:avoid}
+ body:has(#accountability[data-print]) #accountability .ac-poster h2{font-size:32pt}
+ body:has(#accountability[data-print]) #accountability .ac-poster-grid{gap:6mm}
+ body:has(#accountability[data-print]) #accountability .ac-poster-grid div{width:68mm;height:68mm;margin:auto}
+ body:has(#accountability[data-print]) #accountability .ac-poster-grid p{font-size:10pt}
+}
 </style></head>
 <body><a class="skip" href="#main">Zum Inhalt springen</a>
 <header><div class="nav"><div class="logo">HUMAN <span>·</span> HUMAN <span>·</span> AI</div>
-<nav aria-label="Hauptnavigation"><a href="en/" lang="en" hreflang="en" aria-label="Switch to English version">English</a><a href="#idea">Prinzip</a><a href="#experience">Experience</a><a href="#apply">Prüfen</a><a href="#evidence">Evidenz</a></nav></div></header>
+<nav aria-label="Hauptnavigation"><a href="en/" lang="en" hreflang="en" aria-label="Switch to English version">English</a><a href="#idea">Prinzip</a><a href="#experience">Experience</a><a href="#apply">Prüfen</a><a href="#accountability">Accountability Check</a><a href="#evidence">Evidenz</a></nav></div></header>
 <main id="main">
 <section class="hero" aria-labelledby="main-title"><div class="container">
 <div class="eyebrow">Goldmonkeys / Human Orientation Project · Exploratory prototype v0.1</div>
@@ -267,6 +320,14 @@ footer{background:#111f30;color:#d3e0e5;padding:2.2rem 0;font-size:.87rem}
 <div class="criteria" id="criteria"></div>
 <div class="actions"><button type="submit" class="primary">Meinen Snapshot entdecken</button><button type="reset" class="secondary" style="color:#203242">Zurücksetzen</button></div></form>
 <div class="result hidden" id="result" tabindex="-1" aria-live="polite"></div></div></section>
+<section id="accountability" class="section light" aria-labelledby="ac-title"><div class="container"><p class="eyebrow">04 / Agency & Accountability Check · v1.0</p><h2 id="ac-title">Sechs Fragen. Deine Entscheidung.</h2><p class="intro">Prüfe einen KI-gestützten Prozess oder eine Entscheidung. Keine Punktzahl, kein Urteil über dich. Deine Antworten bleiben in diesem Browser, bis du bewusst einen Export oder E-Mail-Entwurf auslöst.</p><div class="ac-shell">
+<form id="ac-form" onsubmit="return false"><div class="ac-card"><div class="ac-field"><label for="ac-context">Welchen Fall möchtest du prüfen? (optional)</label><input type="text" id="ac-context" maxlength="160" placeholder="z. B. ein KI-gestütztes Lernangebot"></div><div class="ac-field"><label for="ac-mode">Untersuchungstiefe</label><select id="ac-mode"><option value="0">Quick Check</option><option value="1">Practice Check</option><option value="2">Accountability Review</option></select></div></div><div id="ac-dimensions" class="ac-grid" style="margin-top:1rem"></div><div class="ac-card" style="margin-top:1rem"><div class="ac-field"><label for="ac-action">Welchen nächsten Schritt wählst du selbst? (optional)</label><input type="text" id="ac-action" maxlength="400" placeholder=""></div><div class="ac-field"><label for="ac-owner">Wer könnte zuständig sein? (optional)</label><input type="text" id="ac-owner" maxlength="160" placeholder=""></div><div class="ac-field"><label for="ac-observable">Woran wäre eine tatsächliche Veränderung erkennbar? (optional)</label><input type="text" id="ac-observable" maxlength="400" placeholder=""></div></div><p class="ac-muted">Bitte keine personenbezogenen, sensiblen oder vertraulichen Angaben eingeben. Keine automatische Übertragung. Der Ausdruck kann persönliche Angaben enthalten.</p><div class="ac-tools"><button type="button" id="ac-check">Meine Übersicht erstellen</button><button class="ac-outline" type="button" id="ac-clear">Eingaben löschen</button></div></form>
+<div id="ac-report" class="ac-report" tabindex="-1" hidden></div>
+<div id="ac-export" hidden><div class="ac-tools"><button type="button" id="ac-print">Persönliches PDF drucken / speichern</button><button type="button" id="ac-copy" class="ac-outline">Ergebnis kopieren</button><button type="button" id="ac-open-share" class="ac-outline">Auswahl für E-Mail prüfen</button></div></div>
+<div id="ac-share" hidden><h3>Nur ausgewählte Inhalte teilen</h3><p>Du entscheidest. Eine E-Mail wird nur als Entwurf in deinem E-Mail-Programm geöffnet und nicht automatisch verschickt. Empfänger:in selbst festlegen. E-Mail ist nicht anonym.</p><div id="ac-share-choices"></div><h4>Vorschau der E-Mail</h4><pre id="ac-mail-preview"></pre><div class="ac-tools"><button type="button" id="ac-send">E-Mail-Entwurf öffnen</button><button type="button" class="ac-outline" id="ac-close-share">Schließen</button></div></div>
+<div class="ac-tools"><button type="button" class="ac-outline" id="ac-poster-print">Allgemeinen A4-Reminder drucken</button></div>
+<div class="ac-poster" id="ac-poster"><h2>HUMAN HUMAN AI</h2><p>Was bedenke ich bei meiner nächsten Entscheidung?</p><div class="ac-poster-grid"><div><strong>Agency</strong><p>Können Menschen eigenständig entscheiden, widersprechen und abbrechen?</p></div><div><strong>Evidence</strong><p>Sind Fakten, Annahmen, Unsicherheiten und Quellen unterscheidbar?</p></div><div><strong>Fairness</strong><p>Sind Zugang, Sprache, Barrieren und mögliche Benachteiligung berücksichtigt?</p></div><div><strong>Responsibility</strong><p>Sind Zuständigkeiten, Prüfung und Freigabe erkennbar?</p></div><div><strong>Consequence</strong><p>Werden Ergebnisse und tatsächliche Folgen nachvollziehbar?</p></div><div><strong>Correction</strong><p>Können Fehler und unerwünschte Wirkungen erkannt und korrigiert werden?</p></div></div><p style="margin-top:1.2rem">Nicht alles muss sofort beantwortet werden. Entscheide selbst, was du prüfst, änderst oder offenlässt.</p><small>Goldmonkeys · v1.0 · 14.11.2026</small></div><p id="ac-live" role="status" aria-live="polite"></p>
+</div></div></section>
 <section id="evidence" class="section light"><div class="container"><p class="eyebrow">04 / Forschung und Grenzen</p>
 <h2>Von Usability zu beobachtbarer menschlicher Handlungsfähigkeit.</h2>
 <p class="intro">Human–Human–AI ist ein konzeptioneller Arbeitsansatz von Goldmonkeys / HOP. Er verbindet anschlussfähige Perspektiven aus menschzentrierter Gestaltung, KI-Kompetenz, Governance und Bildungsforschung. Der Ansatz ist explorativ: Wir untersuchen gemeinsam, was Technologie für Menschen und ihre Beziehungen tatsächlich verändert.</p>
@@ -572,4 +633,75 @@ $("screening").addEventListener("submit",event=>{
  result.classList.remove("hidden");revealTarget(result);
 });
 $("screening").addEventListener("reset",()=>{$("result").classList.add("hidden")});
+</script>
+
+<script id="accountability-script">
+(()=>{
+"use strict";
+const t={"nav":"Accountability Check","eyebrow":"04 / Agency & Accountability Check · v1.0","heading":"Sechs Fragen. Deine Entscheidung.","intro":"Prüfe einen KI-gestützten Prozess oder eine Entscheidung. Keine Punktzahl, kein Urteil über dich. Deine Antworten bleiben in diesem Browser, bis du bewusst einen Export oder E-Mail-Entwurf auslöst.","context":"Welchen Fall möchtest du prüfen? (optional)","contextPh":"z. B. ein KI-gestütztes Lernangebot","mode":"Untersuchungstiefe","modes":["Quick Check","Practice Check","Accountability Review"],"basis":"Worauf beruht deine Einschätzung?","judgment":"Deine Einschätzung","note":"Beispiel, Unsicherheit oder Gegenperspektive (optional)","notePh":"Was weißt du, und was müsste noch geprüft werden?","status":["Eher ja","Teilweise","Eher nein","Weiß ich nicht"],"bases":["Eigene Vermutung","Eigene Beobachtung","Dokumentierter Nachweis","Gezielt geprüft"],"stage":"Prüfstand der Maßnahme (optional)","stages":["Nicht geprüft","Konzipiert","Umgesetzt","Geprüft","Wirksamkeit beobachtet"],"action":"Welchen nächsten Schritt wählst du selbst? (optional)","owner":"Wer könnte zuständig sein? (optional)","observable":"Woran wäre eine tatsächliche Veränderung erkennbar? (optional)","privacy":"Bitte keine personenbezogenen, sensiblen oder vertraulichen Angaben eingeben. Keine automatische Übertragung. Der Ausdruck kann persönliche Angaben enthalten.","show":"Meine Übersicht erstellen","reset":"Eingaben löschen","summary":"Deine persönliche Reflexion","answered":"Beantwortete Dimensionen","unknown":"Nicht beantwortet","review":"Offene Handlung","version":"Instrument v1.0 · explorative Selbsteinschätzung · kein Audit oder Zertifikat","pdf":"Persönliches PDF drucken / speichern","poster":"Allgemeinen A4-Reminder drucken","copy":"Ergebnis kopieren","email":"Auswahl für E-Mail prüfen","shareTitle":"Nur ausgewählte Inhalte teilen","shareExplain":"Du entscheidest. Eine E-Mail wird nur als Entwurf in deinem E-Mail-Programm geöffnet und nicht automatisch verschickt. Empfänger:in selbst festlegen. E-Mail ist nicht anonym.","shareOptions":["Kontext","Einschätzungen","Nachweis- und Unsicherheitsangaben","Reflexionsnotizen","Nächster Schritt und beobachtbare Konsequenz"],"preview":"Vorschau der E-Mail","prepare":"E-Mail-Entwurf öffnen","close":"Schließen","copied":"Ergebnis kopiert.","copyFail":"Kopieren nicht möglich. Nutze die Druckfunktion.","none":"Noch keine Einschätzung","posterTitle":"HUMAN HUMAN AI","posterSub":"Was bedenke ich bei meiner nächsten Entscheidung?","posterEnd":"Nicht alles muss sofort beantwortet werden. Entscheide selbst, was du prüfst, änderst oder offenlässt.","dims":[["Agency","Können Menschen eigenständig entscheiden, widersprechen und abbrechen?"],["Evidence","Sind Fakten, Annahmen, Unsicherheiten und Quellen unterscheidbar?"],["Fairness","Sind Zugang, Sprache, Barrieren und mögliche Benachteiligung berücksichtigt?"],["Responsibility","Sind Zuständigkeiten, Prüfung und Freigabe erkennbar?"],["Consequence","Werden Ergebnisse und tatsächliche Folgen nachvollziehbar?"],["Correction","Können Fehler und unerwünschte Wirkungen erkannt und korrigiert werden?"]]};
+const root=document.getElementById("accountability");
+if(!root)return;
+const byId=id=>document.getElementById(id);
+const escapeText=x=>String(x||"").trim();
+const make=(tag,text,cls)=>{const n=document.createElement(tag);if(text!==undefined)n.textContent=text;if(cls)n.className=cls;return n};
+const grid=byId("ac-dimensions");
+t.dims.forEach((dim,i)=>{
+ const card=make("fieldset",undefined,"ac-card");card.id="ac-dim-"+i;
+ const legend=make("legend",(i+1)+". "+dim[0]);legend.style.fontWeight="800";card.append(legend);
+ card.append(make("p",dim[1]));
+ const label=make("div",t.judgment,"ac-muted");card.append(label);
+ const choices=make("div",undefined,"ac-choices");
+ t.status.forEach((value,j)=>{const lab=make("label");const radio=make("input");radio.type="radio";radio.name="ac-answer-"+i;radio.value=String(j);lab.append(radio,document.createTextNode(" "+value));choices.append(lab)});
+ card.append(choices);
+ [["basis",t.basis,t.bases],["stage",t.stage,t.stages]].forEach(([id,title,options])=>{
+  const field=make("div",undefined,"ac-field");const lab=make("label",title);lab.htmlFor="ac-"+id+"-"+i;
+  const select=make("select");select.id="ac-"+id+"-"+i;
+  options.forEach((v,j)=>{const opt=make("option",v);opt.value=String(j);select.append(opt)});
+  field.append(lab,select);card.append(field);
+ });
+ const field=make("div",undefined,"ac-field"),lab=make("label",t.note);lab.htmlFor="ac-note-"+i;
+ const note=make("textarea");note.id="ac-note-"+i;note.maxLength=700;note.placeholder=t.notePh;
+ field.append(lab,note);card.append(field);grid.append(card);
+});
+const read=()=>{
+const context=escapeText(byId("ac-context").value),mode=t.modes[Number(byId("ac-mode").value)];
+const dims=t.dims.map((d,i)=>{const checked=root.querySelector('input[name="ac-answer-'+i+'"]:checked');return{name:d[0],question:d[1],answer:checked?t.status[Number(checked.value)]:t.unknown,basis:t.bases[Number(byId("ac-basis-"+i).value)],stage:t.stages[Number(byId("ac-stage-"+i).value)],note:escapeText(byId("ac-note-"+i).value),responded:!!checked}});
+return{context,mode,dims,action:escapeText(byId("ac-action").value),owner:escapeText(byId("ac-owner").value),observable:escapeText(byId("ac-observable").value),date:new Date().toLocaleDateString(document.documentElement.lang),version:"1.0"};
+};
+const fmt=d=>[d.name+" | "+d.question,d.answer+" · "+d.basis+" · "+d.stage,d.note].filter(Boolean).join("\n");
+let last=null;
+const report=byId("ac-report");
+const update=()=>{
+const a=read();last=a;report.replaceChildren();
+report.append(make("h2",t.summary),make("p",t.version+" · "+a.date,"ac-muted"),make("p",t.mode+": "+a.mode+(a.context?" · "+t.context+": "+a.context:"")),make("p",t.answered+": "+a.dims.filter(d=>d.responded).length+"/6"));
+a.dims.forEach(d=>{const item=make("article");item.append(make("h3",d.name),make("p",d.question),make("p",t.judgment+": "+d.answer),make("p",t.basis+": "+d.basis),make("p",t.stage+": "+d.stage));if(d.note)item.append(make("p",d.note));report.append(item)});
+const next=make("article");next.append(make("h3",t.review));[[t.action,a.action],[t.owner,a.owner],[t.observable,a.observable]].forEach(([k,v])=>{if(v)next.append(make("p",k+": "+v))});report.append(next);
+report.hidden=false;byId("ac-export").hidden=false;report.focus();
+};
+byId("ac-check").addEventListener("click",update);
+byId("ac-clear").addEventListener("click",()=>{byId("ac-form").reset();report.hidden=true;byId("ac-export").hidden=true;byId("ac-share").hidden=true;last=null;byId("ac-context").focus()});
+const output=a=>[t.posterTitle,t.version,a.date,t.context+": "+a.context,t.mode+": "+a.mode,...a.dims.map(fmt),t.action+": "+a.action,t.owner+": "+a.owner,t.observable+": "+a.observable].join("\n\n");
+byId("ac-copy").addEventListener("click",async()=>{if(!last)update();try{await navigator.clipboard.writeText(output(last));byId("ac-live").textContent=t.copied}catch(e){byId("ac-live").textContent=t.copyFail}});
+const print=type=>{if(!last&&type==="report")update();root.dataset.print=type;window.print()};
+byId("ac-print").addEventListener("click",()=>print("report"));
+byId("ac-poster-print").addEventListener("click",()=>print("poster"));
+window.addEventListener("afterprint",()=>delete root.dataset.print);
+const checkboxes=byId("ac-share-choices");
+t.shareOptions.forEach((name,i)=>{const lab=make("label");const box=make("input");box.type="checkbox";box.value=i;box.checked=i===0||i===4;lab.append(box,document.createTextNode(" "+name));checkboxes.append(lab)});
+function mailBody(){
+const a=last||read();const selected=new Set([...checkboxes.querySelectorAll("input:checked")].map(x=>Number(x.value)));
+const chunks=[t.posterTitle+" | v1.0"];
+if(selected.has(0))chunks.push(t.context+": "+a.context);
+if(selected.has(1))chunks.push(...a.dims.map(d=>d.name+": "+d.answer));
+if(selected.has(2))chunks.push(...a.dims.map(d=>d.name+": "+d.basis+" / "+d.stage));
+if(selected.has(3))chunks.push(...a.dims.filter(d=>d.note).map(d=>d.name+": "+d.note));
+if(selected.has(4))chunks.push(t.action+": "+a.action,t.owner+": "+a.owner,t.observable+": "+a.observable);
+return chunks.join("\n\n");
+}
+const preview=()=>byId("ac-mail-preview").textContent=mailBody();
+checkboxes.addEventListener("change",preview);
+byId("ac-open-share").addEventListener("click",()=>{if(!last)update();byId("ac-share").hidden=false;preview();byId("ac-share").scrollIntoView({block:"start"})});
+byId("ac-close-share").addEventListener("click",()=>{byId("ac-share").hidden=true;byId("ac-open-share").focus()});
+byId("ac-send").addEventListener("click",()=>{const body=mailBody();if(body.length>14000){byId("ac-live").textContent=t.copyFail;return}window.location.href="mailto:?subject="+encodeURIComponent(t.posterTitle+" | Feedback")+"&body="+encodeURIComponent(body)});
+})();
 </script></body></html>
