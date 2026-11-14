@@ -121,3 +121,20 @@ Changes applied to DE/EN:
 - Static checks: embedded JavaScript syntax and duplicate HTML IDs passed in both languages. Real-device testing and published Pages verification remain pending.
 
 Decision: a participant's silence is not evidence of an unmet criterion. More systematic plain-language review remains open.
+
+
+## Agency & Accountability Check v1.0 (14 November 2026)
+
+The public DE and EN entrypoints now contain a **separate integrated six-dimension instrument** at `#accountability`, preserving the previous exploratory eight-perspective experience. The six checks cover Agency, Evidence, Fairness, Responsibility, Consequence, and Correction.
+
+- Each dimension separates self-assessment (mostly yes / partly / mostly no / unknown), basis (assumption / observation / documented / tested), implementation stage, and optional counterevidence.
+- Optional user-defined action, suggested responsibility, and observable consequence; no aggregate numerical score.
+- Client-side personal results; print or save a personal PDF using the browser print dialog.
+- Public one-page A4 reminder with the six questions, independent of user data.
+- Explicit selective sharing with preview. The email button opens a `mailto:` draft with **no preselected recipient**; users review and send it themselves. Email is not anonymous.
+- All inputs are processed locally; no data storage or submission endpoint was added.
+- Built in German and English, with accessible field labels, grouped choices and a live status message.
+
+**QA performed:** Both embedded JavaScript blocks parse in both entrypoints; no duplicate HTML IDs detected; print and email-preview controls confirmed in source. **QA still required:** real-device browser flow, print-to-PDF page counts and clipping, screen-reader and keyboard testing, email-client testing, and live GitHub Pages deployment verification. These source-level checks do not establish WCAG conformance or scientific validation.
+
+**Important:** the existing eight-perspective check is retained as an earlier exploratory instrument; it is not equivalent to or an averaged score of the six-dimension check.
