@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Human–Human–AI: Eine interaktive Experience über menschliche Zusammenarbeit, Urteilskraft und KI. Von Goldmonkeys / Human Orientation Project.">
+<meta name="theme-color" content="#111f30"><title>Human–Human–AI | The Human Connection</title>
+<style>
+:root{font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;color:#13283a;background:#f7f8f5;line-height:1.55}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0}a{color:inherit}button,input,textarea{font:inherit}button{cursor:pointer}
+:focus-visible{outline:3px solid #e5ad42;outline-offset:4px}.skip{position:absolute;top:-100px;background:#fff;padding:1rem;z-index:10}.skip:focus{top:0}
+header{background:#111f30;color:#fff;position:sticky;top:0;z-index:5;border-bottom:1px solid #465767}
+.nav{max-width:1180px;margin:auto;display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1rem 1.2rem;flex-wrap:wrap}
+.logo{font-size:1.1rem;font-weight:850;letter-spacing:.04em}.logo span{color:#efb94d}nav{display:flex;gap:1.2rem;flex-wrap:wrap;font-size:.85rem}
+nav a{text-decoration:none;color:#d8e3eb}nav a:hover{text-decoration:underline}
+section{scroll-margin-top:90px}.container{max-width:1120px;margin:0 auto;padding:0 1.2rem}.hero{background:#111f30;color:#fff;padding:5rem 0 6rem;position:relative;overflow:hidden}
+.hero:after{content:"";width:410px;height:410px;border:1px solid #315e62;border-radius:50%;position:absolute;right:-140px;top:20px;box-shadow:0 0 0 65px #12333c,0 0 0 66px #315e62,0 0 0 130px #152c36;opacity:.6;pointer-events:none}
+.eyebrow{text-transform:uppercase;letter-spacing:.16em;font-size:.75rem;font-weight:800;color:#277968}.hero .eyebrow{color:#b8d7c8}
+h1,h2,h3,p{margin-top:0}h1{font-size:clamp(3rem,7.5vw,6.5rem);line-height:1.06;letter-spacing:-.055em;max-width:850px;margin:1.4rem 0}
+h1 em{font-style:normal;color:#edb74f}h2{font-size:clamp(2rem,4vw,3.2rem);line-height:1.13;letter-spacing:-.035em}
+h3{font-size:1.25rem}.lead{max-width:660px;font-size:1.25rem;color:#dae5e7}.hero p.small{color:#b6c9cf;font-size:.83rem}
+.cta,.secondary{border-radius:9px;display:inline-block;padding:.84rem 1.35rem;font-weight:700;text-decoration:none;border:2px solid transparent}
+.cta{background:#f4bd5f;color:#152333}.cta:hover{background:#ffce7d}.secondary{border-color:#b8c9c9;background:transparent;color:inherit}
+.actions{display:flex;gap:.8rem;flex-wrap:wrap;margin-top:2rem}
+.section{padding:5.5rem 0}.light{background:#edf2ef}.white{background:#fff}.intro{max-width:790px;font-size:1.12rem;color:#375064}
+.triad{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:2.5rem}
+.tile{border:1px solid #d8e2df;border-radius:16px;background:white;padding:1.6rem;min-width:0}
+.tile .symbol{display:block;font-weight:850;font-size:2.1rem;margin-bottom:1rem;letter-spacing:-.03em}
+.tile.human .symbol{color:#127965}.tile.ai .symbol{color:#4565b0}
+.tile p{color:#52636b}.center-note{border-left:4px solid #e5ad42;padding:1rem 1.3rem;background:#fff8e6;margin-top:1.5rem}
+.scene{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem;align-items:stretch;margin-top:2rem}
+.panel{border-radius:16px;background:#fff;padding:1.8rem;border:1px solid #d8e2df}.panel.dark{background:#172d3a;color:#f1f6f5;border:0}
+.signal{display:inline-block;border-radius:99px;background:#fff0ce;color:#78520f;padding:.3rem .7rem;font-size:.75rem;font-weight:700;margin-bottom:1rem}
+.choices{display:grid;gap:.65rem}.choice{width:100%;background:white;border:2px solid #d9e2e3;border-radius:12px;padding:.95rem 1rem;text-align:left;color:#223747}
+.choice:hover,.choice[aria-pressed=true]{border-color:#146b63;background:#edf9f5}.choice[aria-pressed=true]{box-shadow:inset 4px 0 #146b63}
+.feedback{padding:1.1rem;border-radius:10px;margin-top:1rem;background:#edf4f1;border-left:4px solid #146b63}
+.feedback[hidden],.hidden{display:none!important}.feedback strong{display:block;margin-bottom:.3rem}
+.stepbar{font-size:.82rem;font-weight:800;color:#397566;margin-bottom:.9rem}
+.primary{border:0;border-radius:9px;background:#126b61;color:white;padding:.8rem 1.15rem;font-weight:700}
+.primary:hover{background:#0d524b}.primary:disabled{opacity:.45;cursor:not-allowed}
+.trace{border-left:2px solid #b2d2c7;margin:1rem 0;padding-left:1rem}.trace strong{display:block}
+form{margin-top:2rem}.criteria{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem}
+.criterion{background:#fff;border:1px solid #dce5e1;border-radius:12px;padding:1rem}
+.criterion label{display:block;font-weight:750;margin-bottom:.3rem}.criterion small{display:block;color:#536772;margin-bottom:.7rem}
+select,textarea,input{width:100%;border:1px solid #83969f;border-radius:7px;padding:.7rem;background:#fff;color:#203242}
+textarea{min-height:90px;resize:vertical}.result{border:2px solid #1b776b;padding:1.5rem;border-radius:14px;background:#eff8f4;margin-top:1.3rem}
+.note{font-size:.82rem;color:#52626c}.sources{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;padding:0;list-style:none}
+.sources li{padding:1rem;border-bottom:1px solid #d9e5e1}.sources a{font-weight:700;color:#175d59}
+footer{background:#111f30;color:#d3e0e5;padding:2.2rem 0;font-size:.87rem}
+@media(max-width:720px){.triad,.scene,.criteria,.sources{grid-template-columns:1fr}.hero{padding:3.4rem 0 4rem}.section{padding:3.8rem 0}.nav{align-items:flex-start}nav{gap:.75rem}h1{font-size:clamp(2.9rem,12vw,5rem)}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+@media print{header,.actions,.choices,button{display:none!important}.hero{background:white;color:black;padding:1rem}.hero .lead{color:black}.section{padding:1rem 0}}
+</style></head>
+<body><a class="skip" href="#main">Zum Inhalt springen</a>
+<header><div class="nav"><div class="logo">HUMAN <span>·</span> HUMAN <span>·</span> AI</div>
+<nav aria-label="Hauptnavigation"><a href="#idea">Prinzip</a><a href="#experience">Experience</a><a href="#apply">Prüfen</a><a href="#evidence">Evidenz</a></nav></div></header>
+<main id="main">
+<section class="hero" aria-labelledby="main-title"><div class="container">
+<div class="eyebrow">Goldmonkeys / Human Orientation Project · Exploratory prototype v0.1</div>
+<h1 id="main-title">AI can generate.<br><em>Humans must connect.</em></h1>
+<p class="lead">Was verändert sich, wenn KI zwischen Menschen tritt? Eine interaktive Experience über Zusammenarbeit, Urteilskraft, Lernen und Verantwortung.</p>
+<div class="actions"><a class="cta" href="#experience">Experience starten ↗</a><a class="secondary" href="#idea">Das Prinzip verstehen</a></div>
+<p class="small">Ohne Login. Keine KI-API. Keine Übertragung deiner Eingaben. Keine automatisierte Kompetenzbewertung.</p>
+</div></section>
+<section id="idea" class="section white"><div class="container"><p class="eyebrow">01 / Das Prinzip</p>
+<h2>Human–Human–AI ist mehr als Mensch plus Maschine.</h2>
+<p class="intro">In Lern- und Arbeitsprozessen handeln Menschen nicht isoliert. Sie lernen miteinander, stellen Fragen, teilen Verantwortung und treffen Entscheidungen. KI kann diese Beziehungen unterstützen, verändern oder beeinträchtigen. Die Qualität des Systems zeigt sich deshalb nicht allein am Output.</p>
+<div class="triad">
+<article class="tile human"><span class="symbol">H ↔ H</span><h3>Human ↔ Human</h3><p>Verstehen, Rückfragen, Vertrauen, soziale Beziehungen, pädagogisches Feedback und gemeinsame Verantwortung.</p></article>
+<article class="tile ai"><span class="symbol">H ↔ AI</span><h3>Human ↔ AI</h3><p>Assistenz, Informationen, Feedbackentwürfe und kritische Prüfung von Möglichkeiten, Grenzen und Fehlern.</p></article>
+<article class="tile human"><span class="symbol">H ↔ H ↔ AI</span><h3>Gemeinsame Praxis</h3><p>Wie KI Zusammenarbeit und Handlungsfähigkeit verändert, muss im konkreten Kontext beobachtet werden.</p></article>
+</div><div class="center-note"><strong>Unsere Arbeitshypothese:</strong> Verantwortungsvolle KI bewährt sich dann, wenn Menschen nicht nur schneller arbeiten, sondern besser verstehen, selbstbestimmter entscheiden und wirksamer miteinander handeln können. Das ist eine prüfbare Hypothese, keine bereits nachgewiesene Wirkung.</div>
+</div></section>
+<section id="experience" class="section light"><div class="container"><p class="eyebrow">02 / Interaktive Experience</p>
+<h2>Three decisions. One question: Who remains capable?</h2>
+<p class="intro">Du verantwortest ein digitales Lernangebot. KI unterstützt dein Team. Entscheide in drei aufeinanderfolgenden Situationen. Es gibt keine versteckte Persönlichkeitsmessung; die Rückmeldungen zeigen fachliche Abwägungen.</p>
+<div class="scene"><div class="panel dark"><div class="stepbar" id="step-counter" style="color:#b5dacb">SITUATION 1 VON 3</div><span class="signal" id="scene-tag">KI-OUTPUT</span>
+<h3 id="scene-title">Der Entwurf ist überzeugend.</h3><p id="scene-description">Ein KI-System erstellt ein Lernmodul. Text, Fragen und Beispiele wirken plausibel. Quellen und fachliche Freigabe fehlen. Das Team möchte es sofort veröffentlichen.</p>
+<div class="trace"><strong>Worauf kommt es an?</strong><span id="scene-focus">Trenne überzeugende Darstellung von fachlicher Verlässlichkeit.</span></div></div>
+<div class="panel"><h3>Was tust du als Nächstes?</h3><div id="options" class="choices" role="group" aria-label="Entscheidungsmöglichkeiten"></div>
+<div id="feedback" class="feedback" role="status" aria-live="polite" hidden></div>
+<div class="actions"><button id="next" type="button" class="primary" disabled>Nächste Situation →</button><button type="button" id="restart" class="secondary" style="color:#203242">Neu beginnen</button></div></div></div>
+<p class="note">Fiktive Situationen. Keine medizinische Fachanweisung. Die Übung ist eine Lernreflexion, kein validierter Test und keine Rechtsberatung.</p>
+</div></section>
+<section id="apply" class="section white"><div class="container"><p class="eyebrow">03 / Auf die eigene Arbeit übertragen</p>
+<h2>Prüfe, was deine KI-Anwendung tatsächlich verändert.</h2>
+<p class="intro">Das explorative Prüfraster GM-HHAI-01 betrachtet acht Dimensionen. „Keine Evidenz“ ist eine zulässige und oft wichtige Antwort. Ein Mittelwert wäre hier irreführend: Ein gravierendes Problem bei Sicherheit oder menschlicher Kontrolle darf nicht durch andere Stärken aufgewogen werden.</p>
+<form id="screening"><div class="panel"><label for="project"><strong>Dein Anwendungskontext</strong></label><input id="project" maxlength="120" placeholder="z. B. KI-gestütztes Training für neue Mitarbeitende"><p class="note">Bitte keine personenbezogenen oder vertraulichen Informationen eingeben.</p></div>
+<div class="criteria" id="criteria"></div>
+<div class="actions"><button type="submit" class="primary">Reflexion erstellen</button><button type="reset" class="secondary" style="color:#203242">Zurücksetzen</button></div></form>
+<div class="result hidden" id="result" tabindex="-1" aria-live="polite"></div></div></section>
+<section id="evidence" class="section light"><div class="container"><p class="eyebrow">04 / Forschung und Grenzen</p>
+<h2>Von Usability zu beobachtbarer menschlicher Handlungsfähigkeit.</h2>
+<p class="intro">Human–Human–AI ist ein konzeptioneller Arbeitsansatz von Goldmonkeys / HOP. Er verbindet anschlussfähige Perspektiven aus menschzentrierter Gestaltung, KI-Kompetenz, Governance und Bildungsforschung. Er ist weder eine neue internationale Norm noch ein empirisch validiertes Bewertungsinstrument.</p>
+<div class="triad"><article class="tile"><h3>1. Nutzung</h3><p>Ist ein System zugänglich, verständlich und handhabbar?</p></article><article class="tile"><h3>2. Fähigkeit</h3><p>Was verstehen und können Menschen selbstständig, auch ohne KI-Hilfe?</p></article><article class="tile"><h3>3. Konsequenz</h3><p>Was verändert sich in der realen Zusammenarbeit, Entscheidung und Handlung?</p></article></div>
+<h3 style="margin-top:2.5rem">Primärquellen und Anschlussstellen</h3>
+<ul class="sources">
+<li><a href="https://worldusabilityday.at/" target="_blank" rel="noopener noreferrer">World Usability Day Austria 2026</a><br><span class="note">Fachveranstaltung und Inspirationsquelle, keine Wirkungsstudie.</span></li>
+<li><a href="https://www.unesco.org/en/articles/guidance-generative-ai-education-and-research" target="_blank" rel="noopener noreferrer">UNESCO: Generative AI in Education and Research</a><br><span class="note">Pädagogische Angemessenheit und Human Agency.</span></li>
+<li><a href="https://www.unesco.org/en/articles/ai-competency-framework-teachers" target="_blank" rel="noopener noreferrer">UNESCO: AI Competency Framework for Teachers</a><br><span class="note">KI-Kompetenzen, professionelle Rollen.</span></li>
+<li><a href="https://www.iso.org/standard/77520.html" target="_blank" rel="noopener noreferrer">ISO 9241-210</a><br><span class="note">Human-centred design for interactive systems.</span></li>
+<li><a href="https://airc.nist.gov/airmf-resources/airmf/5-sec-core/" target="_blank" rel="noopener noreferrer">NIST: AI Risk Management Framework</a><br><span class="note">Risiken identifizieren, messen und steuern.</span></li>
+<li><a href="https://www.w3.org/TR/WCAG22/" target="_blank" rel="noopener noreferrer">W3C: WCAG 2.2</a><br><span class="note">Prüfbare digitale Zugänglichkeit.</span></li>
+</ul><div class="center-note">Forschungsfrage: <em>Under what conditions does human-centred AI support preserve or strengthen human judgement, interpersonal learning and consequential human capability?</em></div>
+</div></section></main>
+<footer><div class="container"><strong>Human–Human–AI · Goldmonkeys / Human Orientation Project</strong><p>Konzeptioneller Prototyp v0.1 · 14. November 2026 · Keine Datenerhebung, kein Tracking, keine Serveranfragen für das Screening. Für wissenschaftliche Aussagen sind zusätzliche Evaluationen erforderlich.</p><p><a href="#main">Nach oben ↑</a></p></div></footer>
+<script>
+"use strict";
+const scenes=[
+{tag:"KI-OUTPUT",title:"Der Entwurf ist überzeugend.",description:"Ein KI-System erstellt ein Lernmodul. Text, Fragen und Beispiele wirken plausibel. Quellen und fachliche Freigabe fehlen. Das Team möchte es sofort veröffentlichen.",focus:"Trenne überzeugende Darstellung von fachlicher Verlässlichkeit.",options:[
+["Sofort veröffentlichen, damit alle Zeit sparen.","Schnelligkeit ersetzt keine fachliche Prüfung. Ein plausibel formulierter Fehler kann in Lernmaterialien weitergegeben werden."],
+["Quellen und Fachlichkeit prüfen lassen, dann freigeben.","Begründete Entscheidung: Du behältst menschliche Verantwortung und überprüfbare Qualität im Prozess."],
+["KI grundsätzlich verbieten.","Das verhindert den konkreten Fehler, klärt aber nicht, ob es eine angemessene, kontrollierte Unterstützungsrolle geben könnte."]]},
+{tag:"MENSCHLICHE BEZIEHUNG",title:"Das Team spricht weniger miteinander.",description:"Eine KI beantwortet fast alle Fragen neuer Kolleg:innen. Die Rückfragen an erfahrene Mitarbeitende gehen zurück. Die Bearbeitung ist schneller geworden, aber niemand weiß, ob das Verständnis gewachsen ist.",focus:"Die Qualität menschlicher Zusammenarbeit lässt sich nicht aus Nutzungszahlen ableiten.",options:[
+["Sinkende Rückfragen als Beweis erfolgreichen Lernens werten.","Weniger Fragen können Sicherheit bedeuten, aber auch Unsicherheit oder fehlende soziale Einbindung. Prüfe das Verständnis unabhängig."],
+["KI abschalten und nur Gespräche zulassen.","Direkter Austausch ist wichtig, doch eine pauschale Abschaltung ohne Nutzungskontext verpasst möglicherweise sinnvolle Assistenz."],
+["Verständnis und Zusammenarbeit beobachten und verbindliche menschliche Rückkopplung vorsehen.","Du prüfst reale Fähigkeiten und schützt den Zugang zu Kolleg:innen, statt Geschwindigkeit als Erfolg gleichzusetzen."]]},
+{tag:"KONSEQUENZ",title:"Alle haben das Training abgeschlossen.",description:"Ein Dashboard zeigt 100 Prozent Abschlussquote und gute Zufriedenheitswerte. Im Arbeitsalltag treten weiterhin dieselben Unsicherheiten auf.",focus:"Abschluss, Zufriedenheit, Kompetenz und Transfer sind verschiedene Größen.",options:[
+["Das Programm als erfolgreich zertifizieren.","Abschlüsse und Zufriedenheit sind Prozessdaten. Sie belegen nicht automatisch eigenständige Handlungskompetenz."],
+["Transferaufgaben prüfen, Bedingungen am Arbeitsplatz untersuchen und das Lernangebot überarbeiten.","Du verbindest Lernleistung mit realen Handlungsmöglichkeiten und vermeidest ungestützte Wirkungsbehauptungen."],
+["Noch mehr KI-generierte Inhalte hinzufügen.","Mehr Inhalt kann die bestehende Hürde vergrößern. Ohne Ursachenanalyse ist das keine belastbare Maßnahme."]]}];
+let step=0;const selections=[];const $=id=>document.getElementById(id);
+function renderScene(){let s=scenes[step];$("step-counter").textContent="SITUATION "+(step+1)+" VON "+scenes.length;$("scene-tag").textContent=s.tag;$("scene-title").textContent=s.title;$("scene-description").textContent=s.description;$("scene-focus").textContent=s.focus;$("options").replaceChildren();$("feedback").hidden=true;$("next").disabled=true;$("next").textContent=step===scenes.length-1?"Auswertung anzeigen →":"Nächste Situation →";s.options.forEach((option,i)=>{let b=document.createElement("button");b.type="button";b.className="choice";b.setAttribute("aria-pressed","false");b.textContent=String.fromCharCode(65+i)+". "+option[0];b.addEventListener("click",()=>{document.querySelectorAll("#options .choice").forEach(x=>x.setAttribute("aria-pressed","false"));b.setAttribute("aria-pressed","true");selections[step]={decision:option[0],feedback:option[1]};$("feedback").replaceChildren();let label=document.createElement("strong");label.textContent="Einordnung";let msg=document.createElement("span");msg.textContent=option[1];$("feedback").append(label,msg);$("feedback").hidden=false;$("next").disabled=false});$("options").append(b)})}
+$("next").addEventListener("click",()=>{if(!selections[step])return;if(step<scenes.length-1){step++;renderScene()}else{let panel=$("options");panel.replaceChildren();selections.forEach((s,i)=>{let p=document.createElement("p");p.innerHTML="<strong>Situation "+(i+1)+"</strong>: ";p.append(document.createTextNode(s.feedback));panel.append(p)});$("feedback").hidden=true;$("next").disabled=true;$("next").textContent="Abgeschlossen";$("scene-tag").textContent="REFLEXION";$("scene-title").textContent="Was bleibt beim Menschen?";$("scene-description").textContent="Nicht ein perfekter KI-Output, sondern überprüfbares Verständnis, menschliche Zusammenarbeit und die Fähigkeit, verantwortlich zu handeln.";$("scene-focus").textContent="Übertrage die Erkenntnisse nun auf deine eigene Anwendung unten.";}});
+$("restart").addEventListener("click",()=>{step=0;selections.length=0;renderScene()});renderScene();
+const items=[
+["Human Agency","Können Menschen eigenständig entscheiden, korrigieren und widersprechen?"],
+["Human–Human Quality","Wird menschlicher Austausch erhalten oder gestärkt?"],
+["Understanding","Kann Verständnis unabhängig von der KI-Ausgabe gezeigt werden?"],
+["Capability","Gelingt eigenständige Anwendung, auch ohne Assistenz?"],
+["Accessibility & Inclusion","Sind unterschiedliche Zugangs- und Sprachbedarfe berücksichtigt?"],
+["Accountability & Safety","Sind Zuständigkeiten, Quellen und Fehlerkorrektur geregelt?"],
+["Sustainability","Ist der technische und organisatorische Aufwand angemessen?"],
+["Consequence","Gibt es überprüfbare Hinweise auf tatsächliche Ergebnisse und Nebenwirkungen?"]
+];
+items.forEach(([name,question],i)=>{let wrap=document.createElement("div");wrap.className="criterion";let label=document.createElement("label");label.htmlFor="criterion-"+i;label.textContent=(i+1)+". "+name;let hint=document.createElement("small");hint.textContent=question;let select=document.createElement("select");select.id="criterion-"+i;select.name="criterion-"+i;[["","Bitte wählen"],["yes","Nachweislich erfüllt"],["partial","Teilweise"],["no","Nicht erfüllt / kritisch"],["unknown","Keine ausreichende Evidenz"]].forEach(([v,t])=>{let option=document.createElement("option");option.value=v;option.textContent=t;select.append(option)});wrap.append(label,hint,select);$("criteria").append(wrap)});
+$("screening").addEventListener("submit",e=>{e.preventDefault();let project=$("project").value.trim()||"Nicht benannter Anwendungskontext";let lines=items.map(([n],i)=>n+": "+($("criterion-"+i).selectedOptions[0].textContent));let unknown=items.filter((_,i)=>!$("criterion-"+i).value||$("criterion-"+i).value==="unknown").map(x=>x[0]);let critical=items.filter((_,i)=>$("criterion-"+i).value==="no").map(x=>x[0]);let text=["GM-HHAI-01 | Reflexion v0.1","Kontext: "+project,...lines,"Kritische Felder: "+(critical.join(", ")||"keine angegeben"),"Evidenzlücken: "+(unknown.join(", ")||"keine angegeben"),"Dies ist keine validierte Messung oder Zertifizierung."].join("\n");let result=$("result");result.replaceChildren();let h=document.createElement("h3");h.textContent="Deine Reflexion";let p=document.createElement("p");p.textContent=critical.length?"Priorität: Kritische Felder fachlich prüfen, bevor ein Einsatz ausgeweitet wird.":unknown.length?"Priorität: Fehlende Evidenz gezielt erheben, bevor eine Wirkung behauptet wird.":"Nächster Schritt: Die Angaben anhand echter Beobachtungen und unabhängiger Nachweise überprüfen.";let note=document.createElement("p");note.className="note";note.textContent="Deine Angaben werden nicht an einen Server übertragen. Du kannst die Zusammenfassung lokal speichern.";let btn=document.createElement("button");btn.className="primary";btn.textContent="Reflexion als Text herunterladen";btn.type="button";btn.addEventListener("click",()=>{let blob=new Blob([text],{type:"text/plain;charset=utf-8"}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="human-human-ai-reflexion.txt";a.click();URL.revokeObjectURL(url)});result.append(h,p,note,btn);result.classList.remove("hidden");result.focus()});
+$("screening").addEventListener("reset",()=>{$("result").classList.add("hidden")});
+</script></body></html>
