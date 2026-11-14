@@ -173,6 +173,46 @@ footer{background:#111f30;color:#d3e0e5;padding:2.2rem 0;font-size:.87rem}
  .snapshot-reminder,.snapshot-buttons{display:none!important}
 }
 
+
+/* Accessibility and A4 print refinement: no change to accepted decision flow. */
+.snapshot-cell:focus-visible,.screening-detail summary:focus-visible{outline:3px solid #dbad4e;outline-offset:3px}
+.snapshot-legend li,.snapshot-cell{color:#142c3a}
+.snapshot-cell .snapshot-state{font-size:.88rem;line-height:1.45}
+.snapshot-legend li{line-height:1.5}
+@media(max-width:390px){
+ .snapshot-matrix{grid-template-columns:1fr}
+ .snapshot-legend ul{grid-template-columns:1fr}
+ .snapshot-cell{padding:1rem}
+}
+@media print{
+ @page{size:A4 portrait;margin:6mm}
+ html,body,main,#apply,#apply>.container,#result{width:100%!important;min-width:0!important;max-width:none!important;overflow:visible!important}
+ #result{margin:0!important;padding:0!important}
+ .hha-snapshot{display:block!important;font-size:8pt!important;line-height:1.15!important}
+ .snapshot-top{margin:0 0 2mm!important}
+ .snapshot-top h3{font-size:14pt!important;margin:1mm 0!important}
+ .snapshot-context{margin:1mm 0!important}
+ .snapshot-statement{padding:2mm!important;margin:0 0 2mm!important}
+ .snapshot-statement strong{font-size:9pt!important}
+ .snapshot-statement p{margin:0!important;font-size:8pt!important}
+ .hha-snapshot>h4{margin:1.5mm 0!important;font-size:9pt!important}
+ .snapshot-matrix{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:1.4mm!important;margin:0 0 2mm!important}
+ .snapshot-cell{padding:1.5mm 2mm!important;min-height:0!important;gap:0!important}
+ .snapshot-cell strong{font-size:8pt!important;line-height:1.1!important}
+ .snapshot-state{font-size:7pt!important;line-height:1.1!important}
+ .snapshot-symbol{width:4mm!important;height:4mm!important;font-size:7pt!important}
+ .snapshot-legend{margin:0 0 2mm!important}
+ .snapshot-legend ul{display:grid!important;grid-template-columns:repeat(2,1fr)!important;margin:1mm 0!important;gap:1mm!important}
+ .snapshot-legend li{font-size:7pt!important;line-height:1!important}
+ .snapshot-legend .note{font-size:7pt!important;margin:0!important}
+ .snapshot-priority{margin:0 0 2mm!important;padding:1mm 0!important}
+ .snapshot-priority h4,.snapshot-action h4,.snapshot-legend h4{font-size:9pt!important;margin:0 0 1mm!important}
+ .snapshot-priority ul{margin:0!important;padding-left:5mm!important}
+ .snapshot-priority li{font-size:7pt!important;line-height:1.1!important}
+ .snapshot-action{padding:2mm!important;margin:0!important}
+ .snapshot-action p{font-size:8pt!important;margin:0!important}
+ .snapshot-reminder,.snapshot-buttons,.hha-snapshot>.note{display:none!important}
+}
 </style></head>
 <body><a class="skip" href="#main">Skip to content</a>
 <header><div class="nav"><div class="logo">HUMAN <span>·</span> HUMAN <span>·</span> AI</div>
@@ -403,7 +443,7 @@ const items=[
 ["Sustainability","Is technical and organisational effort proportionate?"],
 ["Consequence","Is there verifiable evidence of outcomes and side effects?"]
 ];
-items.forEach(([name,question],i)=>{let wrap=document.createElement("div");wrap.className="criterion";let label=document.createElement("label");label.htmlFor="criterion-"+i;label.textContent=(i+1)+". "+name;let hint=document.createElement("small");hint.textContent=question;let select=document.createElement("select");select.id="criterion-"+i;select.name="criterion-"+i;[["","Please select"],["yes","Reported as supported"],["partial","Partially met"],["no","Not met / critical"],["unknown","Insufficient evidence"]].forEach(([v,t])=>{let option=document.createElement("option");option.value=v;option.textContent=t;select.append(option)});wrap.append(label,hint,select);$("criteria").append(wrap)});
+items.forEach(([name,question],i)=>{let wrap=document.createElement("div");wrap.className="criterion";let label=document.createElement("label");label.htmlFor="criterion-"+i;label.textContent=(i+1)+". "+name;let hint=document.createElement("small");hint.textContent=question;let select=document.createElement("select");select.id="criterion-"+i;select.name="criterion-"+i;[["","Please select"],["yes","Reported as present"],["partial","Partially met"],["no","Not met / critical"],["unknown","Insufficient evidence"]].forEach(([v,t])=>{let option=document.createElement("option");option.value=v;option.textContent=t;select.append(option)});wrap.append(label,hint,select);$("criteria").append(wrap)});
 const screeningGuidance=[["Make decision rights and correction routes visible.","Ask someone to test how they can challenge or correct an AI output or continue without AI.","Observed decision and an accessible correction route."],["Preserve opportunities for human questions.","Enable a real question to a colleague and check whether the explanation was understood.","Observed question and shared clarification."],["Verify understanding independently.","Ask someone to explain an AI output in their own words without AI assistance.","Independent explanation, including any uncertainty."],["Test transfer without assistance.","Try a short realistic task without AI support.","Observed performance and recorded support needed."],["Test access barriers with real users.","Ask someone affected to test language, keyboard use, readability and orientation.","Recorded barrier and verified improvement."],["Clarify expert review and accountability.","Assign source checking, approval and escalation of errors to an accountable person.","Documented review, owner and correction."],["Compare effort and benefit.","Complete a sample task with and without AI and record quality, time and resource effort.","Documented comparison rather than an assumed gain."],["Observe real consequences.","Define an expected action and a possible side effect before use, then observe both.","Observed action, side effect and context."]];
 $("screening").addEventListener("submit",event=>{
  event.preventDefault();
@@ -424,7 +464,7 @@ $("screening").addEventListener("submit",event=>{
  const output=["What you could try next","Context"+": "+context,"Your snapshot shows what you have observed, which questions remain open and what you could try next.",""];
 
  // Present an accessible summary before any detailed text. All statuses reflect user input.
- const snapshotConfig={"path":"en/index.html","lang":"en","title":"Your Human–Human–AI Snapshot","strap":"AI assists. Humans understand, decide and act.","sub":"Do not review only the AI output. Examine what changes for people.","legend":"Legend","legendNote":"Self-report only, not independently verified. No overall score.","statuses":{"yes":"Reported as supported","partial":"Partially met","no":"Critical / not met","unknown":"Insufficient evidence"},"notes":{"yes":"Evidence reported, not independently verified.","partial":"Partially met; further work and verification needed.","no":"Critical point to address before expansion.","unknown":"There is not yet sufficient evidence."},"priority":"What remains open","reminderTitle":"My Human–Human–AI Reminder","reminderSubtitle":"Before I call AI a success, I ask:","prompts":["Do people understand what is happening?","Can people still learn and work together?","Can people still decide for themselves?","What consequences can we actually observe?"],"reminderFoot":"Human Agency First · Fairness by Design · Observable Consequences","action":"Your next verifiable action","detail":"Explore questions and ideas","saveCard":"Save reminder as SVG","print":"Print snapshot / Save as PDF","note":"These coloured fields reflect your own observations. They do not evaluate you as a person.","context":"Application context","numberNote":"Eight perspectives · your snapshot","saveName":"human-human-ai-reminder-en.svg"};
+ const snapshotConfig={"path":"en/index.html","lang":"en","title":"Your Human–Human–AI Snapshot","strap":"AI assists. Humans understand, decide and act.","sub":"Do not review only the AI output. Examine what changes for people.","legend":"Legend","legendNote":"Self-report only, not independently verified. No overall score.","statuses":{"yes":"Reported as present","partial":"Partially met","no":"Critical / not met","unknown":"Insufficient evidence"},"notes":{"yes":"Evidence reported, not independently verified.","partial":"Partially met; further work and verification needed.","no":"Critical point to address before expansion.","unknown":"There is not yet sufficient evidence."},"priority":"What remains open","reminderTitle":"My Human–Human–AI Reminder","reminderSubtitle":"Before I call AI a success, I ask:","prompts":["Do people understand what is happening?","Can people still learn and work together?","Can people still decide for themselves?","What consequences can we actually observe?"],"reminderFoot":"Human Agency First · Fairness by Design · Observable Consequences","action":"Your next verifiable action","detail":"Explore questions and ideas","saveCard":"Save reminder as SVG","print":"Print snapshot / Save as PDF","note":"These coloured fields reflect your own observations. They do not evaluate you as a person.","context":"Application context","numberNote":"Eight perspectives · your snapshot","saveName":"human-human-ai-reminder-en.svg"};
  const statusSymbol={yes:"✓",partial:"~",no:"!",unknown:"?"};
  const statusClass={yes:"status-supported",partial:"status-partial",no:"status-critical",unknown:"status-unknown"};
  const snapshot=document.createElement("div");snapshot.className="hha-snapshot";snapshot.id="hha-snapshot";
