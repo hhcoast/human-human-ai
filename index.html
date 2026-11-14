@@ -94,7 +94,7 @@ textarea{min-height:90px;resize:vertical}.hha-snapshot{display:grid;gap:1.15rem;
 .snapshot-matrix{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.7rem}
 .snapshot-cell{background:#fff;border:1px solid #c6d5d1;border-left:5px solid var(--status);border-radius:10px;padding:1rem;display:flex;flex-direction:column;align-items:flex-start;gap:.4rem;min-width:0;overflow-wrap:anywhere}
 .snapshot-cell strong{font-size:.93rem;line-height:1.25}.snapshot-state{font-size:.79rem}
-.status-supported{--status:#137663}.status-partial{--status:#95640b}.status-critical{--status:#a43a3a}.status-unknown{--status:#586679}
+.status-unanswered{--status:#7e8e96}.status-supported{--status:#137663}.status-partial{--status:#95640b}.status-critical{--status:#a43a3a}.status-unknown{--status:#586679}
 .snapshot-symbol{display:inline-flex;justify-content:center;align-items:center;width:1.6rem;height:1.6rem;border-radius:6px;background:var(--status);color:#fff;font-weight:800;flex-shrink:0}
 .snapshot-legend ul{list-style:none;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.6rem}
 .snapshot-legend li{display:flex;align-items:center;gap:.5rem;font-size:.82rem}
@@ -434,25 +434,26 @@ transfer.append(transferTitle,label,select,buttonRow,status,handoff,assessment,c
 $("feedback").hidden=true;$("edit-answer").hidden=true;$("submit-answer").hidden=true;$("next").hidden=true;$("next").disabled=true;$("next").textContent="Abgeschlossen";$("scene-tag").textContent="REFLEXION";$("scene-title").textContent="Was bleibt beim Menschen?";$("scene-description").textContent="Nicht ein perfekter KI-Output, sondern überprüfbares Verständnis, menschliche Zusammenarbeit und die Fähigkeit, verantwortlich zu handeln.";$("scene-focus").textContent="Übertrage die Erkenntnisse nun auf deine eigene Anwendung unten.";alignAndFocus($("decision-panel"));}});
 $("restart").addEventListener("click",()=>{step=0;selections.length=0;renderScene();focusCurrentScene()});renderScene();
 const items=[
-["Human Agency","Können Menschen eigenständig entscheiden, korrigieren und widersprechen?"],
-["Human–Human Quality","Wird menschlicher Austausch erhalten oder gestärkt?"],
-["Understanding","Kann Verständnis unabhängig von der KI-Ausgabe gezeigt werden?"],
-["Capability","Gelingt eigenständige Anwendung, auch ohne Assistenz?"],
-["Accessibility & Inclusion","Sind unterschiedliche Zugangs- und Sprachbedarfe berücksichtigt?"],
-["Accountability & Safety","Sind Zuständigkeiten, Quellen und Fehlerkorrektur geregelt?"],
-["Sustainability","Ist der technische und organisatorische Aufwand angemessen?"],
-["Consequence","Gibt es überprüfbare Hinweise auf tatsächliche Ergebnisse und Nebenwirkungen?"]
+["Selbst entscheiden","Können Menschen eigenständig entscheiden, korrigieren und widersprechen?"],
+["Miteinander","Wird menschlicher Austausch erhalten oder gestärkt?"],
+["Verstehen","Kann Verständnis unabhängig von der KI-Ausgabe gezeigt werden?"],
+["Selbst anwenden","Gelingt eigenständige Anwendung, auch ohne Assistenz?"],
+["Zugang für alle","Sind unterschiedliche Zugangs- und Sprachbedarfe berücksichtigt?"],
+["Verantwortung und Sicherheit","Sind Zuständigkeiten, Quellen und Fehlerkorrektur geregelt?"],
+["Aufwand und Nutzen","Ist der technische und organisatorische Aufwand angemessen?"],
+["Tatsächliche Folgen","Gibt es überprüfbare Hinweise auf tatsächliche Ergebnisse und Nebenwirkungen?"]
 ];
-items.forEach(([name,question],i)=>{let wrap=document.createElement("div");wrap.className="criterion";let label=document.createElement("label");label.htmlFor="criterion-"+i;label.textContent=(i+1)+". "+name;let hint=document.createElement("small");hint.textContent=question;let select=document.createElement("select");select.id="criterion-"+i;select.name="criterion-"+i;[["","Bitte wählen"],["yes","Nach eigener Einschätzung vorhanden"],["partial","Teilweise"],["no","Nicht erfüllt / kritisch"],["unknown","Keine ausreichende Evidenz"]].forEach(([v,t])=>{let option=document.createElement("option");option.value=v;option.textContent=t;select.append(option)});wrap.append(label,hint,select);$("criteria").append(wrap)});
+items.forEach(([name,question],i)=>{let wrap=document.createElement("div");wrap.className="criterion";let label=document.createElement("label");label.htmlFor="criterion-"+i;label.textContent=(i+1)+". "+name;let hint=document.createElement("small");hint.textContent=question;let select=document.createElement("select");select.id="criterion-"+i;select.name="criterion-"+i;[["","Bitte wählen"],["yes","Nach eigener Einschätzung vorhanden"],["partial","Teilweise"],["no","Nicht erfüllt / kritisch"],["unknown","Ich weiß es noch nicht"]].forEach(([v,t])=>{let option=document.createElement("option");option.value=v;option.textContent=t;select.append(option)});wrap.append(label,hint,select);$("criteria").append(wrap)});
 const screeningGuidance=[["Entscheidungsrechte und Korrekturwege sichtbar machen.","Eine Person testet, wie sie ein KI-Ergebnis zurückweisen, korrigieren oder ohne KI weiterarbeiten kann.","Beobachtete Entscheidung und erreichbarer Korrekturweg."],["Menschliche Rückfragen absichern.","Im Arbeitsablauf eine reale Rückfrage an Kolleg:innen ermöglichen und prüfen, ob die Antwort verstanden wurde.","Beobachtete Rückfrage und nachvollziehbare gemeinsame Klärung."],["Verständnis unabhängig prüfen.","Eine Person erklärt ein KI-Ergebnis ohne KI-Unterstützung in eigenen Worten.","Eigenständige Erklärung inklusive erkannter Unsicherheiten."],["Transfer ohne Assistenz erproben.","Eine kurze realitätsnahe Aufgabe ohne KI-Hilfe durchführen lassen.","Beobachtete Anwendung und dokumentierte Unterstützung."],["Zugangsbarrieren gemeinsam testen.","Eine betroffene Person testet Sprache, Tastaturbedienung, Lesbarkeit und Orientierung.","Dokumentierte Barriere und überprüfte Verbesserung."],["Fachprüfung und Verantwortung klären.","Quellen, Freigabe und Eskalation für fehlerhafte Ausgaben einer verantwortlichen Person zuordnen.","Nachvollziehbare Prüfung, Zuständigkeit und Korrektur."],["Aufwand und Nutzen vergleichen.","Ein Beispiel mit und ohne KI bearbeiten und Qualität sowie Zeit- und Ressourcenaufwand dokumentieren.","Dokumentierter Vergleich, keine bloße Effizienzvermutung."],["Reale Konsequenzen beobachten.","Vorab eine Handlung und eine mögliche Nebenwirkung definieren und nach der Nutzung beobachten.","Beobachtete Handlung, Nebenwirkung und Kontextbedingungen."]];
 $("screening").addEventListener("submit",event=>{
  event.preventDefault();
  const context=$("project").value.trim()||"Nicht benannter Anwendungskontext";
  const values=items.map((item,i)=>({
-  name:item[0],question:item[1],value:$("criterion-"+i).value||"unknown",
+  name:item[0],question:item[1],value:$("criterion-"+i).value||"unanswered",
   response:$("criterion-"+i).selectedOptions[0].textContent,
   suggestion:screeningGuidance[i]
  }));
+ if(values.every(x=>x.value==="unanswered")){const result=$("result");result.replaceChildren();const notice=document.createElement("p");notice.textContent="Bitte beantworte mindestens eine Frage, bevor du deinen persönlichen Snapshot erstellst. Andere Fragen kannst du offenlassen.";result.append(notice);result.classList.remove("hidden");result.focus();return;}
  const groups={
   critical:values.filter(x=>x.value==="no"),
   missing:values.filter(x=>x.value==="unknown"),
@@ -464,15 +465,15 @@ $("screening").addEventListener("submit",event=>{
  const output=["Was du als Nächstes ausprobieren kannst","Kontext"+": "+context,"Dein Snapshot macht sichtbar, was du bereits beobachtest, wo Fragen offenbleiben und was du als Nächstes ausprobieren kannst.",""];
 
  // Present an accessible summary before any detailed text. All statuses reflect user input.
- const snapshotConfig={"path":"index.html","lang":"de","title":"Dein Human–Human–AI Snapshot","strap":"KI unterstützt. Menschen verstehen, entscheiden und handeln.","sub":"Prüfe nicht nur die KI-Ausgabe. Prüfe, was sich für Menschen verändert.","legend":"Legende","legendNote":"Selbstauskunft, keine unabhängige Prüfung und kein Gesamtscore.","statuses":{"yes":"Nach eigener Einschätzung vorhanden","partial":"Teilweise erfüllt","no":"Kritisch / nicht erfüllt","unknown":"Keine ausreichende Evidenz"},"notes":{"yes":"Die Angabe beruht auf deiner Einschätzung; hier wurden keine Nachweise geprüft.","partial":"Teilweise erfüllt; Verbesserung und Prüfung erforderlich.","no":"Kritischer Punkt, vor einer Ausweitung klären.","unknown":"Noch keine belastbaren Angaben vorhanden."},"priority":"Was noch offen ist","reminderTitle":"Mein Human–Human–AI Reminder","reminderSubtitle":"Bevor ich KI-Erfolg behaupte, frage ich:","prompts":["Verstehen Menschen, was passiert?","Bleibt menschliche Zusammenarbeit möglich?","Können Menschen weiterhin selbst entscheiden?","Welche Konsequenzen sind tatsächlich beobachtbar?"],"reminderFoot":"Human Agency First · Fairness by Design · Observable Consequences","action":"Dein nächster überprüfbarer Schritt","detail":"Fragen und Ideen vertiefen","saveCard":"Reminder als SVG speichern","print":"Snapshot drucken / als PDF speichern","note":"Die farbigen Felder machen deine eigenen Beobachtungen sichtbar. Sie bewerten nicht dich als Person.","context":"Anwendungskontext","numberNote":"Acht Perspektiven · deine Momentaufnahme","saveName":"human-human-ai-reminder-de.svg"};
- const statusSymbol={yes:"✓",partial:"~",no:"!",unknown:"?"};
- const statusClass={yes:"status-supported",partial:"status-partial",no:"status-critical",unknown:"status-unknown"};
+ const snapshotConfig={"path":"index.html","lang":"de","title":"Dein Human–Human–AI Snapshot","strap":"KI unterstützt. Menschen verstehen, entscheiden und handeln.","sub":"Prüfe nicht nur die KI-Ausgabe. Prüfe, was sich für Menschen verändert.","legend":"Legende","legendNote":"Deine eigene Einschätzung, nicht unabhängig geprüft. Kein Gesamtscore. Nicht beantwortete Fragen werden nicht bewertet.","statuses":{"yes":"Nach eigener Einschätzung vorhanden","partial":"Teilweise erfüllt","no":"Kritisch / nicht erfüllt","unknown":"Ich weiß es noch nicht","unanswered":"Nicht beantwortet"},"notes":{"yes":"Die Angabe beruht auf deiner Einschätzung; hier wurden keine Nachweise geprüft.","partial":"Teilweise erfüllt; Verbesserung und Prüfung erforderlich.","no":"Kritischer Punkt, vor einer Ausweitung klären.","unknown":"Du hast angegeben, dass du es noch nicht weißt.","unanswered":"Keine Antwort gegeben. Daraus wird keine Bewertung abgeleitet."},"priority":"Was du noch klären möchtest","reminderTitle":"Mein Human–Human–AI Reminder","reminderSubtitle":"Bevor ich KI-Erfolg behaupte, frage ich:","prompts":["Verstehen Menschen, was passiert?","Bleibt menschliche Zusammenarbeit möglich?","Können Menschen weiterhin selbst entscheiden?","Welche Konsequenzen sind tatsächlich beobachtbar?"],"reminderFoot":"Human Agency First · Fairness by Design · Observable Consequences","action":"Dein nächster überprüfbarer Schritt","detail":"Fragen und Ideen vertiefen","saveCard":"Reminder als SVG speichern","print":"Snapshot drucken / als PDF speichern","note":"Die farbigen Felder machen deine eigenen Beobachtungen sichtbar. Sie bewerten nicht dich als Person.","context":"Anwendungskontext","numberNote":"Deine Momentaufnahme","saveName":"human-human-ai-reminder-de.svg"};
+ const statusSymbol={yes:"✓",partial:"~",no:"!",unknown:"?",unanswered:"–"};
+ const statusClass={yes:"status-supported",partial:"status-partial",no:"status-critical",unknown:"status-unknown",unanswered:"status-unanswered"};
  const snapshot=document.createElement("div");snapshot.className="hha-snapshot";snapshot.id="hha-snapshot";
  const top=document.createElement("div");top.className="snapshot-top";
  top.append(el("p","GOLDMONKEYS / HUMAN ORIENTATION PROJECT","snapshot-brand"),el("h3",snapshotConfig.title),el("p",snapshotConfig.context+": "+context,"snapshot-context"));
  const statement=document.createElement("div");statement.className="snapshot-statement";
  statement.append(el("strong",snapshotConfig.strap),el("p",snapshotConfig.sub));
- snapshot.append(top,statement,el("h4",snapshotConfig.numberNote));
+ snapshot.append(top,statement,el("h4",values.filter(x=>x.value!=="unanswered").length+" von 8 Fragen beantwortet"));
  const matrix=document.createElement("div");matrix.className="snapshot-matrix";
  matrix.setAttribute("role","list");matrix.setAttribute("aria-label",snapshotConfig.title);
  values.forEach((v,i)=>{
@@ -486,7 +487,7 @@ $("screening").addEventListener("submit",event=>{
  const key=document.createElement("div");key.className="snapshot-legend";
  key.append(el("h4",snapshotConfig.legend));
  const legend=document.createElement("ul");
- ["yes","partial","no","unknown"].forEach(k=>{
+ ["yes","partial","no","unknown","unanswered"].forEach(k=>{
   const li=document.createElement("li");li.className=statusClass[k];
   const icon=el("span",statusSymbol[k],"snapshot-symbol");icon.setAttribute("aria-hidden","true");
   li.append(icon,el("span",snapshotConfig.statuses[k]));legend.append(li);
