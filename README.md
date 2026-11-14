@@ -15,7 +15,7 @@ The website entry point is [`index.html`](./index.html) (German). The English ex
 The experience contains:
 
 1. Explain: the three relationships, human agency and responsibility, with direct German/English navigation.
-2. Experience: three fictional decisions about AI outputs, human collaboration and transfer into real practice. Every choice produces an explanation. A visible progress bar, context-sensitive guidance and automatic focus/scroll transition support mobile use.
+2. Experience: three fictional decisions about AI outputs, human collaboration and transfer into real practice. Every choice produces an explanation. A visible progress bar and an explicit **choose → submit → read feedback → continue** sequence support mobile use. Each transition scrolls and moves focus to the next relevant control or result, accounting for the sticky header.
 3. Apply: GM-HHAI-01 exploratory eight-dimension screening, including "insufficient evidence"; the final scenario reflection now summarises the selected decisions.
 4. Evidence: direct primary-source links and explicit methodological limitations.
 
@@ -33,6 +33,7 @@ The experience contains:
 - November 14, 2026: independent public repository created.
 - Added three-step progress, post-selection guidance, extended scenario reflection, and mobile scroll/focus handling.
 - Added full English route at `en/` and bidirectional language links.
+- Added explicit answer submission and accessible focus/scroll handoffs for both languages, including screening results.
 - Both inline JavaScript blocks pass syntax compilation and no duplicate HTML IDs were detected. **No claim of WCAG 2.2 conformance or comprehensive browser QA is made.**
 
 ## Next QA and publication gates
@@ -41,7 +42,7 @@ The experience contains:
 - [ ] Test keyboard navigation, focus, screen-reader labels, 200% zoom and contrast.
 - [ ] Review content and primary-source URLs.
 - [x] Static source checks for JavaScript syntax and unique HTML IDs (DE/EN).
-- [ ] Test all 3×3 decision choices, restarts, focus transitions, progress indicators, screening selections and local TXT download in real browsers.
+- [ ] Test all 3×3 decision choices, restarts, focus transitions (selection, submission, next step and screening result), progress indicators, screening selections and local TXT download in real browsers.
 - [x] Add complete English UI and scenario translations (implementation, not independently language-reviewed).
 - [ ] Review both language versions with real learners and native-level reviewers.
 - [x] Create the independent public repository `hhcoast/human-human-ai` and place its entry point in the root.
