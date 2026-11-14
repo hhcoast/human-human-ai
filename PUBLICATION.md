@@ -4,14 +4,13 @@ Status: **NOT PUBLISHED** · 14 November 2026
 
 ## Independent release architecture
 
-Target: a **new public GitHub repository** named `human-human-ai` under `hhcoast`, with its own `index.html` at repository root and GitHub Pages configured to deploy from `main / (root)`.
+Repository **created and publicly accessible:** `hhcoast/human-human-ai`. Its own `index.html` is present at repository root. GitHub Pages activation and live verification are separate pending steps.
 
 The existing `human-centred-ai-2026` repository is private and contains different webinar materials. **Never change its visibility or deploy it for this launch.**
 
 Proposed public URL **only after creation and successful deployment**, not a verified active address: `https://hhcoast.github.io/human-human-ai/`.
 
-Canonical source for export: `feature/human-human-ai-public-experience:human-human-ai/index.html`.
-Documentation: `feature/human-human-ai-public-experience:human-human-ai/README.md`.
+Canonical source is now this repository's `main:index.html`. Documentation: `main:README.md`. The separate private source repository is not the publication target.
 
 ## Public positioning
 
@@ -55,12 +54,12 @@ No webinar, employer or partner branding. Goldmonkeys / Human Orientation Projec
 - Check no broken links and no JavaScript errors.
 
 ### Publication
-1. Create a new repository in GitHub: `hhcoast/human-human-ai`, **Public**, with no preexisting webinar files.
-2. Copy reviewed `human-human-ai/index.html` to new repository root as `index.html`, plus the dedicated `README.md` and any final LICENSE / privacy / accessibility statements.
-3. In the new repository select Settings → Pages → Deploy from branch → `main` / `(root)`.
-4. Confirm Pages deployment succeeds.
-5. Open the final URL in a **logged-out** browser and run the checks above.
-6. Only then share the actual URL on LinkedIn.
+1. **Completed:** Create public repository `hhcoast/human-human-ai`.
+2. **Completed:** Copy standalone `index.html` and project documentation to repository root.
+3. **Pending:** In Settings → Pages choose Deploy from branch → `main` / `(root)`.
+4. **Pending:** Confirm Pages deployment succeeds.
+5. **Pending:** Open the final URL in a logged-out browser and run all quality checks above.
+6. Only share the verified website on LinkedIn after content, functionality and accessibility review.
 
 ## Post-publication learning loop
 
