@@ -105,3 +105,19 @@ The experience contains:
 **Question:** Under what conditions does human-centred AI support preserve or strengthen human judgement, interpersonal learning and consequential human capability?
 
 The public activity is an exploratory prompt for reflecting on practice, not a formal test. The underlying methodological structure is maintained for research and iteration. Its criteria and choice rationales need expert review, user research and methodological validation before any effectiveness or comparability claims can be made.
+
+
+## Plain-language and empty-answer correction (14 November 2026)
+
+Mobile user feedback identified two issues in the eight-perspective snapshot: specialist terms such as “evidence” were hard to understand, and an entirely blank questionnaire generated misleading unknown-status tiles and a recommendation.
+
+Changes applied to DE/EN:
+- Eight display headings are now plain-language descriptions, keeping the original research dimensions conceptually intact.
+- The user-facing unknown option is “Ich weiß es noch nicht” / “I am not sure yet”.
+- A blank answer is now a distinct “Nicht beantwortet” / “Not answered” state, not a judgement about missing evidence.
+- An entirely empty form does not generate a snapshot; it asks for at least one response.
+- In a partly filled form, unanswered dimensions remain visible but are excluded from the priority list and next-action selection.
+- The summary shows how many of eight questions were answered.
+- Static checks: embedded JavaScript syntax and duplicate HTML IDs passed in both languages. Real-device testing and published Pages verification remain pending.
+
+Decision: a participant's silence is not evidence of an unmet criterion. More systematic plain-language review remains open.
