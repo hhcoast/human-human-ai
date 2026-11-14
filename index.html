@@ -85,7 +85,47 @@ form{margin-top:2rem}.criteria{display:grid;grid-template-columns:repeat(2,1fr);
 .criterion{background:#fff;border:1px solid #dce5e1;border-radius:12px;padding:1rem}
 .criterion label{display:block;font-weight:750;margin-bottom:.3rem}.criterion small{display:block;color:#536772;margin-bottom:.7rem}
 select,textarea,input{width:100%;border:1px solid #83969f;border-radius:7px;padding:.7rem;background:#fff;color:#203242}
-textarea{min-height:90px;resize:vertical}.screening-group{margin:1.5rem 0}.screening-group h4{font-size:1.15rem;margin-bottom:.75rem}
+textarea{min-height:90px;resize:vertical}.hha-snapshot{display:grid;gap:1.15rem;min-width:0}
+.snapshot-brand{text-transform:uppercase;letter-spacing:.1em;font-size:.69rem;font-weight:800;color:#176d61;margin-bottom:.45rem}
+.snapshot-top h3{font-size:clamp(1.45rem,4vw,2.1rem);margin:.2rem 0;line-height:1.2}
+.snapshot-context{overflow-wrap:anywhere;color:#405563}
+.snapshot-statement{padding:1.2rem;border-radius:12px;background:#e2eee7}
+.snapshot-statement strong{font-size:1.15rem}.snapshot-statement p{margin:.5rem 0 0}
+.snapshot-matrix{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.7rem}
+.snapshot-cell{background:#fff;border:1px solid #c6d5d1;border-left:5px solid var(--status);border-radius:10px;padding:1rem;display:flex;flex-direction:column;align-items:flex-start;gap:.4rem;min-width:0;overflow-wrap:anywhere}
+.snapshot-cell strong{font-size:.93rem;line-height:1.25}.snapshot-state{font-size:.79rem}
+.status-supported{--status:#137663}.status-partial{--status:#95640b}.status-critical{--status:#a43a3a}.status-unknown{--status:#586679}
+.snapshot-symbol{display:inline-flex;justify-content:center;align-items:center;width:1.6rem;height:1.6rem;border-radius:6px;background:var(--status);color:#fff;font-weight:800;flex-shrink:0}
+.snapshot-legend ul{list-style:none;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.6rem}
+.snapshot-legend li{display:flex;align-items:center;gap:.5rem;font-size:.82rem}
+.snapshot-priority{border-top:1px solid #bfd7d0;padding-top:1rem}
+.snapshot-priority ul{padding-left:1.3rem;margin:.5rem 0}.snapshot-priority li{padding:.2rem 0}
+.snapshot-action{background:#dfeee7;border-left:5px solid #137663;border-radius:10px;padding:1rem}
+.snapshot-action p{margin-bottom:0}
+.snapshot-reminder{background:#fff;border:2px solid #137663;border-radius:14px;padding:1.3rem}
+.snapshot-reminder h4{font-size:1.3rem;margin:.1rem 0 .5rem}
+.snapshot-reminder ol{padding-left:1.3rem}.snapshot-reminder li{padding:.25rem 0}
+.reminder-foot{font-size:.76rem;color:#176d61;font-weight:700}
+.snapshot-buttons{display:flex;flex-wrap:wrap;gap:.7rem}.snapshot-buttons button{min-height:48px}
+.screening-detail{margin-top:1.2rem;border-top:1px solid #bfd7d0;padding-top:1rem}
+.screening-detail summary{cursor:pointer;font-weight:750;padding:.85rem;border-radius:10px;background:#fff;border:1px solid #b5d2c9}
+@media(max-width:720px){.snapshot-buttons{display:grid}.snapshot-buttons button{width:100%}.snapshot-matrix{gap:.5rem}.snapshot-cell{padding:.75rem}.snapshot-legend ul{gap:.5rem}}
+@media print{
+ @page{size:A4;margin:12mm}
+ body{background:#fff!important;color:#142e3e}
+ body>header,body>footer,body>.skip{display:none!important}
+ main>section:not(#apply){display:none!important}
+ #apply{padding:0!important;background:#fff!important}
+ #apply>.container>:not(#result){display:none!important}
+ #result{border:0!important;background:#fff!important;padding:0!important;margin:0!important}
+ #result> :not(.hha-snapshot){display:none!important}
+ .snapshot-buttons,.snapshot-reminder,.snapshot-priority,.snapshot-action{display:none!important}
+ .hha-snapshot{gap:.7rem}.snapshot-cell{padding:.65rem;break-inside:avoid}
+ .snapshot-matrix{gap:.5rem}
+ .snapshot-legend,.snapshot-statement{break-inside:avoid}
+ .snapshot-top h3{font-size:19pt}
+}
+.screening-group{margin:1.5rem 0}.screening-group h4{font-size:1.15rem;margin-bottom:.75rem}
 .screening-finding{background:#fff;border:1px solid #d1e1dc;border-radius:12px;padding:1.1rem;margin:.8rem 0}
 .screening-finding h5{font-size:1.06rem;margin:0 0 .4rem}
 .screening-finding p{margin:0 0 .65rem;overflow-wrap:anywhere}
@@ -351,6 +391,66 @@ $("screening").addEventListener("submit",event=>{
  const el=(tag,content,cls)=>{const node=document.createElement(tag);node.textContent=content;if(cls)node.className=cls;return node};
  result.append(el("h3","Deine nächsten Prüfschritte"),el("p","Das Ergebnis leitet sich ausschließlich aus deinen eigenen Angaben ab. Es ist keine Diagnose und keine validierte Bewertung."),el("p","Kontext"+": "+context));
  const output=["Deine nächsten Prüfschritte","Kontext"+": "+context,"Das Ergebnis leitet sich ausschließlich aus deinen eigenen Angaben ab. Es ist keine Diagnose und keine validierte Bewertung.",""];
+
+ // Present an accessible summary before any detailed text. All statuses reflect user input.
+ const snapshotConfig={"path":"index.html","lang":"de","title":"Dein Human–Human–AI Snapshot","strap":"KI unterstützt. Menschen verstehen, entscheiden und handeln.","sub":"Prüfe nicht nur die KI-Ausgabe. Prüfe, was sich für Menschen verändert.","legend":"Legende","legendNote":"Selbstauskunft, keine unabhängige Prüfung und kein Gesamtscore.","statuses":{"yes":"Als gestützt angegeben","partial":"Teilweise erfüllt","no":"Kritisch / nicht erfüllt","unknown":"Keine ausreichende Evidenz"},"notes":{"yes":"Nachweise wurden angegeben, aber nicht unabhängig geprüft.","partial":"Teilweise erfüllt; Verbesserung und Prüfung erforderlich.","no":"Kritischer Punkt, vor einer Ausweitung klären.","unknown":"Noch keine belastbaren Angaben vorhanden."},"priority":"Worauf du jetzt achten solltest","reminderTitle":"Mein Human–Human–AI Reminder","reminderSubtitle":"Bevor ich KI-Erfolg behaupte, frage ich:","prompts":["Verstehen Menschen, was passiert?","Bleibt menschliche Zusammenarbeit möglich?","Können Menschen weiterhin selbst entscheiden?","Welche Konsequenzen sind tatsächlich beobachtbar?"],"reminderFoot":"Human Agency First · Fairness by Design · Observable Consequences","action":"Dein nächster überprüfbarer Schritt","detail":"Ausführlichen Prüfplan öffnen","saveCard":"Reminder als SVG speichern","print":"Snapshot drucken / als PDF speichern","note":"Die farbigen Felder sind keine Bewertung deiner Person. Keine Zertifizierung, keine Wirkungsbehauptung.","context":"Anwendungskontext","numberNote":"8 Dimensionen · keine Gesamtbewertung","saveName":"human-human-ai-reminder-de.svg"};
+ const statusSymbol={yes:"✓",partial:"~",no:"!",unknown:"?"};
+ const statusClass={yes:"status-supported",partial:"status-partial",no:"status-critical",unknown:"status-unknown"};
+ const snapshot=document.createElement("div");snapshot.className="hha-snapshot";snapshot.id="hha-snapshot";
+ const top=document.createElement("div");top.className="snapshot-top";
+ top.append(el("p","GOLDMONKEYS / HUMAN ORIENTATION PROJECT","snapshot-brand"),el("h3",snapshotConfig.title),el("p",snapshotConfig.context+": "+context,"snapshot-context"));
+ const statement=document.createElement("div");statement.className="snapshot-statement";
+ statement.append(el("strong",snapshotConfig.strap),el("p",snapshotConfig.sub));
+ snapshot.append(top,statement,el("h4",snapshotConfig.numberNote));
+ const matrix=document.createElement("div");matrix.className="snapshot-matrix";
+ matrix.setAttribute("role","list");matrix.setAttribute("aria-label",snapshotConfig.title);
+ values.forEach((v,i)=>{
+  const cell=document.createElement("div");cell.className="snapshot-cell "+statusClass[v.value];cell.setAttribute("role","listitem");
+  const symbol=el("span",statusSymbol[v.value],"snapshot-symbol");symbol.setAttribute("aria-hidden","true");
+  cell.append(symbol,el("strong",v.name),el("span",snapshotConfig.statuses[v.value],"snapshot-state"));
+  cell.setAttribute("aria-label",v.name+": "+snapshotConfig.statuses[v.value]+". "+snapshotConfig.notes[v.value]);
+  matrix.append(cell);
+ });
+ snapshot.append(matrix);
+ const key=document.createElement("div");key.className="snapshot-legend";
+ key.append(el("h4",snapshotConfig.legend));
+ const legend=document.createElement("ul");
+ ["yes","partial","no","unknown"].forEach(k=>{
+  const li=document.createElement("li");li.className=statusClass[k];
+  const icon=el("span",statusSymbol[k],"snapshot-symbol");icon.setAttribute("aria-hidden","true");
+  li.append(icon,el("span",snapshotConfig.statuses[k]));legend.append(li);
+ });
+ key.append(legend,el("p",snapshotConfig.legendNote,"note"));snapshot.append(key);
+ const priorityList=[...groups.critical,...groups.missing,...groups.partial,...groups.verified];
+ const priorityBlock=document.createElement("div");priorityBlock.className="snapshot-priority";
+ priorityBlock.append(el("h4",snapshotConfig.priority));
+ const priorityUl=document.createElement("ul");
+ priorityList.slice(0,3).forEach(v=>{priorityUl.append(el("li",v.name+": "+snapshotConfig.statuses[v.value]))});
+ priorityBlock.append(priorityUl);snapshot.append(priorityBlock);
+ const firstPriority=priorityList[0];
+ const actionText=firstPriority?firstPriority.suggestion[1]:"Prüfe mindestens eine Angabe unabhängig im realen Arbeitskontext.";
+ const actionBlock=document.createElement("div");actionBlock.className="snapshot-action";
+ actionBlock.append(el("h4",snapshotConfig.action),el("p",actionText));snapshot.append(actionBlock);
+ const reminder=document.createElement("div");reminder.className="snapshot-reminder";
+ reminder.append(el("p","HUMAN · HUMAN · AI","snapshot-brand"),el("h4",snapshotConfig.reminderTitle),el("p",snapshotConfig.reminderSubtitle));
+ const reminderList=document.createElement("ol");
+ snapshotConfig.prompts.forEach(q=>reminderList.append(el("li",q)));
+ reminder.append(reminderList,el("p",snapshotConfig.reminderFoot,"reminder-foot"));snapshot.append(reminder);
+ snapshot.append(el("p",snapshotConfig.note,"note"));
+ const actionButtons=document.createElement("div");actionButtons.className="snapshot-buttons";
+ const printBtn=document.createElement("button");printBtn.type="button";printBtn.className="primary";printBtn.textContent=snapshotConfig.print;
+ printBtn.addEventListener("click",()=>window.print());
+ const reminderBtn=document.createElement("button");reminderBtn.type="button";reminderBtn.className="secondary";reminderBtn.style.color="#203242";reminderBtn.textContent=snapshotConfig.saveCard;
+ reminderBtn.addEventListener("click",()=>{
+  // SVG is generated entirely on the device. No personal answers or project name enter the file.
+  const esc=x=>String(x).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+  const rows=snapshotConfig.prompts.map((q,i)=>'<text x="72" y="'+(298+i*86)+'" fill="#183143" font-size="27" font-family="Arial, sans-serif">'+esc((i+1)+". "+q)+'</text>').join("");
+  const svg='<svg xmlns="http://www.w3.org/2000/svg" width="900" height="760" viewBox="0 0 900 760"><rect width="900" height="760" fill="#F1F7F2"/><rect x="35" y="35" width="830" height="690" rx="30" fill="#FFFFFF" stroke="#167468" stroke-width="4"/><text x="72" y="105" fill="#176D61" font-family="Arial, sans-serif" font-size="22" font-weight="bold">HUMAN · HUMAN · AI</text><text x="72" y="165" fill="#163044" font-family="Arial, sans-serif" font-size="40" font-weight="bold">'+esc(snapshotConfig.reminderTitle)+'</text><text x="72" y="222" fill="#435866" font-family="Arial, sans-serif" font-size="26">'+esc(snapshotConfig.reminderSubtitle)+'</text>'+rows+'<text x="72" y="672" fill="#176D61" font-family="Arial, sans-serif" font-size="20">'+esc(snapshotConfig.reminderFoot)+'</text></svg>';
+  const url=URL.createObjectURL(new Blob([svg],{type:"image/svg+xml;charset=utf-8"}));
+  const a=document.createElement("a");a.href=url;a.download=snapshotConfig.saveName;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
+ });
+ actionButtons.append(printBtn,reminderBtn);snapshot.append(actionButtons);
+ result.append(snapshot);
  const categories=[
   ["Zuerst klären: Kritische Bereiche",groups.critical],
   ["Hier fehlt noch Evidenz",groups.missing],
@@ -374,7 +474,9 @@ $("screening").addEventListener("submit",event=>{
   });
   section.append(group);
  });
- result.append(section);
+ const disclosure=document.createElement("details");disclosure.className="screening-detail";
+ const detailSummary=document.createElement("summary");detailSummary.textContent=snapshotConfig.detail;
+ disclosure.append(detailSummary,section);result.append(disclosure);
  const first=groups.critical[0]||groups.missing[0]||groups.partial[0]||groups.verified[0];
  const recommendation=first?first.suggestion[1]:"Keine kritischen Angaben. Trotzdem müssen die Selbsteinschätzungen durch Beobachtungen überprüft werden.";
  const main=document.createElement("div");main.className="screening-next";
