@@ -42,6 +42,9 @@ The experience contains:
 
 ## Implementation status
 
+- 14 November 2026: tightened mobile navigation (non-sticky compact header), kept choices and submission distinct, revealed the next-step button only after feedback, and added a scenario-specific practical reflection question in German and English. Restart is prioritised at completion rather than at each decision. Changes committed, not yet verified through device/screen-reader regression tests.
+
+
 - November 14, 2026: independent public repository created.
 - Added three-step progress, post-selection guidance, extended scenario reflection, and mobile scroll/focus handling.
 - Added full English route at `en/` and bidirectional language links.
