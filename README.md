@@ -40,6 +40,14 @@ The experience contains:
 - This repository is an independent Goldmonkeys / HOP project, with no webinar or employer affiliation.
 - The source code is public, but the actual GitHub Pages launch and browser/accessibility checks must be verified separately. Publication does not imply scientific validation.
 
+## Mobile and export refinement (14 November 2026)
+
+- Updated both German and English snapshot layouts with tighter A4 print styles, including smaller margins and compact tile/legend spacing.
+- At narrow viewports (up to 390 CSS px), status tiles and the legend use a single column for reading comfort.
+- Clearer self-report terminology: a selected positive status must **not** imply that any evidence was submitted or independently verified.
+- Retained the three-scenario modal flow and the local-only reflection.
+- **QA distinction:** JavaScript compilation, duplicate HTML IDs and code-level feature checks completed. A one-page A4 PDF, 400% zoom/reflow, keyboard-only navigation, TalkBack and VoiceOver cannot yet be certified from these checks. Mobile A4 preview and screen-reader testing remain launch gates.
+
 ## Visual Snapshot v0.5 (November 14, 2026)
 
 - **DE and EN:** eight accessible status tiles, symbol-and-text legend, critical/missing/partial first, and a practical next-step recommendation. Statuses reflect **self-reports**, never an independently verified score.
