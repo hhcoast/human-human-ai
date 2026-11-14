@@ -47,6 +47,19 @@ h3{font-size:1.25rem}.lead{max-width:660px;font-size:1.25rem;color:#dae5e7}.hero
 
 .keypoint{background:#f9f2db;border-left:4px solid #dba840;border-radius:8px;padding:1rem;margin:.8rem 0}
 .summary-list{padding-left:1.2rem}.summary-list li{margin-bottom:.8rem}
+.takeaway-preview{background:#fff;border:1px solid #c4dcd4;border-radius:14px;padding:1.4rem;margin:1.5rem 0;max-width:880px}
+.takeaway-preview h3{margin-bottom:.5rem}.takeaway-preview ul{margin:.5rem 0 1rem;padding-left:1.3rem}
+.takeaway-preview li{margin:.35rem 0}.takeaway-preview p{margin-bottom:0;color:#425a64}
+.outcome-card{background:#fff;border:1px solid #ccded6;border-radius:12px;padding:1rem;margin:1rem 0}
+.outcome-card h4{font-size:1.05rem;margin:.2rem 0 .8rem}.outcome-card p{margin:.35rem 0}
+.outcome-card .misconception{color:#526671;font-size:.92rem}.outcome-card .evidence{font-size:.85rem;color:#375b50}
+.transfer-box{background:#eff7f2;border:2px solid #278173;border-radius:14px;padding:1.3rem;margin:1.4rem 0}
+.transfer-box label{display:block;font-weight:700;margin:.75rem 0}
+.transfer-box select{margin-bottom:1rem}
+.transfer-actions{display:flex;flex-wrap:wrap;gap:.7rem;margin:.8rem 0}
+.transfer-actions button{min-height:44px}
+.transfer-status{font-size:.88rem;color:#185c4d}
+
 @media(max-width:720px){.journey-steps{font-size:.69rem}.feedback{line-height:1.65}}
 
 .primary{border:0;border-radius:9px;background:#126b61;color:white;padding:.8rem 1.15rem;font-weight:700}
@@ -86,7 +99,7 @@ footer{background:#111f30;color:#d3e0e5;padding:2.2rem 0;font-size:.87rem}
 </div></section>
 <section id="experience" class="section light"><div class="container"><p class="eyebrow">02 / Interactive experience</p>
 <h2>Three decisions. One question: Who remains capable?</h2>
-<p class="intro">You are responsible for a digital learning experience, with AI supporting your team. Make three decisions. There is no hidden personality assessment; feedback highlights professional trade-offs.</p>
+<p class="intro">You are responsible for a digital learning experience, with AI supporting your team. Make three decisions. There is no hidden personality assessment; feedback highlights professional trade-offs.</p><aside class="takeaway-preview" aria-label="What you will take away"><h3>What you will take away</h3><ul><li>Three distinctions you can apply to any AI-supported process</li><li>A specific verification task rather than a general opinion about AI</li><li>A next step you can test and document yourself</li></ul><p>Your concrete takeaway: after three decisions, you can identify three common AI misconceptions, connect them to your own practice and choose a first verifiable action.</p></aside>
 <div class="journey" aria-label="Experience progress">
 <div class="journey-head"><span id="journey-status" role="status" aria-live="polite">Step 1 of 3</span><span id="journey-pct">0% completed</span></div>
 <progress id="journey-progress" max="3" value="0">0 of 3</progress>
@@ -211,7 +224,39 @@ $("submit-answer").addEventListener("click",()=>{
  $("next").disabled=false;
  revealTarget(feedback);
 });
-$("next").addEventListener("click",()=>{if(!answerSubmitted||!selections[step])return;if(step<scenes.length-1){step++;renderScene();focusCurrentScene()}else{updateJourney(true);$("after-choice").hidden=true;let panel=$("options");panel.replaceChildren();let lead=document.createElement("div");lead.className="keypoint";let strong=document.createElement("strong");strong.textContent="Your decisions at a glance";let para=document.createElement("p");para.textContent="This feedback is a reflection aid. What matters is what consequences can actually be observed in practice.";lead.append(strong,para);panel.append(lead);let list=document.createElement("ol");list.className="summary-list";selections.forEach((s,i)=>{let item=document.createElement("li");let title=document.createElement("strong");title.textContent=["Expert quality","Human collaboration","Learning transfer"][i]+": ";let choice=document.createElement("p");choice.textContent="Your decision: "+s.decision;let note=document.createElement("p");note.textContent=s.feedback;item.append(title,choice,note);list.append(item)});panel.append(list);let link=document.createElement("a");link.href="#apply";link.className="primary";link.style.display="inline-block";link.style.textDecoration="none";link.textContent="Reflect on your own application →";panel.append(link);$("feedback").hidden=true;$("submit-answer").hidden=true;$("next").hidden=true;$("next").disabled=true;$("next").textContent="Completed";$("scene-tag").textContent="REFLECTION";$("scene-title").textContent="What remains with people?";$("scene-description").textContent="Not perfect AI output, but verifiable understanding, human collaboration and the capability to act responsibly.";$("scene-focus").textContent="Apply the insights to your own use case below.";focusCurrentScene();}});
+$("next").addEventListener("click",()=>{if(!answerSubmitted||!selections[step])return;if(step<scenes.length-1){step++;renderScene();focusCurrentScene()}else{updateJourney(true);$("after-choice").hidden=true;
+const panel=$("options");panel.replaceChildren();
+const heading=document.createElement("h3");heading.textContent="Your takeaway: What do you know now?";panel.append(heading);
+const description=document.createElement("p");description.textContent="Three insights and three verification tasks. Feedback on your choices supports reflection, not a competence test.";panel.append(description);
+const learnings=[{"heading":"Convincing output is not the same as expert quality.","myth":"“The AI sounds convincing, so the content must be correct.”","question":"Who verifies accuracy, sources and approval?","action":"Choose one AI-generated item and identify its source, accountable expert and outstanding verification step.","evidence":"Evidence: recorded source check and approval or a reasoned rejection."},{"heading":"Fewer questions do not automatically mean more understanding.","myth":"“The team asks fewer questions, so it must know more.”","question":"Can people explain the output and contact another human when unsure?","action":"Ask someone to explain an AI-supported solution without AI, then offer a question to a colleague.","evidence":"Evidence: observable explanation, follow-up question and corrected assumptions if needed."},{"heading":"Completion rates do not establish capability.","myth":"“Everyone completed the course, so transfer has succeeded.”","question":"What can people actually do afterwards in a real or realistic situation?","action":"Define a short transfer task and observe whether people can perform it independently.","evidence":"Evidence: observed performance and recorded barriers."}];const actions=["Check one AI-generated item for sources, expert approval and potential errors.","Observe an actual human question or explanation in an AI-supported workflow.","Define a real task that tests independent capability rather than completion."];
+learnings.forEach((learning,i)=>{
+const card=document.createElement("article");card.className="outcome-card";
+const title=document.createElement("h4");title.textContent=(i+1)+". "+learning.heading;
+const myth=document.createElement("p");myth.className="misconception";myth.textContent=learning.myth;
+const q=document.createElement("p");const b=document.createElement("strong");b.textContent="Question: ";q.append(b,document.createTextNode(learning.question));
+const action=document.createElement("p");action.textContent=learning.action;
+const evidence=document.createElement("p");evidence.className="evidence";evidence.textContent=learning.evidence;
+const selected=document.createElement("p");selected.className="note";selected.textContent="Your choice:"+" "+selections[i].decision;
+card.append(title,myth,q,action,evidence,selected);panel.append(card);
+});
+const transfer=document.createElement("div");transfer.className="transfer-box";
+const transferTitle=document.createElement("h3");transferTitle.textContent="Your next 15-minute action";
+const label=document.createElement("label");label.htmlFor="next-action";label.textContent="Choose the most important verification task for your practice:";
+const select=document.createElement("select");select.id="next-action";
+actions.forEach((action,i)=>{const opt=document.createElement("option");opt.value=String(i);opt.textContent=(i+1)+". "+action;select.append(opt)});
+const buttonRow=document.createElement("div");buttonRow.className="transfer-actions";
+const copyButton=document.createElement("button");copyButton.type="button";copyButton.className="primary";copyButton.textContent="Copy insights and next action";
+const saveButton=document.createElement("button");saveButton.type="button";saveButton.className="secondary";saveButton.style.color="#203242";saveButton.textContent="Save learning transfer as text";
+const status=document.createElement("p");status.className="transfer-status";status.setAttribute("role","status");status.setAttribute("aria-live","polite");
+const buildSummary=()=>["Your takeaway: What do you know now?","",...learnings.flatMap((x,i)=>[(i+1)+". "+x.heading,x.question,x.action,x.evidence,"Your choice:"+" "+selections[i].decision,""]),"Your next 15-minute action",actions[Number(select.value)],"These are practical transfer ideas from a fictional learning case, not a diagnosis of your competence or proof of impact."].join("\n");
+copyButton.addEventListener("click",async()=>{const report=buildSummary();try{await navigator.clipboard.writeText(report);status.textContent="Copied. You can add this to your own working document."}catch(e){status.textContent="Copying unavailable. Please use text download."}});
+saveButton.addEventListener("click",()=>{const url=URL.createObjectURL(new Blob([buildSummary()],{type:"text/plain;charset=utf-8"}));const link=document.createElement("a");link.href=url;link.download="human-human-ai-transfer.txt";link.click();setTimeout(()=>URL.revokeObjectURL(url),1000)});
+buttonRow.append(copyButton,saveButton);
+const handoff=document.createElement("p");handoff.textContent="You can then reflect on your own AI application across eight dimensions below.";
+const assessment=document.createElement("a");assessment.href="#apply";assessment.className="primary";assessment.style.display="inline-block";assessment.style.textDecoration="none";assessment.textContent="Review my application →";
+const caution=document.createElement("p");caution.className="note";caution.textContent="These are practical transfer ideas from a fictional learning case, not a diagnosis of your competence or proof of impact.";
+transfer.append(transferTitle,label,select,buttonRow,status,handoff,assessment,caution);panel.append(transfer);
+$("feedback").hidden=true;$("submit-answer").hidden=true;$("next").hidden=true;$("next").disabled=true;$("next").textContent="Completed";$("scene-tag").textContent="REFLECTION";$("scene-title").textContent="What remains with people?";$("scene-description").textContent="Not perfect AI output, but verifiable understanding, human collaboration and the capability to act responsibly.";$("scene-focus").textContent="Apply the insights to your own use case below.";focusCurrentScene();}});
 $("restart").addEventListener("click",()=>{step=0;selections.length=0;renderScene();focusCurrentScene()});renderScene();
 const items=[
 ["Human Agency","Can people decide independently, correct and challenge outcomes?"],
