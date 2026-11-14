@@ -677,7 +677,7 @@ const grid=byId("ac-dimensions");
 const modeHintText=["Quick Check: six assessments without additional evidence fields.","Practice Check: assessment, basis and optional reflection.","Accountability Review: all fields including review stage and transfer."];
 const modeSelect=byId("ac-mode");
 function syncMode(){const mode=Number(modeSelect.value);root.dataset.checkMode=String(mode);byId("ac-mode-hint").textContent=modeHintText[mode];grid.querySelectorAll("[data-min-mode]").forEach(field=>{field.hidden=mode<Number(field.dataset.minMode)});byId("ac-transfer").hidden=mode===0;}
-modeSelect.addEventListener("change",syncMode);
+modeSelect.addEventListener("change",()=>{syncMode();byId("ac-report").hidden=true;byId("ac-export").hidden=true;byId("ac-share").hidden=true;last=null;});
 
 t.dims.forEach((dim,i)=>{
  const card=make("fieldset",undefined,"ac-card");card.id="ac-dim-"+i;
