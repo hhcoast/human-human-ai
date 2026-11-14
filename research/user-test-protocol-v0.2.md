@@ -92,3 +92,12 @@ Optional delayed follow-up consent: yes/no
 
 ## Research context and sources
 See [LOP conceptual basis](./learning-opportunity-preservation-v0.2.md) and the direct primary sources linked there. WCAG reference: https://www.w3.org/TR/WCAG22/
+
+## Voluntary participant-initiated feedback (prototype extension)
+The activity now contains an optional share panel in DE and EN. Visitors may independently select (a) their scenario choice plus explanation, (b) their written answers, and/or (c) write additional feedback. A continuously updated preview shows exactly which content will be prepared for sharing. Sharing is not required to continue or finish the experience.
+
+Only clicking the share action opens a locally composed email draft addressed to the publicly listed Goldmonkeys contact `goldmonkeys@outlook.com`. The email client (not this website) controls editing and actual transmission. No website backend receives or stores entries. Sending an email discloses the sender's normal email metadata and chosen text to the mail providers and Goldmonkeys. Users should not include sensitive data or third-party personal information.
+
+**Research governance:** unsolicited feedback is not automatically research consent or a representative dataset. Before using submitted responses for systematic research, define an appropriate privacy notice, lawful basis, purpose, retention/deletion process and any additional consent requirements. Do not publish individual submissions. Report only suitably de-identified, consent-compatible observations.
+
+**Additional QA:** verify the preview updates with answer change, form changes and checkbox toggles; ensure no email opens when all content is empty; test mailto URL length with long reflections and appropriate error handling in browsers without an email client. Large messages may be truncated by email clients, so consider a local text download as an alternate transport route if needed.
