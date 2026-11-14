@@ -173,6 +173,46 @@ footer{background:#111f30;color:#d3e0e5;padding:2.2rem 0;font-size:.87rem}
  .snapshot-reminder,.snapshot-buttons{display:none!important}
 }
 
+
+/* Accessibility and A4 print refinement: no change to accepted decision flow. */
+.snapshot-cell:focus-visible,.screening-detail summary:focus-visible{outline:3px solid #dbad4e;outline-offset:3px}
+.snapshot-legend li,.snapshot-cell{color:#142c3a}
+.snapshot-cell .snapshot-state{font-size:.88rem;line-height:1.45}
+.snapshot-legend li{line-height:1.5}
+@media(max-width:390px){
+ .snapshot-matrix{grid-template-columns:1fr}
+ .snapshot-legend ul{grid-template-columns:1fr}
+ .snapshot-cell{padding:1rem}
+}
+@media print{
+ @page{size:A4 portrait;margin:6mm}
+ html,body,main,#apply,#apply>.container,#result{width:100%!important;min-width:0!important;max-width:none!important;overflow:visible!important}
+ #result{margin:0!important;padding:0!important}
+ .hha-snapshot{display:block!important;font-size:8pt!important;line-height:1.15!important}
+ .snapshot-top{margin:0 0 2mm!important}
+ .snapshot-top h3{font-size:14pt!important;margin:1mm 0!important}
+ .snapshot-context{margin:1mm 0!important}
+ .snapshot-statement{padding:2mm!important;margin:0 0 2mm!important}
+ .snapshot-statement strong{font-size:9pt!important}
+ .snapshot-statement p{margin:0!important;font-size:8pt!important}
+ .hha-snapshot>h4{margin:1.5mm 0!important;font-size:9pt!important}
+ .snapshot-matrix{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:1.4mm!important;margin:0 0 2mm!important}
+ .snapshot-cell{padding:1.5mm 2mm!important;min-height:0!important;gap:0!important}
+ .snapshot-cell strong{font-size:8pt!important;line-height:1.1!important}
+ .snapshot-state{font-size:7pt!important;line-height:1.1!important}
+ .snapshot-symbol{width:4mm!important;height:4mm!important;font-size:7pt!important}
+ .snapshot-legend{margin:0 0 2mm!important}
+ .snapshot-legend ul{display:grid!important;grid-template-columns:repeat(2,1fr)!important;margin:1mm 0!important;gap:1mm!important}
+ .snapshot-legend li{font-size:7pt!important;line-height:1!important}
+ .snapshot-legend .note{font-size:7pt!important;margin:0!important}
+ .snapshot-priority{margin:0 0 2mm!important;padding:1mm 0!important}
+ .snapshot-priority h4,.snapshot-action h4,.snapshot-legend h4{font-size:9pt!important;margin:0 0 1mm!important}
+ .snapshot-priority ul{margin:0!important;padding-left:5mm!important}
+ .snapshot-priority li{font-size:7pt!important;line-height:1.1!important}
+ .snapshot-action{padding:2mm!important;margin:0!important}
+ .snapshot-action p{font-size:8pt!important;margin:0!important}
+ .snapshot-reminder,.snapshot-buttons,.hha-snapshot>.note{display:none!important}
+}
 </style></head>
 <body><a class="skip" href="#main">Zum Inhalt springen</a>
 <header><div class="nav"><div class="logo">HUMAN <span>·</span> HUMAN <span>·</span> AI</div>
@@ -403,7 +443,7 @@ const items=[
 ["Sustainability","Ist der technische und organisatorische Aufwand angemessen?"],
 ["Consequence","Gibt es überprüfbare Hinweise auf tatsächliche Ergebnisse und Nebenwirkungen?"]
 ];
-items.forEach(([name,question],i)=>{let wrap=document.createElement("div");wrap.className="criterion";let label=document.createElement("label");label.htmlFor="criterion-"+i;label.textContent=(i+1)+". "+name;let hint=document.createElement("small");hint.textContent=question;let select=document.createElement("select");select.id="criterion-"+i;select.name="criterion-"+i;[["","Bitte wählen"],["yes","Als gestützt angegeben"],["partial","Teilweise"],["no","Nicht erfüllt / kritisch"],["unknown","Keine ausreichende Evidenz"]].forEach(([v,t])=>{let option=document.createElement("option");option.value=v;option.textContent=t;select.append(option)});wrap.append(label,hint,select);$("criteria").append(wrap)});
+items.forEach(([name,question],i)=>{let wrap=document.createElement("div");wrap.className="criterion";let label=document.createElement("label");label.htmlFor="criterion-"+i;label.textContent=(i+1)+". "+name;let hint=document.createElement("small");hint.textContent=question;let select=document.createElement("select");select.id="criterion-"+i;select.name="criterion-"+i;[["","Bitte wählen"],["yes","Nach eigener Einschätzung vorhanden"],["partial","Teilweise"],["no","Nicht erfüllt / kritisch"],["unknown","Keine ausreichende Evidenz"]].forEach(([v,t])=>{let option=document.createElement("option");option.value=v;option.textContent=t;select.append(option)});wrap.append(label,hint,select);$("criteria").append(wrap)});
 const screeningGuidance=[["Entscheidungsrechte und Korrekturwege sichtbar machen.","Eine Person testet, wie sie ein KI-Ergebnis zurückweisen, korrigieren oder ohne KI weiterarbeiten kann.","Beobachtete Entscheidung und erreichbarer Korrekturweg."],["Menschliche Rückfragen absichern.","Im Arbeitsablauf eine reale Rückfrage an Kolleg:innen ermöglichen und prüfen, ob die Antwort verstanden wurde.","Beobachtete Rückfrage und nachvollziehbare gemeinsame Klärung."],["Verständnis unabhängig prüfen.","Eine Person erklärt ein KI-Ergebnis ohne KI-Unterstützung in eigenen Worten.","Eigenständige Erklärung inklusive erkannter Unsicherheiten."],["Transfer ohne Assistenz erproben.","Eine kurze realitätsnahe Aufgabe ohne KI-Hilfe durchführen lassen.","Beobachtete Anwendung und dokumentierte Unterstützung."],["Zugangsbarrieren gemeinsam testen.","Eine betroffene Person testet Sprache, Tastaturbedienung, Lesbarkeit und Orientierung.","Dokumentierte Barriere und überprüfte Verbesserung."],["Fachprüfung und Verantwortung klären.","Quellen, Freigabe und Eskalation für fehlerhafte Ausgaben einer verantwortlichen Person zuordnen.","Nachvollziehbare Prüfung, Zuständigkeit und Korrektur."],["Aufwand und Nutzen vergleichen.","Ein Beispiel mit und ohne KI bearbeiten und Qualität sowie Zeit- und Ressourcenaufwand dokumentieren.","Dokumentierter Vergleich, keine bloße Effizienzvermutung."],["Reale Konsequenzen beobachten.","Vorab eine Handlung und eine mögliche Nebenwirkung definieren und nach der Nutzung beobachten.","Beobachtete Handlung, Nebenwirkung und Kontextbedingungen."]];
 $("screening").addEventListener("submit",event=>{
  event.preventDefault();
@@ -424,7 +464,7 @@ $("screening").addEventListener("submit",event=>{
  const output=["Was du als Nächstes ausprobieren kannst","Kontext"+": "+context,"Dein Snapshot macht sichtbar, was du bereits beobachtest, wo Fragen offenbleiben und was du als Nächstes ausprobieren kannst.",""];
 
  // Present an accessible summary before any detailed text. All statuses reflect user input.
- const snapshotConfig={"path":"index.html","lang":"de","title":"Dein Human–Human–AI Snapshot","strap":"KI unterstützt. Menschen verstehen, entscheiden und handeln.","sub":"Prüfe nicht nur die KI-Ausgabe. Prüfe, was sich für Menschen verändert.","legend":"Legende","legendNote":"Selbstauskunft, keine unabhängige Prüfung und kein Gesamtscore.","statuses":{"yes":"Als gestützt angegeben","partial":"Teilweise erfüllt","no":"Kritisch / nicht erfüllt","unknown":"Keine ausreichende Evidenz"},"notes":{"yes":"Nachweise wurden angegeben, aber nicht unabhängig geprüft.","partial":"Teilweise erfüllt; Verbesserung und Prüfung erforderlich.","no":"Kritischer Punkt, vor einer Ausweitung klären.","unknown":"Noch keine belastbaren Angaben vorhanden."},"priority":"Was noch offen ist","reminderTitle":"Mein Human–Human–AI Reminder","reminderSubtitle":"Bevor ich KI-Erfolg behaupte, frage ich:","prompts":["Verstehen Menschen, was passiert?","Bleibt menschliche Zusammenarbeit möglich?","Können Menschen weiterhin selbst entscheiden?","Welche Konsequenzen sind tatsächlich beobachtbar?"],"reminderFoot":"Human Agency First · Fairness by Design · Observable Consequences","action":"Dein nächster überprüfbarer Schritt","detail":"Fragen und Ideen vertiefen","saveCard":"Reminder als SVG speichern","print":"Snapshot drucken / als PDF speichern","note":"Die farbigen Felder machen deine eigenen Beobachtungen sichtbar. Sie bewerten nicht dich als Person.","context":"Anwendungskontext","numberNote":"Acht Perspektiven · deine Momentaufnahme","saveName":"human-human-ai-reminder-de.svg"};
+ const snapshotConfig={"path":"index.html","lang":"de","title":"Dein Human–Human–AI Snapshot","strap":"KI unterstützt. Menschen verstehen, entscheiden und handeln.","sub":"Prüfe nicht nur die KI-Ausgabe. Prüfe, was sich für Menschen verändert.","legend":"Legende","legendNote":"Selbstauskunft, keine unabhängige Prüfung und kein Gesamtscore.","statuses":{"yes":"Nach eigener Einschätzung vorhanden","partial":"Teilweise erfüllt","no":"Kritisch / nicht erfüllt","unknown":"Keine ausreichende Evidenz"},"notes":{"yes":"Nachweise wurden angegeben, aber nicht unabhängig geprüft.","partial":"Teilweise erfüllt; Verbesserung und Prüfung erforderlich.","no":"Kritischer Punkt, vor einer Ausweitung klären.","unknown":"Noch keine belastbaren Angaben vorhanden."},"priority":"Was noch offen ist","reminderTitle":"Mein Human–Human–AI Reminder","reminderSubtitle":"Bevor ich KI-Erfolg behaupte, frage ich:","prompts":["Verstehen Menschen, was passiert?","Bleibt menschliche Zusammenarbeit möglich?","Können Menschen weiterhin selbst entscheiden?","Welche Konsequenzen sind tatsächlich beobachtbar?"],"reminderFoot":"Human Agency First · Fairness by Design · Observable Consequences","action":"Dein nächster überprüfbarer Schritt","detail":"Fragen und Ideen vertiefen","saveCard":"Reminder als SVG speichern","print":"Snapshot drucken / als PDF speichern","note":"Die farbigen Felder machen deine eigenen Beobachtungen sichtbar. Sie bewerten nicht dich als Person.","context":"Anwendungskontext","numberNote":"Acht Perspektiven · deine Momentaufnahme","saveName":"human-human-ai-reminder-de.svg"};
  const statusSymbol={yes:"✓",partial:"~",no:"!",unknown:"?"};
  const statusClass={yes:"status-supported",partial:"status-partial",no:"status-critical",unknown:"status-unknown"};
  const snapshot=document.createElement("div");snapshot.className="hha-snapshot";snapshot.id="hha-snapshot";
