@@ -10,13 +10,13 @@ Human–Human–AI examines three relationships: people learning and deciding wi
 
 ## Try the prototype
 
-The website entry point is [`index.html`](./index.html) at the repository root. Once GitHub Pages is enabled and its deployment checked, the public experience will be accessible at `https://hhcoast.github.io/human-human-ai/`. No login, API key or build tool is required.
+The website entry point is [`index.html`](./index.html) (German). The English experience is [`en/index.html`](./en/index.html). Once GitHub Pages is enabled and its deployment checked, the public experience will be accessible at `https://hhcoast.github.io/human-human-ai/`. No login, API key or build tool is required.
 
 The experience contains:
 
-1. Explain: the three relationships, human agency and responsibility.
-2. Experience: three fictional decisions about AI outputs, human collaboration and transfer into real practice. Every choice produces an explanation.
-3. Apply: GM-HHAI-01 exploratory eight-dimension screening, including "insufficient evidence".
+1. Explain: the three relationships, human agency and responsibility, with direct German/English navigation.
+2. Experience: three fictional decisions about AI outputs, human collaboration and transfer into real practice. Every choice produces an explanation. A visible progress bar, context-sensitive guidance and automatic focus/scroll transition support mobile use.
+3. Apply: GM-HHAI-01 exploratory eight-dimension screening, including "insufficient evidence"; the final scenario reflection now summarises the selected decisions.
 4. Evidence: direct primary-source links and explicit methodological limitations.
 
 ## Integrity and permissions
@@ -28,13 +28,22 @@ The experience contains:
 - This repository is an independent Goldmonkeys / HOP project, with no webinar or employer affiliation.
 - The source code is public, but the actual GitHub Pages launch and browser/accessibility checks must be verified separately. Publication does not imply scientific validation.
 
+## Implementation status
+
+- November 14, 2026: independent public repository created.
+- Added three-step progress, post-selection guidance, extended scenario reflection, and mobile scroll/focus handling.
+- Added full English route at `en/` and bidirectional language links.
+- Both inline JavaScript blocks pass syntax compilation and no duplicate HTML IDs were detected. **No claim of WCAG 2.2 conformance or comprehensive browser QA is made.**
+
 ## Next QA and publication gates
 
 - [ ] Check responsive UI on mobile and desktop.
 - [ ] Test keyboard navigation, focus, screen-reader labels, 200% zoom and contrast.
 - [ ] Review content and primary-source URLs.
-- [ ] Test all 3×3 decision choices, restarts, screening selections and local TXT download.
-- [ ] Check German-language wording with real learners; prepare an accurate English version for international publication.
+- [x] Static source checks for JavaScript syntax and unique HTML IDs (DE/EN).
+- [ ] Test all 3×3 decision choices, restarts, focus transitions, progress indicators, screening selections and local TXT download in real browsers.
+- [x] Add complete English UI and scenario translations (implementation, not independently language-reviewed).
+- [ ] Review both language versions with real learners and native-level reviewers.
 - [x] Create the independent public repository `hhcoast/human-human-ai` and place its entry point in the root.
 - [ ] Activate and verify GitHub Pages from `main` / `(root)`.
 - [ ] After release, check the actual published URL in an unauthenticated browser before sharing on LinkedIn.
