@@ -8,6 +8,18 @@ AI can generate. Humans must understand, connect, judge and act.
 
 Human–Human–AI examines three relationships: people learning and deciding with other people; people interacting critically with AI; and human relationships changed through AI mediation. The proposed outcome is **consequential human capability**, not AI adoption or output volume alone.
 
+## Cross-cutting quality principles
+
+**Human Agency First. Fairness by Design. Observable Consequences.**
+
+These principles apply to the content, UX, scenarios, learner transfer, product iterations and research of Human–Human–AI:
+
+- **Agency:** Users can understand options, make informed choices, challenge outputs and retain human control.
+- **Fairness:** No manipulative choice architecture, coercive progression or addictive engagement mechanics; accessible and inclusive explanations.
+- **Consequences:** Evaluate comprehension, human relationships and real actions, not just clicks, completion or time saved. Evidence gaps must remain visible.
+
+The [European Commission's Digital Fairness Act initiative](https://commission.europa.eu/law/law-topic/consumer-protection-law/digital-fairness-act_en) is a legislative proposal as of 11 November 2026 and is cited as a relevant policy reference, **not** as enacted law or automatically applicable legal obligations for this educational prototype. These principles do not constitute a certification or validated scientific instrument.
+
 ## Try the prototype
 
 The website entry point is [`index.html`](./index.html) (German). The English experience is [`en/index.html`](./en/index.html). Once GitHub Pages is enabled and its deployment checked, the public experience will be accessible at `https://hhcoast.github.io/human-human-ai/`. No login, API key or build tool is required.
@@ -38,6 +50,10 @@ The experience contains:
 - Both inline JavaScript blocks pass syntax compilation and no duplicate HTML IDs were detected. **No claim of WCAG 2.2 conformance or comprehensive browser QA is made.**
 
 ## Next QA and publication gates
+
+- [ ] Conduct an actual fairness-by-design review with participants: understandability of choices, freedom to change answers, absence of pressure and practical value of the resulting transfer.
+- [ ] Record observable changes in learner understanding and action through consent-based evaluation; do not infer impact from page completion.
+
 
 - [ ] Check responsive UI on mobile and desktop.
 - [ ] Test keyboard navigation, focus, screen-reader labels, 200% zoom and contrast.
