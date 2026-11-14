@@ -138,3 +138,33 @@ select option{background:#102833;color:#fff}
   background:#eef3f0!important;color:#111f30!important;border-color:#739494!important
  }
 }
+/* v1.0.1 | Mobile legibility and screen/print-safe snapshot controls */
+.secondary,.secondary:link,.secondary:visited,.dialog-actions .secondary,
+#dialog-edit,#edit-answer,.snapshot-buttons .secondary,.screening-actions .secondary,
+#accountability .ac-tools button.ac-outline{
+ color:#f5faf9!important;background:#17333f!important;border:2px solid #bed4d8!important;
+ -webkit-text-fill-color:#f5faf9!important;text-shadow:none!important;
+}
+.secondary:hover,.secondary:focus-visible{background:#294d58!important;color:#fff!important}
+.secondary:disabled{opacity:.55;cursor:not-allowed}
+.snapshot-mapping{color:#d5e3e5!important;font-size:.88rem;line-height:1.55;margin:.15rem 0 .5rem}
+.snapshot-expand{display:none;min-height:48px;width:100%;font-size:.94rem}
+.snapshot-cell strong,.snapshot-cell .snapshot-state,.snapshot-legend li{color:#f2f7f6!important}
+.snapshot-state,.snapshot-legend .note,.screening-finding .note{color:#d1e0e3!important}
+.snapshot-symbol{color:#fff!important;-webkit-text-fill-color:#fff!important}
+@media(max-width:720px){
+ .hha-snapshot .snapshot-matrix{grid-template-columns:1fr!important;gap:.55rem}
+ .hha-snapshot .snapshot-cell{padding:.82rem 1rem;display:grid;grid-template-columns:2rem minmax(0,1fr);gap:.08rem .8rem;align-items:center}
+ .hha-snapshot .snapshot-symbol{grid-row:span 2}
+ .hha-snapshot .snapshot-cell strong{font-size:.98rem}
+ .hha-snapshot .snapshot-cell .snapshot-state{font-size:.85rem;line-height:1.35}
+ .hha-snapshot:not(.snapshot-expanded) .snapshot-cell:nth-child(n+4){display:none}
+ .snapshot-expand{display:block;margin:.25rem 0 0}
+ .snapshot-legend ul{grid-template-columns:1fr;gap:.6rem}
+}
+@media print{
+ .snapshot-expand,.snapshot-mapping{display:none!important}
+ .hha-snapshot .snapshot-cell:nth-child(n){display:flex!important}
+ .snapshot-cell strong,.snapshot-cell .snapshot-state,.snapshot-legend li{color:#111f30!important}
+ .snapshot-symbol{color:#fff!important;-webkit-text-fill-color:#fff!important}
+}
