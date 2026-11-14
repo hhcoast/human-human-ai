@@ -47,6 +47,19 @@ h3{font-size:1.25rem}.lead{max-width:660px;font-size:1.25rem;color:#dae5e7}.hero
 
 .keypoint{background:#f9f2db;border-left:4px solid #dba840;border-radius:8px;padding:1rem;margin:.8rem 0}
 .summary-list{padding-left:1.2rem}.summary-list li{margin-bottom:.8rem}
+.takeaway-preview{background:#fff;border:1px solid #c4dcd4;border-radius:14px;padding:1.4rem;margin:1.5rem 0;max-width:880px}
+.takeaway-preview h3{margin-bottom:.5rem}.takeaway-preview ul{margin:.5rem 0 1rem;padding-left:1.3rem}
+.takeaway-preview li{margin:.35rem 0}.takeaway-preview p{margin-bottom:0;color:#425a64}
+.outcome-card{background:#fff;border:1px solid #ccded6;border-radius:12px;padding:1rem;margin:1rem 0}
+.outcome-card h4{font-size:1.05rem;margin:.2rem 0 .8rem}.outcome-card p{margin:.35rem 0}
+.outcome-card .misconception{color:#526671;font-size:.92rem}.outcome-card .evidence{font-size:.85rem;color:#375b50}
+.transfer-box{background:#eff7f2;border:2px solid #278173;border-radius:14px;padding:1.3rem;margin:1.4rem 0}
+.transfer-box label{display:block;font-weight:700;margin:.75rem 0}
+.transfer-box select{margin-bottom:1rem}
+.transfer-actions{display:flex;flex-wrap:wrap;gap:.7rem;margin:.8rem 0}
+.transfer-actions button{min-height:44px}
+.transfer-status{font-size:.88rem;color:#185c4d}
+
 @media(max-width:720px){.journey-steps{font-size:.69rem}.feedback{line-height:1.65}}
 
 .primary{border:0;border-radius:9px;background:#126b61;color:white;padding:.8rem 1.15rem;font-weight:700}
@@ -86,7 +99,7 @@ footer{background:#111f30;color:#d3e0e5;padding:2.2rem 0;font-size:.87rem}
 </div></section>
 <section id="experience" class="section light"><div class="container"><p class="eyebrow">02 / Interaktive Experience</p>
 <h2>Three decisions. One question: Who remains capable?</h2>
-<p class="intro">Du verantwortest ein digitales Lernangebot. KI unterstützt dein Team. Entscheide in drei aufeinanderfolgenden Situationen. Es gibt keine versteckte Persönlichkeitsmessung; die Rückmeldungen zeigen fachliche Abwägungen.</p>
+<p class="intro">Du verantwortest ein digitales Lernangebot. KI unterstützt dein Team. Entscheide in drei aufeinanderfolgenden Situationen. Es gibt keine versteckte Persönlichkeitsmessung; die Rückmeldungen zeigen fachliche Abwägungen.</p><aside class="takeaway-preview" aria-label="Was du aus dieser Experience mitnimmst"><h3>Was du aus dieser Experience mitnimmst</h3><ul><li>Drei Unterscheidungen, die du auf jede KI-Anwendung übertragen kannst</li><li>Eine konkrete Prüfhandlung statt eines allgemeinen KI-Urteils</li><li>Einen nächsten Schritt, den du selbst ausprobieren und dokumentieren kannst</li></ul><p>Dein konkreter Mehrwert: Nach drei Entscheidungen kannst du drei typische KI-Fehlschlüsse erkennen, eine Konsequenz für deine Arbeit ableiten und einen ersten überprüfbaren Schritt festlegen.</p></aside>
 <div class="journey" aria-label="Fortschritt der Experience">
 <div class="journey-head"><span id="journey-status" role="status" aria-live="polite">Schritt 1 von 3</span><span id="journey-pct">0 % abgeschlossen</span></div>
 <progress id="journey-progress" max="3" value="0">0 von 3</progress>
@@ -211,7 +224,39 @@ $("submit-answer").addEventListener("click",()=>{
  $("next").disabled=false;
  revealTarget(feedback);
 });
-$("next").addEventListener("click",()=>{if(!answerSubmitted||!selections[step])return;if(step<scenes.length-1){step++;renderScene();focusCurrentScene()}else{updateJourney(true);$("after-choice").hidden=true;let panel=$("options");panel.replaceChildren();let lead=document.createElement("div");lead.className="keypoint";let strong=document.createElement("strong");strong.textContent="Deine Entscheidungen im Überblick";let para=document.createElement("p");para.textContent="Die Rückmeldungen sind eine Reflexionshilfe. Entscheidend ist, welche Konsequenzen sich in der Praxis tatsächlich beobachten lassen.";lead.append(strong,para);panel.append(lead);let list=document.createElement("ol");list.className="summary-list";selections.forEach((s,i)=>{let item=document.createElement("li");let title=document.createElement("strong");title.textContent=["Fachliche Qualität","Menschliche Zusammenarbeit","Lerntransfer"][i]+": ";let choice=document.createElement("p");choice.textContent="Deine Entscheidung: "+s.decision;let note=document.createElement("p");note.textContent=s.feedback;item.append(title,choice,note);list.append(item)});panel.append(list);let link=document.createElement("a");link.href="#apply";link.className="primary";link.style.display="inline-block";link.style.textDecoration="none";link.textContent="Eigene Anwendung reflektieren →";panel.append(link);$("feedback").hidden=true;$("submit-answer").hidden=true;$("next").hidden=true;$("next").disabled=true;$("next").textContent="Abgeschlossen";$("scene-tag").textContent="REFLEXION";$("scene-title").textContent="Was bleibt beim Menschen?";$("scene-description").textContent="Nicht ein perfekter KI-Output, sondern überprüfbares Verständnis, menschliche Zusammenarbeit und die Fähigkeit, verantwortlich zu handeln.";$("scene-focus").textContent="Übertrage die Erkenntnisse nun auf deine eigene Anwendung unten.";focusCurrentScene();}});
+$("next").addEventListener("click",()=>{if(!answerSubmitted||!selections[step])return;if(step<scenes.length-1){step++;renderScene();focusCurrentScene()}else{updateJourney(true);$("after-choice").hidden=true;
+const panel=$("options");panel.replaceChildren();
+const heading=document.createElement("h3");heading.textContent="Dein Ergebnis: Was weißt du jetzt mehr?";panel.append(heading);
+const description=document.createElement("p");description.textContent="Drei Erkenntnisse, drei Prüfhandlungen. Die Hinweise zu deinen Entscheidungen ergänzen die fachliche Einordnung, sind aber kein Kompetenztest.";panel.append(description);
+const learnings=[{"heading":"Plausibler Output ist noch keine fachliche Qualität.","myth":"„Die KI klingt überzeugend, also stimmt der Inhalt.“","question":"Wer prüft die fachliche Richtigkeit, die Quellen und die Freigabe?","action":"Nimm einen KI-erstellten Inhalt und markiere Quelle, verantwortliche Fachperson und offenen Prüfpunkt.","evidence":"Nachweis: dokumentierter Quellenabgleich und Freigabe oder begründete Ablehnung."},{"heading":"Weniger Rückfragen bedeuten nicht automatisch mehr Verständnis.","myth":"„Das Team fragt weniger, also kann es jetzt mehr.“","question":"Können Menschen das Ergebnis erklären und sich bei Unsicherheit an andere Menschen wenden?","action":"Bitte eine Person, eine KI-unterstützte Lösung ohne KI in eigenen Worten zu erklären; ermögliche anschließend eine Rückfrage an eine Kollegin oder einen Kollegen.","evidence":"Nachweis: beobachtbare Erklärung, Rückfrage und gegebenenfalls korrigierte Annahme."},{"heading":"Abschlussquoten sind keine Handlungsfähigkeit.","myth":"„Alle haben abgeschlossen, also gelingt der Transfer.“","question":"Was gelingt anschließend in einer echten oder realitätsnahen Handlungssituation?","action":"Lege eine kurze Transferaufgabe fest und beobachte, ob Menschen sie eigenständig bewältigen können.","evidence":"Nachweis: beobachtete Durchführung und dokumentierte Hindernisse."}];const actions=["Prüfe einen KI-generierten Inhalt auf Quellen, fachliche Freigabe und mögliche Fehler.","Beobachte eine konkrete menschliche Rückfrage oder Erklärung im KI-gestützten Arbeitsprozess.","Formuliere eine reale Aufgabe, an der du selbstständiges Können statt bloßen Abschluss messen kannst."];
+learnings.forEach((learning,i)=>{
+const card=document.createElement("article");card.className="outcome-card";
+const title=document.createElement("h4");title.textContent=(i+1)+". "+learning.heading;
+const myth=document.createElement("p");myth.className="misconception";myth.textContent=learning.myth;
+const q=document.createElement("p");const b=document.createElement("strong");b.textContent="Prüffrage: ";q.append(b,document.createTextNode(learning.question));
+const action=document.createElement("p");action.textContent=learning.action;
+const evidence=document.createElement("p");evidence.className="evidence";evidence.textContent=learning.evidence;
+const selected=document.createElement("p");selected.className="note";selected.textContent="Du hast gewählt:"+" "+selections[i].decision;
+card.append(title,myth,q,action,evidence,selected);panel.append(card);
+});
+const transfer=document.createElement("div");transfer.className="transfer-box";
+const transferTitle=document.createElement("h3");transferTitle.textContent="Dein nächster Schritt in 15 Minuten";
+const label=document.createElement("label");label.htmlFor="next-action";label.textContent="Wähle den wichtigsten Prüfpunkt für deine Praxis:";
+const select=document.createElement("select");select.id="next-action";
+actions.forEach((action,i)=>{const opt=document.createElement("option");opt.value=String(i);opt.textContent=(i+1)+". "+action;select.append(opt)});
+const buttonRow=document.createElement("div");buttonRow.className="transfer-actions";
+const copyButton=document.createElement("button");copyButton.type="button";copyButton.className="primary";copyButton.textContent="Erkenntnisse und nächster Schritt kopieren";
+const saveButton=document.createElement("button");saveButton.type="button";saveButton.className="secondary";saveButton.style.color="#203242";saveButton.textContent="Lerntransfer als Text speichern";
+const status=document.createElement("p");status.className="transfer-status";status.setAttribute("role","status");status.setAttribute("aria-live","polite");
+const buildSummary=()=>["Dein Ergebnis: Was weißt du jetzt mehr?","",...learnings.flatMap((x,i)=>[(i+1)+". "+x.heading,x.question,x.action,x.evidence,"Du hast gewählt:"+" "+selections[i].decision,""]),"Dein nächster Schritt in 15 Minuten",actions[Number(select.value)],"Diese Empfehlungen sind Transferideen aus einem fiktiven Lernfall, keine Diagnose deiner Kompetenz und keine nachgewiesene Wirkung."].join("\n");
+copyButton.addEventListener("click",async()=>{const report=buildSummary();try{await navigator.clipboard.writeText(report);status.textContent="Text kopiert. Du kannst ihn in dein eigenes Arbeitsdokument übernehmen."}catch(e){status.textContent="Kopieren nicht verfügbar. Bitte nutze den Textdownload."}});
+saveButton.addEventListener("click",()=>{const url=URL.createObjectURL(new Blob([buildSummary()],{type:"text/plain;charset=utf-8"}));const link=document.createElement("a");link.href=url;link.download="human-human-ai-transfer.txt";link.click();setTimeout(()=>URL.revokeObjectURL(url),1000)});
+buttonRow.append(copyButton,saveButton);
+const handoff=document.createElement("p");handoff.textContent="Anschließend kannst du unten deine eigene KI-Anwendung anhand von acht Dimensionen reflektieren.";
+const assessment=document.createElement("a");assessment.href="#apply";assessment.className="primary";assessment.style.display="inline-block";assessment.style.textDecoration="none";assessment.textContent="Meine Anwendung prüfen →";
+const caution=document.createElement("p");caution.className="note";caution.textContent="Diese Empfehlungen sind Transferideen aus einem fiktiven Lernfall, keine Diagnose deiner Kompetenz und keine nachgewiesene Wirkung.";
+transfer.append(transferTitle,label,select,buttonRow,status,handoff,assessment,caution);panel.append(transfer);
+$("feedback").hidden=true;$("submit-answer").hidden=true;$("next").hidden=true;$("next").disabled=true;$("next").textContent="Abgeschlossen";$("scene-tag").textContent="REFLEXION";$("scene-title").textContent="Was bleibt beim Menschen?";$("scene-description").textContent="Nicht ein perfekter KI-Output, sondern überprüfbares Verständnis, menschliche Zusammenarbeit und die Fähigkeit, verantwortlich zu handeln.";$("scene-focus").textContent="Übertrage die Erkenntnisse nun auf deine eigene Anwendung unten.";focusCurrentScene();}});
 $("restart").addEventListener("click",()=>{step=0;selections.length=0;renderScene();focusCurrentScene()});renderScene();
 const items=[
 ["Human Agency","Können Menschen eigenständig entscheiden, korrigieren und widersprechen?"],
