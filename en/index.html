@@ -41,6 +41,12 @@ h3{font-size:1.25rem}.lead{max-width:660px;font-size:1.25rem;color:#dae5e7}.hero
 .feedback{scroll-margin-top:90px}
 .feedback-actions{margin-top:1rem}
 .answer-submit{margin-top:1rem}
+#experience{overflow-anchor:none}
+#decision-panel{scroll-margin-top:1rem}
+#edit-answer{margin-top:.8rem}
+#feedback{margin-top:.25rem}
+#decision-panel:focus{outline:none}
+#decision-panel:focus-visible{outline:3px solid #e5ad42}
 .answer-submit .primary{width:100%;min-height:48px}
 #feedback{scroll-margin-top:140px}
 @media(min-width:721px){.answer-submit .primary{width:auto}}
@@ -108,9 +114,9 @@ footer{background:#111f30;color:#d3e0e5;padding:2.2rem 0;font-size:.87rem}
 <div class="scene"><div class="panel dark"><div class="stepbar" id="step-counter" style="color:#b5dacb">SCENARIO 1 OF 3</div><span class="signal" id="scene-tag">AI OUTPUT</span>
 <h3 id="scene-title" tabindex="-1">The draft looks convincing.</h3><p id="scene-description">An AI system creates a learning module. The text, questions and examples seem plausible. Sources and expert approval are missing. The team wants to publish it immediately.</p>
 <div class="trace"><strong>What matters?</strong><span id="scene-focus">Distinguish a convincing presentation from reliable expertise.</span></div></div>
-<div class="panel"><h3>What will you do next?</h3><div id="options" class="choices" role="group" aria-label="Decision options"></div>
+<div class="panel" id="decision-panel" tabindex="-1"><h3 id="decision-heading">What will you do next?</h3><div id="options" class="choices" role="group" aria-label="Decision options"></div>
 <div class="actions answer-submit"><button id="submit-answer" type="button" class="primary" hidden>Submit answer →</button></div>
-<div id="feedback" class="feedback" role="status" aria-live="polite" tabindex="-1" hidden></div><p class="note feedback-actions" id="after-choice" hidden>You can change your decision. Select “Next scenario” to continue.</p>
+<div id="feedback" class="feedback" role="status" aria-live="polite" tabindex="-1" hidden></div><button id="edit-answer" type="button" class="secondary" style="color:#203242" hidden>Change answer</button><p class="note feedback-actions" id="after-choice" hidden>You can change your decision. Select “Next scenario” to continue.</p>
 <div class="actions"><button id="next" type="button" class="primary" disabled>Next scenario →</button><button type="button" id="restart" class="secondary" style="color:#203242">Start again</button></div></div></div>
 <p class="note">Fictional scenarios. No medical instructions. This exercise supports reflection, not a validated assessment or legal advice.</p>
 </div></section>
@@ -155,21 +161,23 @@ const scenes=[
 let step=0;const selections=[];const $=id=>document.getElementById(id);
 let selectedOption=null;
 let answerSubmitted=false;
-function revealTarget(element){
-  const header=document.querySelector("header");
-  const headerHeight=header&&getComputedStyle(header).position==="sticky"?header.getBoundingClientRect().height:0;
-  const top=Math.max(0,window.scrollY+element.getBoundingClientRect().top-headerHeight-18);
-  window.scrollTo({top,behavior:"instant"});
-  element.focus({preventScroll:true});
+function alignAndFocus(target, anchor=target){
+ // Recalculate after the browser has laid out the new, shorter content.
+ // Use focus without implicit scrolling, then scroll precisely to the target.
+ requestAnimationFrame(()=>requestAnimationFrame(()=>{
+   if(!target.isConnected || target.hidden)return;
+   const header=document.querySelector("header");
+   const sticky=header && getComputedStyle(header).position==="sticky";
+   const offset=sticky?header.getBoundingClientRect().height+16:16;
+   target.focus({preventScroll:true});
+   const y=Math.max(0,window.scrollY+anchor.getBoundingClientRect().top-offset);
+   window.scrollTo({top:y,behavior:"instant"});
+ }));
 }
 function focusCurrentScene(){
-  const heading=$("scene-title");
-  const target=$("journey-status");
-  const header=document.querySelector("header");
-  const offset=(header&&getComputedStyle(header).position==="sticky"?header.getBoundingClientRect().height:0)+16;
-  heading.focus({preventScroll:true});
-  window.scrollTo({top:Math.max(0,window.scrollY+target.getBoundingClientRect().top-offset),behavior:"instant"});
+ alignAndFocus($("scene-title"),$("journey-status"));
 }
+function revealTarget(element){alignAndFocus(element)}
 function updateJourney(done=false){
  const completed=done?3:step;
  $("journey-progress").value=completed;
@@ -181,6 +189,9 @@ function renderScene(){
  let scene=scenes[step];selectedOption=null;answerSubmitted=false;
  updateJourney();
  $("after-choice").hidden=true;
+ $("decision-heading").textContent="What will you do next?";
+ $("options").hidden=false;
+ $("edit-answer").hidden=true;
  $("submit-answer").hidden=true;
  $("feedback").hidden=true;
  $("next").hidden=true;
@@ -220,11 +231,27 @@ $("submit-answer").addEventListener("click",()=>{
  const msg=document.createElement("span");msg.textContent=option[1];
  feedback.append(label,msg);
  feedback.hidden=false;
+ $("decision-heading").textContent="Reflection";
+ $("options").hidden=true;
+ $("edit-answer").hidden=false;
  $("after-choice").hidden=false;
  $("after-choice").textContent="What will you take into practice? "+["Which expert and source would you need before publishing?","How could you verify real understanding while preserving conversations between people?","What practical action would demonstrate meaningful learning transfer?"][step];
  $("submit-answer").hidden=true;
  $("next").disabled=false;$("next").hidden=false;
- revealTarget(feedback);
+ alignAndFocus(feedback,$("decision-panel"));
+});
+$("edit-answer").addEventListener("click",()=>{
+ answerSubmitted=false;
+ $("options").hidden=false;
+ $("decision-heading").textContent="What will you do next?";
+ $("feedback").hidden=true;
+ $("after-choice").hidden=true;
+ $("edit-answer").hidden=true;
+ $("submit-answer").hidden=false;
+ $("next").hidden=true;
+ $("next").disabled=true;
+ const selected=$("options").querySelector('[aria-pressed="true"]');
+ alignAndFocus(selected||$("decision-panel"),$("decision-panel"));
 });
 $("next").addEventListener("click",()=>{if(!answerSubmitted||!selections[step])return;if(step<scenes.length-1){step++;renderScene();focusCurrentScene()}else{updateJourney(true);$("after-choice").hidden=true;$("restart").hidden=false;
 const panel=$("options");panel.replaceChildren();
@@ -258,7 +285,7 @@ const handoff=document.createElement("p");handoff.textContent="You can then refl
 const assessment=document.createElement("a");assessment.href="#apply";assessment.className="primary";assessment.style.display="inline-block";assessment.style.textDecoration="none";assessment.textContent="Review my application →";
 const caution=document.createElement("p");caution.className="note";caution.textContent="These are practical transfer ideas from a fictional learning case, not a diagnosis of your competence or proof of impact.";
 transfer.append(transferTitle,label,select,buttonRow,status,handoff,assessment,caution);panel.append(transfer);
-$("feedback").hidden=true;$("submit-answer").hidden=true;$("next").hidden=true;$("next").disabled=true;$("next").textContent="Completed";$("scene-tag").textContent="REFLECTION";$("scene-title").textContent="What remains with people?";$("scene-description").textContent="Not perfect AI output, but verifiable understanding, human collaboration and the capability to act responsibly.";$("scene-focus").textContent="Apply the insights to your own use case below.";focusCurrentScene();}});
+$("feedback").hidden=true;$("edit-answer").hidden=true;$("submit-answer").hidden=true;$("next").hidden=true;$("next").disabled=true;$("next").textContent="Completed";$("scene-tag").textContent="REFLECTION";$("scene-title").textContent="What remains with people?";$("scene-description").textContent="Not perfect AI output, but verifiable understanding, human collaboration and the capability to act responsibly.";$("scene-focus").textContent="Apply the insights to your own use case below.";alignAndFocus($("decision-panel"));}});
 $("restart").addEventListener("click",()=>{step=0;selections.length=0;renderScene();focusCurrentScene()});renderScene();
 const items=[
 ["Human Agency","Can people decide independently, correct and challenge outcomes?"],
