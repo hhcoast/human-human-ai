@@ -85,7 +85,16 @@ form{margin-top:2rem}.criteria{display:grid;grid-template-columns:repeat(2,1fr);
 .criterion{background:#fff;border:1px solid #dce5e1;border-radius:12px;padding:1rem}
 .criterion label{display:block;font-weight:750;margin-bottom:.3rem}.criterion small{display:block;color:#536772;margin-bottom:.7rem}
 select,textarea,input{width:100%;border:1px solid #83969f;border-radius:7px;padding:.7rem;background:#fff;color:#203242}
-textarea{min-height:90px;resize:vertical}.result{border:2px solid #1b776b;padding:1.5rem;border-radius:14px;background:#eff8f4;margin-top:1.3rem}
+textarea{min-height:90px;resize:vertical}.screening-group{margin:1.5rem 0}.screening-group h4{font-size:1.15rem;margin-bottom:.75rem}
+.screening-finding{background:#fff;border:1px solid #d1e1dc;border-radius:12px;padding:1.1rem;margin:.8rem 0}
+.screening-finding h5{font-size:1.06rem;margin:0 0 .4rem}
+.screening-finding p{margin:0 0 .65rem;overflow-wrap:anywhere}
+.screening-next{background:#e3f1e9;border-left:4px solid #147467;padding:1.1rem;border-radius:10px;margin:1rem 0}
+.screening-next h4{margin:0 0 .5rem}.screening-next p{margin:0}
+.screening-actions{display:flex;flex-wrap:wrap;gap:.65rem;margin:1.2rem 0}
+.screening-actions button{min-height:48px}
+@media(max-width:720px){.screening-actions{display:grid}.screening-actions button{width:100%}}
+.result{border:2px solid #1b776b;padding:1.5rem;border-radius:14px;background:#eff8f4;margin-top:1.3rem}
 .note{font-size:.82rem;color:#52626c}.sources{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;padding:0;list-style:none}
 .sources li{padding:1rem;border-bottom:1px solid #d9e5e1}.sources a{font-weight:700;color:#175d59}
 footer{background:#111f30;color:#d3e0e5;padding:2.2rem 0;font-size:.87rem}
@@ -323,6 +332,68 @@ const items=[
 ["Consequence","Is there verifiable evidence of outcomes and side effects?"]
 ];
 items.forEach(([name,question],i)=>{let wrap=document.createElement("div");wrap.className="criterion";let label=document.createElement("label");label.htmlFor="criterion-"+i;label.textContent=(i+1)+". "+name;let hint=document.createElement("small");hint.textContent=question;let select=document.createElement("select");select.id="criterion-"+i;select.name="criterion-"+i;[["","Please select"],["yes","Supported by evidence"],["partial","Partially met"],["no","Not met / critical"],["unknown","Insufficient evidence"]].forEach(([v,t])=>{let option=document.createElement("option");option.value=v;option.textContent=t;select.append(option)});wrap.append(label,hint,select);$("criteria").append(wrap)});
-$("screening").addEventListener("submit",e=>{e.preventDefault();let project=$("project").value.trim()||"Unnamed application context";let lines=items.map(([n],i)=>n+": "+($("criterion-"+i).selectedOptions[0].textContent));let unknown=items.filter((_,i)=>!$("criterion-"+i).value||$("criterion-"+i).value==="unknown").map(x=>x[0]);let critical=items.filter((_,i)=>$("criterion-"+i).value==="no").map(x=>x[0]);let text=["GM-HHAI-01 | Reflection v0.1","Context: "+project,...lines,"Critical areas: "+(critical.join(", ")||"none specified"),"Evidence gaps: "+(unknown.join(", ")||"none specified"),"This is not a validated assessment or certification."].join("\n");let result=$("result");result.replaceChildren();let h=document.createElement("h3");h.textContent="Your reflection";let p=document.createElement("p");p.textContent=critical.length?"Priority: review critical areas before expanding use.":unknown.length?"Priority: gather missing evidence before making impact claims.":"Next: verify these statements through observations and independent evidence.";let note=document.createElement("p");note.className="note";note.textContent="Your entries are not sent to a server. You can save the summary locally.";let btn=document.createElement("button");btn.className="primary";btn.textContent="Download reflection as text";btn.type="button";btn.addEventListener("click",()=>{let blob=new Blob([text],{type:"text/plain;charset=utf-8"}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="human-human-ai-reflection.txt";a.click();URL.revokeObjectURL(url)});result.append(h,p,note,btn);result.classList.remove("hidden");revealTarget(result)});
+const screeningGuidance=[["Make decision rights and correction routes visible.","Ask someone to test how they can challenge or correct an AI output or continue without AI.","Observed decision and an accessible correction route."],["Preserve opportunities for human questions.","Enable a real question to a colleague and check whether the explanation was understood.","Observed question and shared clarification."],["Verify understanding independently.","Ask someone to explain an AI output in their own words without AI assistance.","Independent explanation, including any uncertainty."],["Test transfer without assistance.","Try a short realistic task without AI support.","Observed performance and recorded support needed."],["Test access barriers with real users.","Ask someone affected to test language, keyboard use, readability and orientation.","Recorded barrier and verified improvement."],["Clarify expert review and accountability.","Assign source checking, approval and escalation of errors to an accountable person.","Documented review, owner and correction."],["Compare effort and benefit.","Complete a sample task with and without AI and record quality, time and resource effort.","Documented comparison rather than an assumed gain."],["Observe real consequences.","Define an expected action and a possible side effect before use, then observe both.","Observed action, side effect and context."]];
+$("screening").addEventListener("submit",event=>{
+ event.preventDefault();
+ const context=$("project").value.trim()||"Unnamed application context";
+ const values=items.map((item,i)=>({
+  name:item[0],question:item[1],value:$("criterion-"+i).value||"unknown",
+  response:$("criterion-"+i).selectedOptions[0].textContent,
+  suggestion:screeningGuidance[i]
+ }));
+ const groups={
+  critical:values.filter(x=>x.value==="no"),
+  missing:values.filter(x=>x.value==="unknown"),
+  partial:values.filter(x=>x.value==="partial"),
+  verified:values.filter(x=>x.value==="yes")
+ };
+ const result=$("result");result.replaceChildren();
+ const el=(tag,content,cls)=>{const node=document.createElement(tag);node.textContent=content;if(cls)node.className=cls;return node};
+ result.append(el("h3","Your next verification steps"),el("p","This output is derived only from your own selections. It is neither a diagnosis nor a validated assessment."),el("p","Context"+": "+context));
+ const output=["Your next verification steps","Context"+": "+context,"This output is derived only from your own selections. It is neither a diagnosis nor a validated assessment.",""];
+ const categories=[
+  ["First priority: Critical areas",groups.critical],
+  ["Evidence still missing",groups.missing],
+  ["Areas to improve",groups.partial],
+  ["Marked as met: verify independently",groups.verified]
+ ];
+ const section=document.createElement("div");section.className="screening-findings";
+ categories.forEach(([heading,entries])=>{
+  if(entries.length===0)return;
+  const group=document.createElement("section");group.className="screening-group";
+  group.append(el("h4",heading));output.push(heading);
+  entries.forEach(x=>{
+   const card=document.createElement("article");card.className="screening-finding";
+   card.append(el("h5",x.name),el("p","Your status"+": "+x.response,"note"));
+   card.append(el("p","Verification question"+": "+x.question));
+   card.append(el("p","Next action"+": "+x.suggestion[1]));
+   card.append(el("p","Possible evidence"+": "+x.suggestion[2],"note"));
+   if(x.value==="unknown")card.append(el("p","No selection was made for this dimension. Treat it as an evidence gap.","note"));
+   group.append(card);
+   output.push(x.name+" | "+x.response,"Verification question"+": "+x.question,"Next action"+": "+x.suggestion[1],"Possible evidence"+": "+x.suggestion[2],"");
+  });
+  section.append(group);
+ });
+ result.append(section);
+ const first=groups.critical[0]||groups.missing[0]||groups.partial[0]||groups.verified[0];
+ const recommendation=first?first.suggestion[1]:"No critical entries. Self-assessments still need independent observation.";
+ const main=document.createElement("div");main.className="screening-next";
+ main.append(el("h4","Most important next action"),el("p",recommendation));
+ result.append(main);output.push("Most important next action"+": "+recommendation);
+ result.append(el("p","Exploratory reflection tool, not a certification or impact measurement.","note"),el("p","Nothing is transmitted to a server. Save the result locally only if you want to retain it.","note"));
+ output.push("Exploratory reflection tool, not a certification or impact measurement.","Nothing is transmitted to a server. Save the result locally only if you want to retain it.");
+ const actions=document.createElement("div");actions.className="screening-actions";
+ const save=document.createElement("button");save.type="button";save.className="primary";save.textContent="Save results as text";
+ save.addEventListener("click",()=>{
+  const url=URL.createObjectURL(new Blob([output.join("\n")],{type:"text/plain;charset=utf-8"}));
+  const a=document.createElement("a");a.href=url;a.download="human-human-ai-review-plan.txt";a.click();
+  setTimeout(()=>URL.revokeObjectURL(url),1000);
+ });
+ const copy=document.createElement("button");copy.type="button";copy.className="secondary";copy.style.color="#203242";copy.textContent="Copy findings";
+ const status=el("p","","note");status.setAttribute("role","status");status.setAttribute("aria-live","polite");
+ copy.addEventListener("click",async()=>{try{await navigator.clipboard.writeText(output.join("\n"));status.textContent="Summary copied."}catch(error){status.textContent="Copying unavailable. Please use the text file."}});
+ actions.append(save,copy);result.append(actions,status);
+ result.classList.remove("hidden");revealTarget(result);
+});
 $("screening").addEventListener("reset",()=>{$("result").classList.add("hidden")});
 </script></body></html>
