@@ -1,0 +1,140 @@
+/* Human Human AI · Goldmonkeys visual system v1.0 · 2026-11-14
+   Shared by DE and EN. Presentation only: interaction logic unchanged.
+   Source of truth for screen palettes, contrast, responsive layout and print. */
+:root{
+ --hha-navy:#111f30;--hha-navy-deep:#0c1929;--hha-teal:#193d45;
+ --hha-teal-edge:#48747a;--hha-gold:#f4bd5f;--hha-gold-hover:#ffcf80;
+ --hha-ink:#eff5f4;--hha-muted:#c3d3d8;--hha-panel:#1b3440;
+ --hha-border:#527078;--hha-paper:#fff;
+ color-scheme:dark;
+}
+html{background:var(--hha-navy);scroll-padding-top:1rem}
+body{background:var(--hha-navy);color:var(--hha-ink)}
+header,footer{background:var(--hha-navy-deep);color:var(--hha-ink);border-color:var(--hha-border)}
+nav a{color:var(--hha-ink)}
+.logo span,h1 em{color:var(--hha-gold)}
+.hero{isolation:isolate;background:var(--hha-navy);color:var(--hha-ink)}
+/* Decorative orbits are BEHIND the text, never a semi-opaque text overlay. */
+.hero:after{z-index:-1;opacity:.38;box-shadow:0 0 0 65px #173841,0 0 0 66px #46757b,0 0 0 130px #152e39}
+.hero .container{position:relative;z-index:1}
+.hero .eyebrow{color:#c4dad6}.eyebrow{color:#badad1}
+.lead,.hero p.small{color:var(--hha-muted)}
+h1,h2,h3,h4,h5{color:var(--hha-ink)}
+h1{font-weight:850;letter-spacing:-.055em}
+.section,.section.white,.section.light{background:var(--hha-navy);color:var(--hha-ink);border-top:1px solid rgba(142,187,187,.18)}
+.section.light{background:#142b36}
+.intro,.note,.tile p,.takeaway-preview p,.criterion small,.ac-muted{color:var(--hha-muted)}
+.tile,.panel,.journey,.criterion,.takeaway-preview,.outcome-card,.screening-finding,
+.snapshot-cell,.snapshot-reminder,.screening-detail summary,
+#accountability .ac-card,#accountability .ac-report,#accountability #ac-share{
+ background:var(--hha-panel);border:1px solid var(--hha-border);color:var(--hha-ink);
+ border-radius:16px;
+}
+.tile p,.outcome-card .misconception,.outcome-card .evidence,.snapshot-context,
+.snapshot-state,.snapshot-legend li,.snapshot-priority,.screening-finding p{color:var(--hha-muted)}
+.tile.human .symbol,.tile.ai .symbol{color:var(--hha-gold)}
+.panel.dark{background:#102a35;color:var(--hha-ink)}
+.signal{background:#5a441f;color:#ffe4ac}
+.center-note,.keypoint,.transfer-box,.feedback,.screening-next,.snapshot-action,
+.snapshot-statement,#accountability .ac-agentic,#accountability #ac-mode-hint{
+ background:#25434b;color:var(--hha-ink);border-color:var(--hha-gold)
+}
+.center-note p,.feedback p,.snapshot-statement p,.snapshot-action p{color:var(--hha-ink)}
+.stepbar,.journey-steps span[aria-current=step],.snapshot-brand,
+.reminder-foot,#accountability .ac-number{color:var(--hha-gold)}
+.journey-head,.journey-steps,.transfer-status{color:var(--hha-ink)}
+.journey progress{accent-color:var(--hha-gold)}
+.cta,.primary,.answer-submit .primary,#accountability .ac-tools button:not(.ac-outline){
+ background:var(--hha-gold);color:var(--hha-navy-deep);border-color:var(--hha-gold);
+ font-weight:800;border-radius:12px
+}
+.cta:hover,.primary:hover,#accountability .ac-tools button:not(.ac-outline):hover{
+ background:var(--hha-gold-hover);color:var(--hha-navy-deep)
+}
+.secondary,#accountability .ac-tools button.ac-outline{
+ background:transparent;color:var(--hha-ink);border:2px solid #b8ccce;border-radius:12px
+}
+.choice,#accountability .ac-choices label{
+ background:#142e39;color:var(--hha-ink);border-color:#819da3;border-radius:12px
+}
+.choice:hover,.choice[aria-pressed=true],#accountability .ac-choices label:has(:checked){
+ background:#31515a;color:#fff;border-color:var(--hha-gold)
+}
+.choice[aria-pressed=true]{box-shadow:inset 5px 0 var(--hha-gold)}
+input,select,textarea,#accountability input[type=text],#accountability textarea,
+#accountability select{
+ background:#102833;color:#fff;border:1.5px solid #a6bdc2;border-radius:10px
+}
+input::placeholder,textarea::placeholder{color:#c5d5d9;opacity:1}
+select option{background:#102833;color:#fff}
+#accountability .ac-choices input{accent-color:var(--hha-gold)}
+#accountability .ac-card h3,#accountability .ac-report h3{color:#fff}
+#accountability .ac-muted{color:var(--hha-muted)}
+#accountability #ac-mail-preview{background:#102833;color:#fff;border:1px solid var(--hha-border)}
+#accountability .ac-report article{border-color:var(--hha-border)}
+#accountability .ac-poster{
+ background:var(--hha-navy);color:var(--hha-ink);border-color:var(--hha-teal-edge);
+ border-radius:18px;position:relative;overflow:hidden
+}
+#accountability .ac-poster h2{color:#fff}
+#accountability .ac-poster-grid>div{background:#23414a;border-color:#f4bd5f;color:#fff}
+#accountability .ac-poster-grid>div:nth-child(2),
+#accountability .ac-poster-grid>div:nth-child(3),
+#accountability .ac-poster-grid>div:nth-child(4),
+#accountability .ac-poster-grid>div:nth-child(5),
+#accountability .ac-poster-grid>div:nth-child(6){background:#23414a;border-color:#6b9b9d}
+#accountability .ac-poster-agent{background:#203c46;border-color:#74969b;color:#fff}
+#accountability .ac-poster-agent h3{color:#fff}
+.result{background:#203c46;color:#fff;border-color:var(--hha-gold)}
+.snapshot-top h3{color:#fff}
+.snapshot-symbol{background:var(--status)}
+.snapshot-legend .note{color:var(--hha-muted)}
+.screening-detail summary{color:var(--hha-ink)}
+.sources a{color:var(--hha-gold)}
+.sources li{border-color:var(--hha-border)}
+.decision-dialog{background:#152c38;color:#fff;border:1px solid #8ca8ae}
+.decision-dialog h3,.decision-dialog #dialog-explanation{color:#fff}
+.decision-dialog::backdrop{background:rgba(6,16,26,.83)}
+@media(max-width:720px){
+ .hero:after{right:-225px;top:65px;opacity:.20}
+ .hero{padding:3.5rem 0 4rem}
+ .hero .lead{max-width:34ch}
+ .actions a{min-height:52px;display:inline-flex;align-items:center;justify-content:center}
+ .answer-submit.is-active{background:#152e39;border-color:#819da3}
+ .section{padding:3.2rem 0}
+}
+@media(max-width:390px){
+ .actions{display:grid;grid-template-columns:1fr}
+ .actions a{width:100%}
+ .hero h1{overflow-wrap:normal;hyphens:auto}
+ .snapshot-matrix,.snapshot-legend ul{grid-template-columns:1fr}
+}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+/* Printed documents retain the brand, but use ink-efficient white backgrounds.
+   Existing A4 layout and export visibility rules remain authoritative. */
+@media print{
+ :root{color-scheme:light}
+ body,html{background:#fff!important;color:#111f30!important}
+ .hha-snapshot,.hha-snapshot *{color:#111f30}
+ .hha-snapshot .snapshot-brand,.hha-snapshot .reminder-foot{color:#17655f!important}
+ .snapshot-statement{background:#e8f0ed!important;color:#111f30!important;border-left:4px solid #d49c36!important}
+ .snapshot-cell{background:#fff!important;color:#111f30!important;border:1px solid #c5d3d0!important;border-left:4px solid var(--status)!important}
+ .snapshot-cell strong,.snapshot-cell .snapshot-state,.snapshot-context,
+ .snapshot-legend li,.snapshot-priority,.snapshot-top h3{color:#111f30!important}
+ .snapshot-action{background:#e7f0eb!important;color:#111f30!important;border-color:#c99337!important}
+ body:has(#accountability[data-print]) #accountability .ac-report,
+ body:has(#accountability[data-print]) #accountability .ac-poster{
+  background:#fff!important;color:#111f30!important
+ }
+ body:has(#accountability[data-print]) #accountability .ac-report *,
+ body:has(#accountability[data-print]) #accountability .ac-poster h2,
+ body:has(#accountability[data-print]) #accountability .ac-poster h3{color:#111f30!important}
+ body:has(#accountability[data-print=poster]) #accountability .ac-poster-grid>div{
+  background:#e7f0ed!important;color:#111f30!important;border-color:#356e71!important
+ }
+ body:has(#accountability[data-print=poster]) #accountability .ac-poster-grid>div strong,
+ body:has(#accountability[data-print=poster]) #accountability .ac-poster-grid>div p{color:#111f30!important}
+ body:has(#accountability[data-print=poster]) #accountability .ac-poster-agent{
+  background:#eef3f0!important;color:#111f30!important;border-color:#739494!important
+ }
+}
