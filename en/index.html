@@ -291,6 +291,9 @@ body:has(#accountability[data-print=poster]) #accountability .ac-poster-agent{pa
 body:has(#accountability[data-print=poster]) #accountability .ac-poster-agent h3{font-size:9pt!important}
 body:has(#accountability[data-print=poster]) #accountability .ac-poster-agent li{font-size:8pt!important;margin:0!important}
 }
+#accountability #ac-mode-hint{background:#e8f2ed;border-left:3px solid #197367;padding:.75rem 1rem;margin:1rem 0}
+#accountability [data-min-mode][hidden],#accountability #ac-transfer[hidden]{display:none!important}
+@media(max-width:580px){#accountability .ac-card{padding:1rem}#accountability .ac-choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.5rem}#accountability .ac-choices label{min-height:52px;display:flex;align-items:center;gap:.45rem;padding:.55rem;font-size:.88rem}#accountability .ac-choices input[type=radio]{width:18px;height:18px;flex:0 0 auto}}
 </style></head>
 <body><a class="skip" href="#main">Skip to content</a>
 <header><div class="nav"><div class="logo">HUMAN <span>·</span> HUMAN <span>·</span> AI</div>
@@ -346,7 +349,7 @@ body:has(#accountability[data-print=poster]) #accountability .ac-poster-agent li
 <div class="actions"><button type="submit" class="primary">Explore my snapshot</button><button type="reset" class="secondary" style="color:#203242">Reset</button></div></form>
 <div class="result hidden" id="result" tabindex="-1" aria-live="polite"></div></div></section>
 <section id="accountability" class="section light" aria-labelledby="ac-title"><div class="container"><p class="eyebrow">04 / Agency & Accountability Check · v1.0</p><h2 id="ac-title">Six questions. Your decision.</h2><p class="intro">Reflect on an AI-supported process or decision. No score and no judgement of you. Your responses stay in this browser unless you deliberately export or prepare an email.</p><div class="ac-shell">
-<form id="ac-form" onsubmit="return false"><div class="ac-card"><div class="ac-field"><label for="ac-context">What situation are you examining? (optional)</label><input type="text" id="ac-context" maxlength="160" placeholder="e.g. an AI-supported learning programme"></div><div class="ac-field"><label for="ac-mode">Depth of review</label><select id="ac-mode"><option value="0">Quick Check</option><option value="1">Practice Check</option><option value="2">Accountability Review</option></select></div></div><p class="ac-muted">For autonomous AI agents, also examine scope of action, permissions, human intervention and observed consequences. These prompts extend the existing six dimensions and do not add a score.</p><div id="ac-dimensions" class="ac-grid" style="margin-top:1rem"></div><div class="ac-card" style="margin-top:1rem"><div class="ac-field"><label for="ac-action">What next step do you choose? (optional)</label><input type="text" id="ac-action" maxlength="400" placeholder=""></div><div class="ac-field"><label for="ac-owner">Who might be responsible? (optional)</label><input type="text" id="ac-owner" maxlength="160" placeholder=""></div><div class="ac-field"><label for="ac-observable">What would show that something actually changed? (optional)</label><input type="text" id="ac-observable" maxlength="400" placeholder=""></div></div><p class="ac-muted">Do not enter personal, sensitive or confidential information. Nothing is sent automatically. Printouts may contain your information.</p><div class="ac-tools"><button type="button" id="ac-check">Create my overview</button><button class="ac-outline" type="button" id="ac-clear">Clear entries</button></div></form>
+<form id="ac-form" onsubmit="return false"><div class="ac-card"><div class="ac-field"><label for="ac-context">What situation are you examining? (optional)</label><input type="text" id="ac-context" maxlength="160" placeholder="e.g. an AI-supported learning programme"></div><div class="ac-field"><label for="ac-mode">Depth of review</label><select id="ac-mode"><option value="0">Quick Check</option><option value="1">Practice Check</option><option value="2">Accountability Review</option></select></div></div><p class="ac-muted">For autonomous AI agents, also examine scope of action, permissions, human intervention and observed consequences. These prompts extend the existing six dimensions and do not add a score.</p><p class="ac-muted" id="ac-mode-hint" role="status" aria-live="polite">Quick Check: six assessments without additional evidence fields.</p><div id="ac-dimensions" class="ac-grid" style="margin-top:1rem"></div><div class="ac-card" id="ac-transfer" style="margin-top:1rem"><div class="ac-field"><label for="ac-action">What next step do you choose? (optional)</label><input type="text" id="ac-action" maxlength="400" placeholder=""></div><div class="ac-field"><label for="ac-owner">Who might be responsible? (optional)</label><input type="text" id="ac-owner" maxlength="160" placeholder=""></div><div class="ac-field"><label for="ac-observable">What would show that something actually changed? (optional)</label><input type="text" id="ac-observable" maxlength="400" placeholder=""></div></div><p class="ac-muted">Do not enter personal, sensitive or confidential information. Nothing is sent automatically. Printouts may contain your information.</p><div class="ac-tools"><button type="button" id="ac-check">Create my overview</button><button class="ac-outline" type="button" id="ac-clear">Clear entries</button></div></form>
 <div id="ac-report" class="ac-report" tabindex="-1" hidden></div>
 <div id="ac-export" hidden><div class="ac-tools"><button type="button" id="ac-print">Print / save personal PDF</button><button type="button" id="ac-copy" class="ac-outline">Copy result</button><button type="button" id="ac-open-share" class="ac-outline">Review email selection</button></div></div>
 <div id="ac-share" hidden><h3>Share only what you select</h3><p>Your choice. An email draft opens in your email application. Nothing is sent automatically. You choose the recipient. Email is not anonymous.</p><div id="ac-share-choices"></div><h4>Email preview</h4><pre id="ac-mail-preview"></pre><div class="ac-tools"><button type="button" id="ac-send">Open email draft</button><button type="button" class="ac-outline" id="ac-close-share">Close</button></div></div>
@@ -671,6 +674,11 @@ const escapeText=x=>String(x||"").trim();
 const make=(tag,text,cls)=>{const n=document.createElement(tag);if(text!==undefined)n.textContent=text;if(cls)n.className=cls;return n};
 const agenticQuestions=["Which actions may the AI system take without renewed human consent?","Which permissions and access rights does the system actually have?","Who can review unequal effects of autonomous decisions?","Who can monitor, stop and take responsibility for autonomous actions?","What actual effects resulted from autonomous actions, and what remains unknown?","How are unauthorised actions detected, contained and reviewed?"];
 const grid=byId("ac-dimensions");
+const modeHintText=["Quick Check: six assessments without additional evidence fields.","Practice Check: assessment, basis and optional reflection.","Accountability Review: all fields including review stage and transfer."];
+const modeSelect=byId("ac-mode");
+function syncMode(){const mode=Number(modeSelect.value);root.dataset.checkMode=String(mode);byId("ac-mode-hint").textContent=modeHintText[mode];grid.querySelectorAll("[data-min-mode]").forEach(field=>{field.hidden=mode<Number(field.dataset.minMode)});byId("ac-transfer").hidden=mode===0;}
+modeSelect.addEventListener("change",()=>{syncMode();byId("ac-report").hidden=true;byId("ac-export").hidden=true;byId("ac-share").hidden=true;last=null;});
+
 t.dims.forEach((dim,i)=>{
  const card=make("fieldset",undefined,"ac-card");card.id="ac-dim-"+i;
  const legend=make("legend",(i+1)+". "+dim[0]);legend.style.fontWeight="800";card.append(legend);
@@ -680,19 +688,20 @@ t.dims.forEach((dim,i)=>{
  t.status.forEach((value,j)=>{const lab=make("label");const radio=make("input");radio.type="radio";radio.name="ac-answer-"+i;radio.value=String(j);lab.append(radio,document.createTextNode(" "+value));choices.append(lab)});
  card.append(choices);
  [["basis",t.basis,t.bases],["stage",t.stage,t.stages]].forEach(([id,title,options])=>{
-  const field=make("div",undefined,"ac-field");const lab=make("label",title);lab.htmlFor="ac-"+id+"-"+i;
+  const field=make("div",undefined,"ac-field");field.dataset.minMode=id==="basis"?"1":"2";const lab=make("label",title);lab.htmlFor="ac-"+id+"-"+i;
   const select=make("select");select.id="ac-"+id+"-"+i;
   options.forEach((v,j)=>{const opt=make("option",v);opt.value=String(j);select.append(opt)});
   field.append(lab,select);card.append(field);
  });
- const field=make("div",undefined,"ac-field"),lab=make("label",t.note);lab.htmlFor="ac-note-"+i;
+ const field=make("div",undefined,"ac-field"),lab=make("label",t.note);field.dataset.minMode="1";lab.htmlFor="ac-note-"+i;
  const note=make("textarea");note.id="ac-note-"+i;note.maxLength=700;note.placeholder=t.notePh;
  field.append(lab,note);card.append(field);grid.append(card);
 });
+syncMode();
 const read=()=>{
 const context=escapeText(byId("ac-context").value),mode=t.modes[Number(byId("ac-mode").value)];
-const dims=t.dims.map((d,i)=>{const checked=root.querySelector('input[name="ac-answer-'+i+'"]:checked');return{name:d[0],question:d[1],agenticQuestion:agenticQuestions[i],answer:checked?t.status[Number(checked.value)]:t.unknown,basis:t.bases[Number(byId("ac-basis-"+i).value)],stage:t.stages[Number(byId("ac-stage-"+i).value)],note:escapeText(byId("ac-note-"+i).value),responded:!!checked}});
-return{context,mode,dims,action:escapeText(byId("ac-action").value),owner:escapeText(byId("ac-owner").value),observable:escapeText(byId("ac-observable").value),date:new Date().toLocaleDateString(document.documentElement.lang),version:"1.0"};
+const dims=t.dims.map((d,i)=>{const checked=root.querySelector('input[name="ac-answer-'+i+'"]:checked');return{name:d[0],question:d[1],agenticQuestion:agenticQuestions[i],answer:checked?t.status[Number(checked.value)]:t.unknown,basis:Number(modeSelect.value)>=1?t.bases[Number(byId("ac-basis-"+i).value)]:"",stage:Number(modeSelect.value)>=2?t.stages[Number(byId("ac-stage-"+i).value)]:"",note:Number(modeSelect.value)>=1?escapeText(byId("ac-note-"+i).value):"",responded:!!checked}});
+return{context,mode,dims,action:Number(modeSelect.value)>=1?escapeText(byId("ac-action").value):"",owner:Number(modeSelect.value)>=1?escapeText(byId("ac-owner").value):"",observable:Number(modeSelect.value)>=1?escapeText(byId("ac-observable").value):"",date:new Date().toLocaleDateString(document.documentElement.lang),version:"1.0"};
 };
 const fmt=d=>[d.name+" | "+d.question,d.agenticQuestion,d.answer+" · "+d.basis+" · "+d.stage,d.note].filter(Boolean).join("\n");
 let last=null;
@@ -700,12 +709,12 @@ const report=byId("ac-report");
 const update=()=>{
 const a=read();last=a;report.replaceChildren();
 report.append(make("h2",t.summary),make("p",t.version+" · "+a.date,"ac-muted"),make("p",t.mode+": "+a.mode+(a.context?" · "+t.context+": "+a.context:"")),make("p",t.answered+": "+a.dims.filter(d=>d.responded).length+"/6"));
-a.dims.forEach(d=>{const item=make("article");item.append(make("h3",d.name),make("p",d.question),make("p",d.agenticQuestion,"ac-agentic"),make("p",t.judgment+": "+d.answer),make("p",t.basis+": "+d.basis),make("p",t.stage+": "+d.stage));if(d.note)item.append(make("p",d.note));report.append(item)});
+a.dims.forEach(d=>{const item=make("article");item.append(make("h3",d.name),make("p",d.question),make("p",d.agenticQuestion,"ac-agentic"),make("p",t.judgment+": "+d.answer),...(d.basis?[make("p",t.basis+": "+d.basis)]:[]),...(d.stage?[make("p",t.stage+": "+d.stage)]:[]));if(d.note)item.append(make("p",d.note));report.append(item)});
 const next=make("article");next.append(make("h3",t.review));[[t.action,a.action],[t.owner,a.owner],[t.observable,a.observable]].forEach(([k,v])=>{if(v)next.append(make("p",k+": "+v))});report.append(next);
 report.hidden=false;byId("ac-export").hidden=false;report.focus();
 };
 byId("ac-check").addEventListener("click",update);
-byId("ac-clear").addEventListener("click",()=>{byId("ac-form").reset();report.hidden=true;byId("ac-export").hidden=true;byId("ac-share").hidden=true;last=null;byId("ac-context").focus()});
+byId("ac-clear").addEventListener("click",()=>{byId("ac-form").reset();syncMode();report.hidden=true;byId("ac-export").hidden=true;byId("ac-share").hidden=true;last=null;byId("ac-context").focus()});
 const output=a=>[t.posterTitle,t.version,a.date,t.context+": "+a.context,t.mode+": "+a.mode,...a.dims.map(fmt),t.action+": "+a.action,t.owner+": "+a.owner,t.observable+": "+a.observable].join("\n\n");
 byId("ac-copy").addEventListener("click",async()=>{if(!last)update();try{await navigator.clipboard.writeText(output(last));byId("ac-live").textContent=t.copied}catch(e){byId("ac-live").textContent=t.copyFail}});
 const print=type=>{if(!last&&type==="report")update();root.dataset.print=type;window.print()};
@@ -719,7 +728,7 @@ const a=last||read();const selected=new Set([...checkboxes.querySelectorAll("inp
 const chunks=[t.posterTitle+" | v1.0"];
 if(selected.has(0))chunks.push(t.context+": "+a.context);
 if(selected.has(1))chunks.push(...a.dims.map(d=>d.name+": "+d.answer));
-if(selected.has(2))chunks.push(...a.dims.map(d=>d.name+": "+d.basis+" / "+d.stage));
+if(selected.has(2))chunks.push(...a.dims.filter(d=>d.basis||d.stage).map(d=>d.name+": "+[d.basis,d.stage].filter(Boolean).join(" / ")));
 if(selected.has(3))chunks.push(...a.dims.filter(d=>d.note).map(d=>d.name+": "+d.note));
 if(selected.has(4))chunks.push(t.action+": "+a.action,t.owner+": "+a.owner,t.observable+": "+a.observable);
 return chunks.join("\n\n");
