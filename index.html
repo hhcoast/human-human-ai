@@ -294,7 +294,7 @@ body:has(#accountability[data-print=poster]) #accountability .ac-poster-agent li
 #accountability #ac-mode-hint{background:#e8f2ed;border-left:3px solid #197367;padding:.75rem 1rem;margin:1rem 0}
 #accountability [data-min-mode][hidden],#accountability #ac-transfer[hidden]{display:none!important}
 @media(max-width:580px){#accountability .ac-card{padding:1rem}#accountability .ac-choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.5rem}#accountability .ac-choices label{min-height:52px;display:flex;align-items:center;gap:.45rem;padding:.55rem;font-size:.88rem}#accountability .ac-choices input[type=radio]{width:18px;height:18px;flex:0 0 auto}}
-</style><link rel="stylesheet" href="hha-design.css?v=1.0">
+</style><link rel="stylesheet" href="hha-design.css?v=1.0.1">
 </head>
 <body><a class="skip" href="#main">Zum Inhalt springen</a>
 <header><div class="nav"><div class="logo">HUMAN <span>·</span> HUMAN <span>·</span> AI</div>
@@ -336,7 +336,7 @@ body:has(#accountability[data-print=poster]) #accountability .ac-poster-agent li
  <p id="dialog-guidance" class="note">Diese Einordnung zeigt die fachliche Konsequenz deiner Entscheidung. Du kannst korrigieren oder fortfahren.</p>
  <div class="dialog-actions">
   <button id="dialog-next" type="button" class="primary">Weiter zur nächsten Situation →</button>
-  <button id="dialog-edit" type="button" class="secondary" style="color:#203242">Antwort ändern</button>
+  <button id="dialog-edit" type="button" class="secondary" >Antwort ändern</button>
  </div>
 </dialog><button id="edit-answer" type="button" class="secondary" style="color:#203242" hidden>Antwort ändern</button><p class="note feedback-actions" id="after-choice" hidden>Du kannst deine Entscheidung ändern. Mit „Nächste Situation“ geht es weiter.</p>
 <div class="actions"><button id="next" type="button" class="primary" disabled>Nächste Situation →</button><button type="button" id="restart" class="secondary" style="color:#203242">Neu beginnen</button></div></div></div>
@@ -565,7 +565,7 @@ $("screening").addEventListener("submit",event=>{
  statement.append(el("strong",snapshotConfig.strap),el("p",snapshotConfig.sub));
  snapshot.append(top,statement,el("h4",values.filter(x=>x.value!=="unanswered").length+" von 8 Fragen beantwortet"));
  const matrix=document.createElement("div");matrix.className="snapshot-matrix";
- matrix.setAttribute("role","list");matrix.setAttribute("aria-label",snapshotConfig.title);
+ matrix.setAttribute("role","list");matrix.setAttribute("aria-label",snapshotConfig.title);matrix.id="snapshot-status-matrix";
  values.forEach((v,i)=>{
   const cell=document.createElement("div");cell.className="snapshot-cell "+statusClass[v.value];cell.setAttribute("role","listitem");
   const symbol=el("span",statusSymbol[v.value],"snapshot-symbol");symbol.setAttribute("aria-hidden","true");
@@ -574,6 +574,11 @@ $("screening").addEventListener("submit",event=>{
   matrix.append(cell);
  });
  snapshot.append(matrix);
+ const matrixToggle=document.createElement("button");matrixToggle.type="button";matrixToggle.className="secondary snapshot-expand";matrixToggle.setAttribute("aria-controls","snapshot-status-matrix");matrixToggle.setAttribute("aria-expanded","false");matrixToggle.textContent="Alle acht Einschätzungen anzeigen";
+ matrixToggle.addEventListener("click",()=>{const expanded=matrixToggle.getAttribute("aria-expanded")==="true";matrixToggle.setAttribute("aria-expanded",String(!expanded));snapshot.classList.toggle("snapshot-expanded",!expanded);matrixToggle.textContent=expanded?"Alle acht Einschätzungen anzeigen":"Übersicht einklappen";});
+ snapshot.append(matrixToggle);
+ const mapping=el("p","Einordnung: Die acht Praxisfragen beleuchten konkrete Nutzungsaspekte. Die sechs Accountability-Dimensionen (Agency, Evidence, Fairness, Responsibility, Consequence, Correction) bilden ein ergänzendes Prüfraster. Acht Antworten sind kein Nachweis, dass alle sechs Dimensionen erfüllt sind.","snapshot-mapping note");
+ snapshot.append(mapping);
  const key=document.createElement("div");key.className="snapshot-legend";
  key.append(el("h4",snapshotConfig.legend));
  const legend=document.createElement("ul");
@@ -603,7 +608,7 @@ $("screening").addEventListener("submit",event=>{
  const actionButtons=document.createElement("div");actionButtons.className="snapshot-buttons";
  const printBtn=document.createElement("button");printBtn.type="button";printBtn.className="primary";printBtn.textContent=snapshotConfig.print;
  printBtn.addEventListener("click",()=>window.print());
- const reminderBtn=document.createElement("button");reminderBtn.type="button";reminderBtn.className="secondary";reminderBtn.style.color="#203242";reminderBtn.textContent=snapshotConfig.saveCard;
+ const reminderBtn=document.createElement("button");reminderBtn.type="button";reminderBtn.className="secondary";reminderBtn.textContent=snapshotConfig.saveCard;
  reminderBtn.addEventListener("click",()=>{
   // SVG is generated entirely on the device. No personal answers or project name enter the file.
   const esc=x=>String(x).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
@@ -655,7 +660,7 @@ $("screening").addEventListener("submit",event=>{
   const a=document.createElement("a");a.href=url;a.download="human-human-ai-pruefplan.txt";a.click();
   setTimeout(()=>URL.revokeObjectURL(url),1000);
  });
- const copy=document.createElement("button");copy.type="button";copy.className="secondary";copy.style.color="#203242";copy.textContent="Ergebnis kopieren";
+ const copy=document.createElement("button");copy.type="button";copy.className="secondary";copy.textContent="Ergebnis kopieren";
  const status=el("p","","note");status.setAttribute("role","status");status.setAttribute("aria-live","polite");
  copy.addEventListener("click",async()=>{try{await navigator.clipboard.writeText(output.join("\n"));status.textContent="Zusammenfassung kopiert."}catch(error){status.textContent="Kopieren nicht möglich. Bitte Textdatei verwenden."}});
  actions.append(save,copy);result.append(actions,status);
