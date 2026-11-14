@@ -73,7 +73,7 @@ textarea{min-height:90px;resize:vertical}.result{border:2px solid #1b776b;paddin
 .note{font-size:.82rem;color:#52626c}.sources{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;padding:0;list-style:none}
 .sources li{padding:1rem;border-bottom:1px solid #d9e5e1}.sources a{font-weight:700;color:#175d59}
 footer{background:#111f30;color:#d3e0e5;padding:2.2rem 0;font-size:.87rem}
-@media(max-width:720px){.triad,.scene,.criteria,.sources{grid-template-columns:1fr}.hero{padding:3.4rem 0 4rem}.section{padding:3.8rem 0}.nav{align-items:flex-start}nav{gap:.75rem}h1{font-size:clamp(2.9rem,12vw,5rem)}}
+@media(max-width:720px){header{position:static}.nav{padding:.7rem 1rem;gap:.45rem}.logo{font-size:.98rem}nav{width:100%;display:flex;flex-wrap:nowrap;overflow-x:auto;gap:1rem;padding:.25rem 0 .35rem;scrollbar-width:thin}nav a{white-space:nowrap;font-size:.86rem}nav a:focus-visible{outline-offset:1px}.scene .panel{padding:1.2rem}.scene .panel.dark{padding:1.4rem}.scene .panel.dark p{font-size:1rem}.scene{gap:.9rem}.feedback{padding:1rem}.triad,.scene,.criteria,.sources{grid-template-columns:1fr}.hero{padding:3.4rem 0 4rem}.section{padding:3.8rem 0}.nav{align-items:flex-start}nav{gap:.75rem}h1{font-size:clamp(2.9rem,12vw,5rem)}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 @media print{header,.actions,.choices,button{display:none!important}.hero{background:white;color:black;padding:1rem}.hero .lead{color:black}.section{padding:1rem 0}}
 </style></head>
@@ -157,7 +157,7 @@ let selectedOption=null;
 let answerSubmitted=false;
 function revealTarget(element){
   const header=document.querySelector("header");
-  const headerHeight=header?header.getBoundingClientRect().height:0;
+  const headerHeight=header&&getComputedStyle(header).position==="sticky"?header.getBoundingClientRect().height:0;
   const top=Math.max(0,window.scrollY+element.getBoundingClientRect().top-headerHeight-18);
   window.scrollTo({top,behavior:"instant"});
   element.focus({preventScroll:true});
@@ -166,7 +166,7 @@ function focusCurrentScene(){
   const heading=$("scene-title");
   const target=$("journey-status");
   const header=document.querySelector("header");
-  const offset=(header?.getBoundingClientRect().height||0)+16;
+  const offset=(header&&getComputedStyle(header).position==="sticky"?header.getBoundingClientRect().height:0)+16;
   heading.focus({preventScroll:true});
   window.scrollTo({top:Math.max(0,window.scrollY+target.getBoundingClientRect().top-offset),behavior:"instant"});
 }
@@ -183,8 +183,9 @@ function renderScene(){
  $("after-choice").hidden=true;
  $("submit-answer").hidden=true;
  $("feedback").hidden=true;
- $("next").hidden=false;
+ $("next").hidden=true;
  $("next").disabled=true;
+ $("restart").hidden=true;
  $("step-counter").textContent="SITUATION "+(step+1)+" VON "+scenes.length;
  $("scene-tag").textContent=scene.tag;
  $("scene-title").textContent=scene.title;
@@ -201,7 +202,7 @@ function renderScene(){
    button.setAttribute("aria-pressed","true");
    selectedOption=i;answerSubmitted=false;
    $("feedback").hidden=true;$("after-choice").hidden=true;
-   $("next").disabled=true;
+   $("next").disabled=true;$("next").hidden=true;
    const submit=$("submit-answer");submit.hidden=false;
    revealTarget(submit);
   });
@@ -220,12 +221,12 @@ $("submit-answer").addEventListener("click",()=>{
  feedback.append(label,msg);
  feedback.hidden=false;
  $("after-choice").hidden=false;
- $("after-choice").textContent="Einordnung gelesen? Weiter zur nächsten Situation.";
+ $("after-choice").textContent="Was nimmst du mit? "+["Welche Fachperson und welche Quelle wären vor einer Veröffentlichung nötig?","Wie kannst du überprüfen, ob Menschen wirklich verstehen und weiterhin miteinander sprechen?","Welche konkrete Handlung würde zeigen, dass das Lernen im Alltag wirkt?"][step];
  $("submit-answer").hidden=true;
- $("next").disabled=false;
+ $("next").disabled=false;$("next").hidden=false;
  revealTarget(feedback);
 });
-$("next").addEventListener("click",()=>{if(!answerSubmitted||!selections[step])return;if(step<scenes.length-1){step++;renderScene();focusCurrentScene()}else{updateJourney(true);$("after-choice").hidden=true;
+$("next").addEventListener("click",()=>{if(!answerSubmitted||!selections[step])return;if(step<scenes.length-1){step++;renderScene();focusCurrentScene()}else{updateJourney(true);$("after-choice").hidden=true;$("restart").hidden=false;
 const panel=$("options");panel.replaceChildren();
 const heading=document.createElement("h3");heading.textContent="Dein Ergebnis: Was weißt du jetzt mehr?";panel.append(heading);
 const description=document.createElement("p");description.textContent="Drei Erkenntnisse, drei Prüfhandlungen. Die Hinweise zu deinen Entscheidungen ergänzen die fachliche Einordnung, sind aber kein Kompetenztest.";panel.append(description);
