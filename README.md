@@ -10,7 +10,7 @@ Human–Human–AI examines three relationships: people learning and deciding wi
 
 ## Try the prototype
 
-Open `human-human-ai/index.html` locally in a browser. No build tool, login, API key or server required.
+The website entry point is [`index.html`](./index.html) at the repository root. Once GitHub Pages is enabled and its deployment checked, the public experience will be accessible at `https://hhcoast.github.io/human-human-ai/`. No login, API key or build tool is required.
 
 The experience contains:
 
@@ -25,8 +25,8 @@ The experience contains:
 - The scenarios are **fictional**. They are not official materials from any employer or health provider, and do not provide medical guidance.
 - No visitor inputs are transmitted to a server. There are no remote scripts, tracking cookies, analytics or API requests. The optional reflection file is generated locally.
 - External primary-source links are citations, not endorsements or collaboration claims.
-- Do **not** conflate this experience with the existing private 3 November 2026 webinar. This subproject has an independent purpose.
-- This feature branch does not authorize public release. The main repository README explicitly requires a separate publication decision, so **GitHub Pages must remain disabled** until content, permissions, privacy, accessibility and live behavior are reviewed.
+- This repository is an independent Goldmonkeys / HOP project, with no webinar or employer affiliation.
+- The source code is public, but the actual GitHub Pages launch and browser/accessibility checks must be verified separately. Publication does not imply scientific validation.
 
 ## Next QA and publication gates
 
@@ -35,7 +35,8 @@ The experience contains:
 - [ ] Review content and primary-source URLs.
 - [ ] Test all 3×3 decision choices, restarts, screening selections and local TXT download.
 - [ ] Check German-language wording with real learners; prepare an accurate English version for international publication.
-- [ ] Decide on a **separate public repository** or explicit approval for releasing a reviewed subproject. Do not make the existing private webinar repository public by accident.
+- [x] Create the independent public repository `hhcoast/human-human-ai` and place its entry point in the root.
+- [ ] Activate and verify GitHub Pages from `main` / `(root)`.
 - [ ] After release, check the actual published URL in an unauthenticated browser before sharing on LinkedIn.
 
 ## Sources
