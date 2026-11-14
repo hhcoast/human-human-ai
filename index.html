@@ -41,6 +41,16 @@ h3{font-size:1.25rem}.lead{max-width:660px;font-size:1.25rem;color:#dae5e7}.hero
 .feedback{scroll-margin-top:90px}
 .feedback-actions{margin-top:1rem}
 .answer-submit{margin-top:1rem}
+.decision-dialog{border:0;border-radius:18px;background:#fff;color:#142e3e;max-width:min(92vw,540px);max-height:calc(100dvh - 32px);overflow-y:auto;padding:clamp(1.3rem,4vw,2rem);box-shadow:0 20px 70px rgba(9,27,38,.3)}
+.decision-dialog::backdrop{background:rgba(10,27,40,.75)}
+.decision-dialog h3{font-size:1.45rem;line-height:1.3;margin-bottom:1rem}
+.decision-dialog #dialog-explanation{font-size:1.08rem;line-height:1.6}
+.dialog-actions{display:grid;gap:.75rem;margin-top:1.4rem}
+.dialog-actions button{min-height:48px}
+@media(max-width:720px){
+.answer-submit.is-active{position:fixed;bottom:calc(12px + env(safe-area-inset-bottom,0px));left:12px;right:12px;z-index:15;margin:0;padding:6px;background:#fff;border:1px solid #b7cdc6;border-radius:13px;box-shadow:0 6px 30px rgba(15,30,40,.24)}
+.answer-submit.is-active button{width:100%}
+}
 #experience{overflow-anchor:none}
 #decision-panel{scroll-margin-top:1rem}
 #edit-answer{margin-top:.8rem}
@@ -116,7 +126,16 @@ footer{background:#111f30;color:#d3e0e5;padding:2.2rem 0;font-size:.87rem}
 <div class="trace"><strong>Worauf kommt es an?</strong><span id="scene-focus">Trenne überzeugende Darstellung von fachlicher Verlässlichkeit.</span></div></div>
 <div class="panel" id="decision-panel" tabindex="-1"><h3 id="decision-heading">Was tust du als Nächstes?</h3><div id="options" class="choices" role="group" aria-label="Entscheidungsmöglichkeiten"></div>
 <div class="actions answer-submit"><button id="submit-answer" type="button" class="primary" hidden>Antwort abgeben →</button></div>
-<div id="feedback" class="feedback" role="status" aria-live="polite" tabindex="-1" hidden></div><button id="edit-answer" type="button" class="secondary" style="color:#203242" hidden>Antwort ändern</button><p class="note feedback-actions" id="after-choice" hidden>Du kannst deine Entscheidung ändern. Mit „Nächste Situation“ geht es weiter.</p>
+<div id="feedback" class="feedback" role="status" aria-live="polite" tabindex="-1" hidden></div>
+<dialog id="decision-dialog" class="decision-dialog" aria-labelledby="dialog-heading" aria-describedby="dialog-guidance">
+ <h3 id="dialog-heading" tabindex="-1">Deine Entscheidung: Was bedeutet sie?</h3>
+ <p id="dialog-explanation"></p>
+ <p id="dialog-guidance" class="note">Diese Einordnung zeigt die fachliche Konsequenz deiner Entscheidung. Du kannst korrigieren oder fortfahren.</p>
+ <div class="dialog-actions">
+  <button id="dialog-next" type="button" class="primary">Weiter zur nächsten Situation →</button>
+  <button id="dialog-edit" type="button" class="secondary" style="color:#203242">Antwort ändern</button>
+ </div>
+</dialog><button id="edit-answer" type="button" class="secondary" style="color:#203242" hidden>Antwort ändern</button><p class="note feedback-actions" id="after-choice" hidden>Du kannst deine Entscheidung ändern. Mit „Nächste Situation“ geht es weiter.</p>
 <div class="actions"><button id="next" type="button" class="primary" disabled>Nächste Situation →</button><button type="button" id="restart" class="secondary" style="color:#203242">Neu beginnen</button></div></div></div>
 <p class="note">Fiktive Situationen. Keine medizinische Fachanweisung. Die Übung ist eine Lernreflexion, kein validierter Test und keine Rechtsberatung.</p>
 </div></section>
@@ -188,6 +207,7 @@ function updateJourney(done=false){
 function renderScene(){
  let scene=scenes[step];selectedOption=null;answerSubmitted=false;
  updateJourney();
+ document.querySelector(".answer-submit").classList.remove("is-active");
  $("after-choice").hidden=true;
  $("decision-heading").textContent="Was tust du als Nächstes?";
  $("options").hidden=false;
@@ -215,7 +235,7 @@ function renderScene(){
    $("feedback").hidden=true;$("after-choice").hidden=true;
    $("next").disabled=true;$("next").hidden=true;
    const submit=$("submit-answer");submit.hidden=false;
-   revealTarget(submit);
+   document.querySelector(".answer-submit").classList.add("is-active");
   });
   $("options").append(button);
  });
@@ -225,20 +245,25 @@ $("submit-answer").addEventListener("click",()=>{
  const option=scenes[step].options[selectedOption];
  selections[step]={decision:option[0],feedback:option[1]};
  answerSubmitted=true;
- const feedback=$("feedback");
- feedback.replaceChildren();
- const label=document.createElement("strong");label.textContent="Einordnung";
- const msg=document.createElement("span");msg.textContent=option[1];
- feedback.append(label,msg);
- feedback.hidden=false;
- $("decision-heading").textContent="Einordnung";
- $("options").hidden=true;
- $("edit-answer").hidden=false;
- $("after-choice").hidden=false;
- $("after-choice").textContent="Was nimmst du mit? "+["Welche Fachperson und welche Quelle wären vor einer Veröffentlichung nötig?","Wie kannst du überprüfen, ob Menschen wirklich verstehen und weiterhin miteinander sprechen?","Welche konkrete Handlung würde zeigen, dass das Lernen im Alltag wirkt?"][step];
- $("submit-answer").hidden=true;
- $("next").disabled=false;$("next").hidden=false;
- alignAndFocus(feedback,$("decision-panel"));
+ document.querySelector(".answer-submit").classList.remove("is-active");
+ const dialog=$("decision-dialog");
+ $("dialog-explanation").textContent=option[1];
+ $("dialog-next").textContent=step===scenes.length-1?"Ergebnis ansehen →":"Weiter zur nächsten Situation →";
+ dialog.showModal();
+ $("dialog-heading").focus({preventScroll:true});
+});
+$("dialog-next").addEventListener("click",()=>{
+ $("decision-dialog").close();
+ // The next step is only triggered by this explicit confirmation.
+ $("next").disabled=false;
+ $("next").click();
+});
+$("dialog-edit").addEventListener("click",()=>{
+ $("decision-dialog").close();
+ answerSubmitted=false;
+ $("submit-answer").hidden=false;
+ const selected=$("options").querySelector('[aria-pressed="true"]');
+ if(selected)selected.focus({preventScroll:true});
 });
 $("edit-answer").addEventListener("click",()=>{
  answerSubmitted=false;
