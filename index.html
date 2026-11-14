@@ -85,7 +85,16 @@ form{margin-top:2rem}.criteria{display:grid;grid-template-columns:repeat(2,1fr);
 .criterion{background:#fff;border:1px solid #dce5e1;border-radius:12px;padding:1rem}
 .criterion label{display:block;font-weight:750;margin-bottom:.3rem}.criterion small{display:block;color:#536772;margin-bottom:.7rem}
 select,textarea,input{width:100%;border:1px solid #83969f;border-radius:7px;padding:.7rem;background:#fff;color:#203242}
-textarea{min-height:90px;resize:vertical}.result{border:2px solid #1b776b;padding:1.5rem;border-radius:14px;background:#eff8f4;margin-top:1.3rem}
+textarea{min-height:90px;resize:vertical}.screening-group{margin:1.5rem 0}.screening-group h4{font-size:1.15rem;margin-bottom:.75rem}
+.screening-finding{background:#fff;border:1px solid #d1e1dc;border-radius:12px;padding:1.1rem;margin:.8rem 0}
+.screening-finding h5{font-size:1.06rem;margin:0 0 .4rem}
+.screening-finding p{margin:0 0 .65rem;overflow-wrap:anywhere}
+.screening-next{background:#e3f1e9;border-left:4px solid #147467;padding:1.1rem;border-radius:10px;margin:1rem 0}
+.screening-next h4{margin:0 0 .5rem}.screening-next p{margin:0}
+.screening-actions{display:flex;flex-wrap:wrap;gap:.65rem;margin:1.2rem 0}
+.screening-actions button{min-height:48px}
+@media(max-width:720px){.screening-actions{display:grid}.screening-actions button{width:100%}}
+.result{border:2px solid #1b776b;padding:1.5rem;border-radius:14px;background:#eff8f4;margin-top:1.3rem}
 .note{font-size:.82rem;color:#52626c}.sources{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;padding:0;list-style:none}
 .sources li{padding:1rem;border-bottom:1px solid #d9e5e1}.sources a{font-weight:700;color:#175d59}
 footer{background:#111f30;color:#d3e0e5;padding:2.2rem 0;font-size:.87rem}
@@ -323,6 +332,68 @@ const items=[
 ["Consequence","Gibt es überprüfbare Hinweise auf tatsächliche Ergebnisse und Nebenwirkungen?"]
 ];
 items.forEach(([name,question],i)=>{let wrap=document.createElement("div");wrap.className="criterion";let label=document.createElement("label");label.htmlFor="criterion-"+i;label.textContent=(i+1)+". "+name;let hint=document.createElement("small");hint.textContent=question;let select=document.createElement("select");select.id="criterion-"+i;select.name="criterion-"+i;[["","Bitte wählen"],["yes","Nachweislich erfüllt"],["partial","Teilweise"],["no","Nicht erfüllt / kritisch"],["unknown","Keine ausreichende Evidenz"]].forEach(([v,t])=>{let option=document.createElement("option");option.value=v;option.textContent=t;select.append(option)});wrap.append(label,hint,select);$("criteria").append(wrap)});
-$("screening").addEventListener("submit",e=>{e.preventDefault();let project=$("project").value.trim()||"Nicht benannter Anwendungskontext";let lines=items.map(([n],i)=>n+": "+($("criterion-"+i).selectedOptions[0].textContent));let unknown=items.filter((_,i)=>!$("criterion-"+i).value||$("criterion-"+i).value==="unknown").map(x=>x[0]);let critical=items.filter((_,i)=>$("criterion-"+i).value==="no").map(x=>x[0]);let text=["GM-HHAI-01 | Reflexion v0.1","Kontext: "+project,...lines,"Kritische Felder: "+(critical.join(", ")||"keine angegeben"),"Evidenzlücken: "+(unknown.join(", ")||"keine angegeben"),"Dies ist keine validierte Messung oder Zertifizierung."].join("\n");let result=$("result");result.replaceChildren();let h=document.createElement("h3");h.textContent="Deine Reflexion";let p=document.createElement("p");p.textContent=critical.length?"Priorität: Kritische Felder fachlich prüfen, bevor ein Einsatz ausgeweitet wird.":unknown.length?"Priorität: Fehlende Evidenz gezielt erheben, bevor eine Wirkung behauptet wird.":"Nächster Schritt: Die Angaben anhand echter Beobachtungen und unabhängiger Nachweise überprüfen.";let note=document.createElement("p");note.className="note";note.textContent="Deine Angaben werden nicht an einen Server übertragen. Du kannst die Zusammenfassung lokal speichern.";let btn=document.createElement("button");btn.className="primary";btn.textContent="Reflexion als Text herunterladen";btn.type="button";btn.addEventListener("click",()=>{let blob=new Blob([text],{type:"text/plain;charset=utf-8"}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="human-human-ai-reflexion.txt";a.click();URL.revokeObjectURL(url)});result.append(h,p,note,btn);result.classList.remove("hidden");revealTarget(result)});
+const screeningGuidance=[["Entscheidungsrechte und Korrekturwege sichtbar machen.","Eine Person testet, wie sie ein KI-Ergebnis zurückweisen, korrigieren oder ohne KI weiterarbeiten kann.","Beobachtete Entscheidung und erreichbarer Korrekturweg."],["Menschliche Rückfragen absichern.","Im Arbeitsablauf eine reale Rückfrage an Kolleg:innen ermöglichen und prüfen, ob die Antwort verstanden wurde.","Beobachtete Rückfrage und nachvollziehbare gemeinsame Klärung."],["Verständnis unabhängig prüfen.","Eine Person erklärt ein KI-Ergebnis ohne KI-Unterstützung in eigenen Worten.","Eigenständige Erklärung inklusive erkannter Unsicherheiten."],["Transfer ohne Assistenz erproben.","Eine kurze realitätsnahe Aufgabe ohne KI-Hilfe durchführen lassen.","Beobachtete Anwendung und dokumentierte Unterstützung."],["Zugangsbarrieren gemeinsam testen.","Eine betroffene Person testet Sprache, Tastaturbedienung, Lesbarkeit und Orientierung.","Dokumentierte Barriere und überprüfte Verbesserung."],["Fachprüfung und Verantwortung klären.","Quellen, Freigabe und Eskalation für fehlerhafte Ausgaben einer verantwortlichen Person zuordnen.","Nachvollziehbare Prüfung, Zuständigkeit und Korrektur."],["Aufwand und Nutzen vergleichen.","Ein Beispiel mit und ohne KI bearbeiten und Qualität sowie Zeit- und Ressourcenaufwand dokumentieren.","Dokumentierter Vergleich, keine bloße Effizienzvermutung."],["Reale Konsequenzen beobachten.","Vorab eine Handlung und eine mögliche Nebenwirkung definieren und nach der Nutzung beobachten.","Beobachtete Handlung, Nebenwirkung und Kontextbedingungen."]];
+$("screening").addEventListener("submit",event=>{
+ event.preventDefault();
+ const context=$("project").value.trim()||"Nicht benannter Anwendungskontext";
+ const values=items.map((item,i)=>({
+  name:item[0],question:item[1],value:$("criterion-"+i).value||"unknown",
+  response:$("criterion-"+i).selectedOptions[0].textContent,
+  suggestion:screeningGuidance[i]
+ }));
+ const groups={
+  critical:values.filter(x=>x.value==="no"),
+  missing:values.filter(x=>x.value==="unknown"),
+  partial:values.filter(x=>x.value==="partial"),
+  verified:values.filter(x=>x.value==="yes")
+ };
+ const result=$("result");result.replaceChildren();
+ const el=(tag,content,cls)=>{const node=document.createElement(tag);node.textContent=content;if(cls)node.className=cls;return node};
+ result.append(el("h3","Deine nächsten Prüfschritte"),el("p","Das Ergebnis leitet sich ausschließlich aus deinen eigenen Angaben ab. Es ist keine Diagnose und keine validierte Bewertung."),el("p","Kontext"+": "+context));
+ const output=["Deine nächsten Prüfschritte","Kontext"+": "+context,"Das Ergebnis leitet sich ausschließlich aus deinen eigenen Angaben ab. Es ist keine Diagnose und keine validierte Bewertung.",""];
+ const categories=[
+  ["Zuerst klären: Kritische Bereiche",groups.critical],
+  ["Hier fehlt noch Evidenz",groups.missing],
+  ["Diese Bereiche gezielt verbessern",groups.partial],
+  ["Als erfüllt angegeben: unabhängig nachprüfen",groups.verified]
+ ];
+ const section=document.createElement("div");section.className="screening-findings";
+ categories.forEach(([heading,entries])=>{
+  if(entries.length===0)return;
+  const group=document.createElement("section");group.className="screening-group";
+  group.append(el("h4",heading));output.push(heading);
+  entries.forEach(x=>{
+   const card=document.createElement("article");card.className="screening-finding";
+   card.append(el("h5",x.name),el("p","Dein Status"+": "+x.response,"note"));
+   card.append(el("p","Prüffrage"+": "+x.question));
+   card.append(el("p","Nächste Handlung"+": "+x.suggestion[1]));
+   card.append(el("p","Möglicher Nachweis"+": "+x.suggestion[2],"note"));
+   if(x.value==="unknown")card.append(el("p","Für diese Dimension wurde noch keine Auswahl getroffen. Sie wird als Evidenzlücke behandelt.","note"));
+   group.append(card);
+   output.push(x.name+" | "+x.response,"Prüffrage"+": "+x.question,"Nächste Handlung"+": "+x.suggestion[1],"Möglicher Nachweis"+": "+x.suggestion[2],"");
+  });
+  section.append(group);
+ });
+ result.append(section);
+ const first=groups.critical[0]||groups.missing[0]||groups.partial[0]||groups.verified[0];
+ const recommendation=first?first.suggestion[1]:"Keine kritischen Angaben. Trotzdem müssen die Selbsteinschätzungen durch Beobachtungen überprüft werden.";
+ const main=document.createElement("div");main.className="screening-next";
+ main.append(el("h4","Wichtigste nächste Handlung"),el("p",recommendation));
+ result.append(main);output.push("Wichtigste nächste Handlung"+": "+recommendation);
+ result.append(el("p","Exploratives Reflexionsinstrument, keine Zertifizierung, keine Wirksamkeitsmessung.","note"),el("p","Keine Übertragung an einen Server. Speichere das Ergebnis nur auf deinem Gerät, wenn du es behalten möchtest.","note"));
+ output.push("Exploratives Reflexionsinstrument, keine Zertifizierung, keine Wirksamkeitsmessung.","Keine Übertragung an einen Server. Speichere das Ergebnis nur auf deinem Gerät, wenn du es behalten möchtest.");
+ const actions=document.createElement("div");actions.className="screening-actions";
+ const save=document.createElement("button");save.type="button";save.className="primary";save.textContent="Ergebnis als Text speichern";
+ save.addEventListener("click",()=>{
+  const url=URL.createObjectURL(new Blob([output.join("\n")],{type:"text/plain;charset=utf-8"}));
+  const a=document.createElement("a");a.href=url;a.download="human-human-ai-pruefplan.txt";a.click();
+  setTimeout(()=>URL.revokeObjectURL(url),1000);
+ });
+ const copy=document.createElement("button");copy.type="button";copy.className="secondary";copy.style.color="#203242";copy.textContent="Ergebnis kopieren";
+ const status=el("p","","note");status.setAttribute("role","status");status.setAttribute("aria-live","polite");
+ copy.addEventListener("click",async()=>{try{await navigator.clipboard.writeText(output.join("\n"));status.textContent="Zusammenfassung kopiert."}catch(error){status.textContent="Kopieren nicht möglich. Bitte Textdatei verwenden."}});
+ actions.append(save,copy);result.append(actions,status);
+ result.classList.remove("hidden");revealTarget(result);
+});
 $("screening").addEventListener("reset",()=>{$("result").classList.add("hidden")});
 </script></body></html>
