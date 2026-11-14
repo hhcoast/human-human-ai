@@ -94,7 +94,7 @@ textarea{min-height:90px;resize:vertical}.hha-snapshot{display:grid;gap:1.15rem;
 .snapshot-matrix{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.7rem}
 .snapshot-cell{background:#fff;border:1px solid #c6d5d1;border-left:5px solid var(--status);border-radius:10px;padding:1rem;display:flex;flex-direction:column;align-items:flex-start;gap:.4rem;min-width:0;overflow-wrap:anywhere}
 .snapshot-cell strong{font-size:.93rem;line-height:1.25}.snapshot-state{font-size:.79rem}
-.status-supported{--status:#137663}.status-partial{--status:#95640b}.status-critical{--status:#a43a3a}.status-unknown{--status:#586679}
+.status-unanswered{--status:#7e8e96}.status-supported{--status:#137663}.status-partial{--status:#95640b}.status-critical{--status:#a43a3a}.status-unknown{--status:#586679}
 .snapshot-symbol{display:inline-flex;justify-content:center;align-items:center;width:1.6rem;height:1.6rem;border-radius:6px;background:var(--status);color:#fff;font-weight:800;flex-shrink:0}
 .snapshot-legend ul{list-style:none;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.6rem}
 .snapshot-legend li{display:flex;align-items:center;gap:.5rem;font-size:.82rem}
@@ -434,25 +434,26 @@ transfer.append(transferTitle,label,select,buttonRow,status,handoff,assessment,c
 $("feedback").hidden=true;$("edit-answer").hidden=true;$("submit-answer").hidden=true;$("next").hidden=true;$("next").disabled=true;$("next").textContent="Completed";$("scene-tag").textContent="REFLECTION";$("scene-title").textContent="What remains with people?";$("scene-description").textContent="Not perfect AI output, but verifiable understanding, human collaboration and the capability to act responsibly.";$("scene-focus").textContent="Apply the insights to your own use case below.";alignAndFocus($("decision-panel"));}});
 $("restart").addEventListener("click",()=>{step=0;selections.length=0;renderScene();focusCurrentScene()});renderScene();
 const items=[
-["Human Agency","Can people decide independently, correct and challenge outcomes?"],
-["Human–Human Quality","Is human dialogue preserved or strengthened?"],
+["Making your own decisions","Can people decide independently, correct and challenge outcomes?"],
+["Working with others","Is human dialogue preserved or strengthened?"],
 ["Understanding","Can people demonstrate understanding independently of AI output?"],
-["Capability","Can people apply learning independently, also without assistance?"],
-["Accessibility & Inclusion","Are different access and language needs accommodated?"],
-["Accountability & Safety","Are responsibilities, sources and error correction defined?"],
-["Sustainability","Is technical and organisational effort proportionate?"],
-["Consequence","Is there verifiable evidence of outcomes and side effects?"]
+["Applying what you learned","Can people apply learning independently, also without assistance?"],
+["Access for everyone","Are different access and language needs accommodated?"],
+["Responsibility and safety","Are responsibilities, sources and error correction defined?"],
+["Effort and benefit","Is technical and organisational effort proportionate?"],
+["Real-world effects","Is there verifiable evidence of outcomes and side effects?"]
 ];
-items.forEach(([name,question],i)=>{let wrap=document.createElement("div");wrap.className="criterion";let label=document.createElement("label");label.htmlFor="criterion-"+i;label.textContent=(i+1)+". "+name;let hint=document.createElement("small");hint.textContent=question;let select=document.createElement("select");select.id="criterion-"+i;select.name="criterion-"+i;[["","Please select"],["yes","Reported as present"],["partial","Partially met"],["no","Not met / critical"],["unknown","Insufficient evidence"]].forEach(([v,t])=>{let option=document.createElement("option");option.value=v;option.textContent=t;select.append(option)});wrap.append(label,hint,select);$("criteria").append(wrap)});
+items.forEach(([name,question],i)=>{let wrap=document.createElement("div");wrap.className="criterion";let label=document.createElement("label");label.htmlFor="criterion-"+i;label.textContent=(i+1)+". "+name;let hint=document.createElement("small");hint.textContent=question;let select=document.createElement("select");select.id="criterion-"+i;select.name="criterion-"+i;[["","Please select"],["yes","Reported as present"],["partial","Partially met"],["no","Not met / critical"],["unknown","I am not sure yet"]].forEach(([v,t])=>{let option=document.createElement("option");option.value=v;option.textContent=t;select.append(option)});wrap.append(label,hint,select);$("criteria").append(wrap)});
 const screeningGuidance=[["Make decision rights and correction routes visible.","Ask someone to test how they can challenge or correct an AI output or continue without AI.","Observed decision and an accessible correction route."],["Preserve opportunities for human questions.","Enable a real question to a colleague and check whether the explanation was understood.","Observed question and shared clarification."],["Verify understanding independently.","Ask someone to explain an AI output in their own words without AI assistance.","Independent explanation, including any uncertainty."],["Test transfer without assistance.","Try a short realistic task without AI support.","Observed performance and recorded support needed."],["Test access barriers with real users.","Ask someone affected to test language, keyboard use, readability and orientation.","Recorded barrier and verified improvement."],["Clarify expert review and accountability.","Assign source checking, approval and escalation of errors to an accountable person.","Documented review, owner and correction."],["Compare effort and benefit.","Complete a sample task with and without AI and record quality, time and resource effort.","Documented comparison rather than an assumed gain."],["Observe real consequences.","Define an expected action and a possible side effect before use, then observe both.","Observed action, side effect and context."]];
 $("screening").addEventListener("submit",event=>{
  event.preventDefault();
  const context=$("project").value.trim()||"Unnamed application context";
  const values=items.map((item,i)=>({
-  name:item[0],question:item[1],value:$("criterion-"+i).value||"unknown",
+  name:item[0],question:item[1],value:$("criterion-"+i).value||"unanswered",
   response:$("criterion-"+i).selectedOptions[0].textContent,
   suggestion:screeningGuidance[i]
  }));
+ if(values.every(x=>x.value==="unanswered")){const result=$("result");result.replaceChildren();const notice=document.createElement("p");notice.textContent="Please answer at least one question before creating your snapshot. Other questions can be left blank.";result.append(notice);result.classList.remove("hidden");result.focus();return;}
  const groups={
   critical:values.filter(x=>x.value==="no"),
   missing:values.filter(x=>x.value==="unknown"),
@@ -464,15 +465,15 @@ $("screening").addEventListener("submit",event=>{
  const output=["What you could try next","Context"+": "+context,"Your snapshot shows what you have observed, which questions remain open and what you could try next.",""];
 
  // Present an accessible summary before any detailed text. All statuses reflect user input.
- const snapshotConfig={"path":"en/index.html","lang":"en","title":"Your Human–Human–AI Snapshot","strap":"AI assists. Humans understand, decide and act.","sub":"Do not review only the AI output. Examine what changes for people.","legend":"Legend","legendNote":"Self-report only, not independently verified. No overall score.","statuses":{"yes":"Reported as present","partial":"Partially met","no":"Critical / not met","unknown":"Insufficient evidence"},"notes":{"yes":"This reflects your own selection; no supporting evidence was reviewed here.","partial":"Partially met; further work and verification needed.","no":"Critical point to address before expansion.","unknown":"There is not yet sufficient evidence."},"priority":"What remains open","reminderTitle":"My Human–Human–AI Reminder","reminderSubtitle":"Before I call AI a success, I ask:","prompts":["Do people understand what is happening?","Can people still learn and work together?","Can people still decide for themselves?","What consequences can we actually observe?"],"reminderFoot":"Human Agency First · Fairness by Design · Observable Consequences","action":"Your next verifiable action","detail":"Explore questions and ideas","saveCard":"Save reminder as SVG","print":"Print snapshot / Save as PDF","note":"These coloured fields reflect your own observations. They do not evaluate you as a person.","context":"Application context","numberNote":"Eight perspectives · your snapshot","saveName":"human-human-ai-reminder-en.svg"};
- const statusSymbol={yes:"✓",partial:"~",no:"!",unknown:"?"};
- const statusClass={yes:"status-supported",partial:"status-partial",no:"status-critical",unknown:"status-unknown"};
+ const snapshotConfig={"path":"en/index.html","lang":"en","title":"Your Human–Human–AI Snapshot","strap":"AI assists. Humans understand, decide and act.","sub":"Do not review only the AI output. Examine what changes for people.","legend":"Legend","legendNote":"Your own assessment, not independently checked. No overall score. Unanswered questions are not rated.","statuses":{"yes":"Reported as present","partial":"Partially met","no":"Critical / not met","unknown":"I am not sure yet","unanswered":"Not answered"},"notes":{"yes":"This reflects your own selection; no supporting evidence was reviewed here.","partial":"Partially met; further work and verification needed.","no":"Critical point to address before expansion.","unknown":"You selected that you do not know yet.","unanswered":"No answer was given; this is not an assessment."},"priority":"Your points to clarify","reminderTitle":"My Human–Human–AI Reminder","reminderSubtitle":"Before I call AI a success, I ask:","prompts":["Do people understand what is happening?","Can people still learn and work together?","Can people still decide for themselves?","What consequences can we actually observe?"],"reminderFoot":"Human Agency First · Fairness by Design · Observable Consequences","action":"Your next verifiable action","detail":"Explore questions and ideas","saveCard":"Save reminder as SVG","print":"Print snapshot / Save as PDF","note":"These coloured fields reflect your own observations. They do not evaluate you as a person.","context":"Application context","numberNote":"Your snapshot","saveName":"human-human-ai-reminder-en.svg"};
+ const statusSymbol={yes:"✓",partial:"~",no:"!",unknown:"?",unanswered:"–"};
+ const statusClass={yes:"status-supported",partial:"status-partial",no:"status-critical",unknown:"status-unknown",unanswered:"status-unanswered"};
  const snapshot=document.createElement("div");snapshot.className="hha-snapshot";snapshot.id="hha-snapshot";
  const top=document.createElement("div");top.className="snapshot-top";
  top.append(el("p","GOLDMONKEYS / HUMAN ORIENTATION PROJECT","snapshot-brand"),el("h3",snapshotConfig.title),el("p",snapshotConfig.context+": "+context,"snapshot-context"));
  const statement=document.createElement("div");statement.className="snapshot-statement";
  statement.append(el("strong",snapshotConfig.strap),el("p",snapshotConfig.sub));
- snapshot.append(top,statement,el("h4",snapshotConfig.numberNote));
+ snapshot.append(top,statement,el("h4",values.filter(x=>x.value!=="unanswered").length+" of 8 questions answered"));
  const matrix=document.createElement("div");matrix.className="snapshot-matrix";
  matrix.setAttribute("role","list");matrix.setAttribute("aria-label",snapshotConfig.title);
  values.forEach((v,i)=>{
@@ -486,7 +487,7 @@ $("screening").addEventListener("submit",event=>{
  const key=document.createElement("div");key.className="snapshot-legend";
  key.append(el("h4",snapshotConfig.legend));
  const legend=document.createElement("ul");
- ["yes","partial","no","unknown"].forEach(k=>{
+ ["yes","partial","no","unknown","unanswered"].forEach(k=>{
   const li=document.createElement("li");li.className=statusClass[k];
   const icon=el("span",statusSymbol[k],"snapshot-symbol");icon.setAttribute("aria-hidden","true");
   li.append(icon,el("span",snapshotConfig.statuses[k]));legend.append(li);
