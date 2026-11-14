@@ -111,6 +111,37 @@ textarea{min-height:90px;resize:vertical}.hha-snapshot{display:grid;gap:1.15rem;
 .screening-detail summary{cursor:pointer;font-weight:750;padding:.85rem;border-radius:10px;background:#fff;border:1px solid #b5d2c9}
 @media(max-width:720px){.snapshot-buttons{display:grid}.snapshot-buttons button{width:100%}.snapshot-matrix{gap:.5rem}.snapshot-cell{padding:.75rem}.snapshot-legend ul{gap:.5rem}}
 @media print{
+ @page{size:A4;margin:7mm}
+ body{background:#fff!important;color:#142e3e}
+ body>header,body>footer,body>.skip{display:none!important}
+ main>section:not(#apply){display:none!important}
+ #apply{padding:0!important;background:#fff!important}
+ #apply>.container>:not(#result){display:none!important}
+ #result{border:0!important;background:#fff!important;padding:0!important;margin:0!important}
+ #result> :not(.hha-snapshot){display:none!important}
+ .snapshot-buttons,.snapshot-reminder{display:none!important}
+ .hha-snapshot{gap:.7rem}.snapshot-cell{padding:.65rem;break-inside:avoid}
+ .snapshot-matrix{gap:.5rem}
+ .snapshot-legend,.snapshot-statement{break-inside:avoid}
+ .snapshot-top h3{font-size:19pt}
+}
+.screening-group{margin:1.5rem 0}.screening-group h4{font-size:1.15rem;margin-bottom:.75rem}
+.screening-finding{background:#fff;border:1px solid #d1e1dc;border-radius:12px;padding:1.1rem;margin:.8rem 0}
+.screening-finding h5{font-size:1.06rem;margin:0 0 .4rem}
+.screening-finding p{margin:0 0 .65rem;overflow-wrap:anywhere}
+.screening-next{background:#e3f1e9;border-left:4px solid #147467;padding:1.1rem;border-radius:10px;margin:1rem 0}
+.screening-next h4{margin:0 0 .5rem}.screening-next p{margin:0}
+.screening-actions{display:flex;flex-wrap:wrap;gap:.65rem;margin:1.2rem 0}
+.screening-actions button{min-height:48px}
+@media(max-width:720px){.screening-actions{display:grid}.screening-actions button{width:100%}}
+.result{border:2px solid #1b776b;padding:1.5rem;border-radius:14px;background:#eff8f4;margin-top:1.3rem}
+.note{font-size:.82rem;color:#52626c}.sources{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;padding:0;list-style:none}
+.sources li{padding:1rem;border-bottom:1px solid #d9e5e1}.sources a{font-weight:700;color:#175d59}
+footer{background:#111f30;color:#d3e0e5;padding:2.2rem 0;font-size:.87rem}
+@media(max-width:720px){header{position:static}.nav{padding:.7rem 1rem;gap:.45rem}.logo{font-size:.98rem}nav{width:100%;display:flex;flex-wrap:nowrap;overflow-x:auto;gap:1rem;padding:.25rem 0 .35rem;scrollbar-width:thin}nav a{white-space:nowrap;font-size:.86rem}nav a:focus-visible{outline-offset:1px}.scene .panel{padding:1.2rem}.scene .panel.dark{padding:1.4rem}.scene .panel.dark p{font-size:1rem}.scene{gap:.9rem}.feedback{padding:1rem}.triad,.scene,.criteria,.sources{grid-template-columns:1fr}.hero{padding:3.4rem 0 4rem}.section{padding:3.8rem 0}.nav{align-items:flex-start}nav{gap:.75rem}h1{font-size:clamp(2.9rem,12vw,5rem)}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+@media print{header,.actions,.choices,button{display:none!important}.hero{background:white;color:black;padding:1rem}.hero .lead{color:black}.section{padding:1rem 0}}
+@media print{
  @page{size:A4 portrait;margin:7mm}
  html,body{width:auto!important;margin:0!important;padding:0!important}
  #apply .container{max-width:none!important;width:100%!important;padding:0!important}
@@ -141,37 +172,7 @@ textarea{min-height:90px;resize:vertical}.hha-snapshot{display:grid;gap:1.15rem;
  .hha-snapshot>.note{display:none!important}
  .snapshot-reminder,.snapshot-buttons{display:none!important}
 }
-@media print{
- @page{size:A4;margin:12mm}
- body{background:#fff!important;color:#142e3e}
- body>header,body>footer,body>.skip{display:none!important}
- main>section:not(#apply){display:none!important}
- #apply{padding:0!important;background:#fff!important}
- #apply>.container>:not(#result){display:none!important}
- #result{border:0!important;background:#fff!important;padding:0!important;margin:0!important}
- #result> :not(.hha-snapshot){display:none!important}
- .snapshot-buttons,.snapshot-reminder{display:none!important}
- .hha-snapshot{gap:.7rem}.snapshot-cell{padding:.65rem;break-inside:avoid}
- .snapshot-matrix{gap:.5rem}
- .snapshot-legend,.snapshot-statement{break-inside:avoid}
- .snapshot-top h3{font-size:19pt}
-}
-.screening-group{margin:1.5rem 0}.screening-group h4{font-size:1.15rem;margin-bottom:.75rem}
-.screening-finding{background:#fff;border:1px solid #d1e1dc;border-radius:12px;padding:1.1rem;margin:.8rem 0}
-.screening-finding h5{font-size:1.06rem;margin:0 0 .4rem}
-.screening-finding p{margin:0 0 .65rem;overflow-wrap:anywhere}
-.screening-next{background:#e3f1e9;border-left:4px solid #147467;padding:1.1rem;border-radius:10px;margin:1rem 0}
-.screening-next h4{margin:0 0 .5rem}.screening-next p{margin:0}
-.screening-actions{display:flex;flex-wrap:wrap;gap:.65rem;margin:1.2rem 0}
-.screening-actions button{min-height:48px}
-@media(max-width:720px){.screening-actions{display:grid}.screening-actions button{width:100%}}
-.result{border:2px solid #1b776b;padding:1.5rem;border-radius:14px;background:#eff8f4;margin-top:1.3rem}
-.note{font-size:.82rem;color:#52626c}.sources{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;padding:0;list-style:none}
-.sources li{padding:1rem;border-bottom:1px solid #d9e5e1}.sources a{font-weight:700;color:#175d59}
-footer{background:#111f30;color:#d3e0e5;padding:2.2rem 0;font-size:.87rem}
-@media(max-width:720px){header{position:static}.nav{padding:.7rem 1rem;gap:.45rem}.logo{font-size:.98rem}nav{width:100%;display:flex;flex-wrap:nowrap;overflow-x:auto;gap:1rem;padding:.25rem 0 .35rem;scrollbar-width:thin}nav a{white-space:nowrap;font-size:.86rem}nav a:focus-visible{outline-offset:1px}.scene .panel{padding:1.2rem}.scene .panel.dark{padding:1.4rem}.scene .panel.dark p{font-size:1rem}.scene{gap:.9rem}.feedback{padding:1rem}.triad,.scene,.criteria,.sources{grid-template-columns:1fr}.hero{padding:3.4rem 0 4rem}.section{padding:3.8rem 0}.nav{align-items:flex-start}nav{gap:.75rem}h1{font-size:clamp(2.9rem,12vw,5rem)}}
-@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
-@media print{header,.actions,.choices,button{display:none!important}.hero{background:white;color:black;padding:1rem}.hero .lead{color:black}.section{padding:1rem 0}}
+
 </style></head>
 <body><a class="skip" href="#main">Zum Inhalt springen</a>
 <header><div class="nav"><div class="logo">HUMAN <span>·</span> HUMAN <span>·</span> AI</div>
