@@ -119,7 +119,7 @@ textarea{min-height:90px;resize:vertical}.hha-snapshot{display:grid;gap:1.15rem;
  #apply>.container>:not(#result){display:none!important}
  #result{border:0!important;background:#fff!important;padding:0!important;margin:0!important}
  #result> :not(.hha-snapshot){display:none!important}
- .snapshot-buttons,.snapshot-reminder,.snapshot-priority,.snapshot-action{display:none!important}
+ .snapshot-buttons,.snapshot-reminder{display:none!important}
  .hha-snapshot{gap:.7rem}.snapshot-cell{padding:.65rem;break-inside:avoid}
  .snapshot-matrix{gap:.5rem}
  .snapshot-legend,.snapshot-statement{break-inside:avoid}
@@ -389,7 +389,6 @@ $("screening").addEventListener("submit",event=>{
  };
  const result=$("result");result.replaceChildren();
  const el=(tag,content,cls)=>{const node=document.createElement(tag);node.textContent=content;if(cls)node.className=cls;return node};
- result.append(el("h3","Your next verification steps"),el("p","This output is derived only from your own selections. It is neither a diagnosis nor a validated assessment."),el("p","Context"+": "+context));
  const output=["Your next verification steps","Context"+": "+context,"This output is derived only from your own selections. It is neither a diagnosis nor a validated assessment.",""];
 
  // Present an accessible summary before any detailed text. All statuses reflect user input.
@@ -444,8 +443,14 @@ $("screening").addEventListener("submit",event=>{
  reminderBtn.addEventListener("click",()=>{
   // SVG is generated entirely on the device. No personal answers or project name enter the file.
   const esc=x=>String(x).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
-  const rows=snapshotConfig.prompts.map((q,i)=>'<text x="72" y="'+(298+i*86)+'" fill="#183143" font-size="27" font-family="Arial, sans-serif">'+esc((i+1)+". "+q)+'</text>').join("");
-  const svg='<svg xmlns="http://www.w3.org/2000/svg" width="900" height="760" viewBox="0 0 900 760"><rect width="900" height="760" fill="#F1F7F2"/><rect x="35" y="35" width="830" height="690" rx="30" fill="#FFFFFF" stroke="#167468" stroke-width="4"/><text x="72" y="105" fill="#176D61" font-family="Arial, sans-serif" font-size="22" font-weight="bold">HUMAN · HUMAN · AI</text><text x="72" y="165" fill="#163044" font-family="Arial, sans-serif" font-size="40" font-weight="bold">'+esc(snapshotConfig.reminderTitle)+'</text><text x="72" y="222" fill="#435866" font-family="Arial, sans-serif" font-size="26">'+esc(snapshotConfig.reminderSubtitle)+'</text>'+rows+'<text x="72" y="672" fill="#176D61" font-family="Arial, sans-serif" font-size="20">'+esc(snapshotConfig.reminderFoot)+'</text></svg>';
+  const wrap=(value,limit)=>{const words=String(value).split(/\s+/),lines=[];let line="";words.forEach(word=>{if((line+" "+word).trim().length>limit&&line){lines.push(line);line=word}else line=(line+" "+word).trim()});if(line)lines.push(line);return lines};
+  const rows=snapshotConfig.prompts.map((q,i)=>{
+   const parts=wrap((i+1)+". "+q,45);
+   return parts.map((line,j)=>'<text x="72" y="'+(286+i*92+j*32)+'" fill="#183143" font-size="24" font-family="Arial, sans-serif">'+esc(line)+'</text>').join("");
+  }).join("");
+  const titleRows=wrap(snapshotConfig.reminderTitle,32).map((line,i)=>'<text x="72" y="'+(148+i*41)+'" fill="#163044" font-family="Arial, sans-serif" font-size="34" font-weight="bold">'+esc(line)+'</text>').join("");
+  const footerRows=wrap(snapshotConfig.reminderFoot,62).map((line,i)=>'<text x="72" y="'+(669+i*25)+'" fill="#176D61" font-family="Arial, sans-serif" font-size="18">'+esc(line)+'</text>').join("");
+  const svg='<svg xmlns="http://www.w3.org/2000/svg" width="900" height="760" viewBox="0 0 900 760"><rect width="900" height="760" fill="#F1F7F2"/><rect x="35" y="35" width="830" height="690" rx="30" fill="#FFFFFF" stroke="#167468" stroke-width="4"/><text x="72" y="102" fill="#176D61" font-family="Arial, sans-serif" font-size="22" font-weight="bold">HUMAN · HUMAN · AI</text>'+titleRows+'<text x="72" y="240" fill="#435866" font-family="Arial, sans-serif" font-size="24">'+esc(snapshotConfig.reminderSubtitle)+'</text>'+rows+footerRows+'</svg>';
   const url=URL.createObjectURL(new Blob([svg],{type:"image/svg+xml;charset=utf-8"}));
   const a=document.createElement("a");a.href=url;a.download=snapshotConfig.saveName;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
  });
