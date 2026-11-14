@@ -41,6 +41,12 @@ h3{font-size:1.25rem}.lead{max-width:660px;font-size:1.25rem;color:#dae5e7}.hero
 .feedback{scroll-margin-top:90px}
 .feedback-actions{margin-top:1rem}
 .answer-submit{margin-top:1rem}
+#experience{overflow-anchor:none}
+#decision-panel{scroll-margin-top:1rem}
+#edit-answer{margin-top:.8rem}
+#feedback{margin-top:.25rem}
+#decision-panel:focus{outline:none}
+#decision-panel:focus-visible{outline:3px solid #e5ad42}
 .answer-submit .primary{width:100%;min-height:48px}
 #feedback{scroll-margin-top:140px}
 @media(min-width:721px){.answer-submit .primary{width:auto}}
@@ -108,9 +114,9 @@ footer{background:#111f30;color:#d3e0e5;padding:2.2rem 0;font-size:.87rem}
 <div class="scene"><div class="panel dark"><div class="stepbar" id="step-counter" style="color:#b5dacb">SITUATION 1 VON 3</div><span class="signal" id="scene-tag">KI-OUTPUT</span>
 <h3 id="scene-title" tabindex="-1">Der Entwurf ist überzeugend.</h3><p id="scene-description">Ein KI-System erstellt ein Lernmodul. Text, Fragen und Beispiele wirken plausibel. Quellen und fachliche Freigabe fehlen. Das Team möchte es sofort veröffentlichen.</p>
 <div class="trace"><strong>Worauf kommt es an?</strong><span id="scene-focus">Trenne überzeugende Darstellung von fachlicher Verlässlichkeit.</span></div></div>
-<div class="panel"><h3>Was tust du als Nächstes?</h3><div id="options" class="choices" role="group" aria-label="Entscheidungsmöglichkeiten"></div>
+<div class="panel" id="decision-panel" tabindex="-1"><h3 id="decision-heading">Was tust du als Nächstes?</h3><div id="options" class="choices" role="group" aria-label="Entscheidungsmöglichkeiten"></div>
 <div class="actions answer-submit"><button id="submit-answer" type="button" class="primary" hidden>Antwort abgeben →</button></div>
-<div id="feedback" class="feedback" role="status" aria-live="polite" tabindex="-1" hidden></div><p class="note feedback-actions" id="after-choice" hidden>Du kannst deine Entscheidung ändern. Mit „Nächste Situation“ geht es weiter.</p>
+<div id="feedback" class="feedback" role="status" aria-live="polite" tabindex="-1" hidden></div><button id="edit-answer" type="button" class="secondary" style="color:#203242" hidden>Antwort ändern</button><p class="note feedback-actions" id="after-choice" hidden>Du kannst deine Entscheidung ändern. Mit „Nächste Situation“ geht es weiter.</p>
 <div class="actions"><button id="next" type="button" class="primary" disabled>Nächste Situation →</button><button type="button" id="restart" class="secondary" style="color:#203242">Neu beginnen</button></div></div></div>
 <p class="note">Fiktive Situationen. Keine medizinische Fachanweisung. Die Übung ist eine Lernreflexion, kein validierter Test und keine Rechtsberatung.</p>
 </div></section>
@@ -155,21 +161,23 @@ const scenes=[
 let step=0;const selections=[];const $=id=>document.getElementById(id);
 let selectedOption=null;
 let answerSubmitted=false;
-function revealTarget(element){
-  const header=document.querySelector("header");
-  const headerHeight=header&&getComputedStyle(header).position==="sticky"?header.getBoundingClientRect().height:0;
-  const top=Math.max(0,window.scrollY+element.getBoundingClientRect().top-headerHeight-18);
-  window.scrollTo({top,behavior:"instant"});
-  element.focus({preventScroll:true});
+function alignAndFocus(target, anchor=target){
+ // Recalculate after the browser has laid out the new, shorter content.
+ // Use focus without implicit scrolling, then scroll precisely to the target.
+ requestAnimationFrame(()=>requestAnimationFrame(()=>{
+   if(!target.isConnected || target.hidden)return;
+   const header=document.querySelector("header");
+   const sticky=header && getComputedStyle(header).position==="sticky";
+   const offset=sticky?header.getBoundingClientRect().height+16:16;
+   target.focus({preventScroll:true});
+   const y=Math.max(0,window.scrollY+anchor.getBoundingClientRect().top-offset);
+   window.scrollTo({top:y,behavior:"instant"});
+ }));
 }
 function focusCurrentScene(){
-  const heading=$("scene-title");
-  const target=$("journey-status");
-  const header=document.querySelector("header");
-  const offset=(header&&getComputedStyle(header).position==="sticky"?header.getBoundingClientRect().height:0)+16;
-  heading.focus({preventScroll:true});
-  window.scrollTo({top:Math.max(0,window.scrollY+target.getBoundingClientRect().top-offset),behavior:"instant"});
+ alignAndFocus($("scene-title"),$("journey-status"));
 }
+function revealTarget(element){alignAndFocus(element)}
 function updateJourney(done=false){
  const completed=done?3:step;
  $("journey-progress").value=completed;
@@ -181,6 +189,9 @@ function renderScene(){
  let scene=scenes[step];selectedOption=null;answerSubmitted=false;
  updateJourney();
  $("after-choice").hidden=true;
+ $("decision-heading").textContent="Was tust du als Nächstes?";
+ $("options").hidden=false;
+ $("edit-answer").hidden=true;
  $("submit-answer").hidden=true;
  $("feedback").hidden=true;
  $("next").hidden=true;
@@ -220,11 +231,27 @@ $("submit-answer").addEventListener("click",()=>{
  const msg=document.createElement("span");msg.textContent=option[1];
  feedback.append(label,msg);
  feedback.hidden=false;
+ $("decision-heading").textContent="Einordnung";
+ $("options").hidden=true;
+ $("edit-answer").hidden=false;
  $("after-choice").hidden=false;
  $("after-choice").textContent="Was nimmst du mit? "+["Welche Fachperson und welche Quelle wären vor einer Veröffentlichung nötig?","Wie kannst du überprüfen, ob Menschen wirklich verstehen und weiterhin miteinander sprechen?","Welche konkrete Handlung würde zeigen, dass das Lernen im Alltag wirkt?"][step];
  $("submit-answer").hidden=true;
  $("next").disabled=false;$("next").hidden=false;
- revealTarget(feedback);
+ alignAndFocus(feedback,$("decision-panel"));
+});
+$("edit-answer").addEventListener("click",()=>{
+ answerSubmitted=false;
+ $("options").hidden=false;
+ $("decision-heading").textContent="Was tust du als Nächstes?";
+ $("feedback").hidden=true;
+ $("after-choice").hidden=true;
+ $("edit-answer").hidden=true;
+ $("submit-answer").hidden=false;
+ $("next").hidden=true;
+ $("next").disabled=true;
+ const selected=$("options").querySelector('[aria-pressed="true"]');
+ alignAndFocus(selected||$("decision-panel"),$("decision-panel"));
 });
 $("next").addEventListener("click",()=>{if(!answerSubmitted||!selections[step])return;if(step<scenes.length-1){step++;renderScene();focusCurrentScene()}else{updateJourney(true);$("after-choice").hidden=true;$("restart").hidden=false;
 const panel=$("options");panel.replaceChildren();
@@ -258,7 +285,7 @@ const handoff=document.createElement("p");handoff.textContent="Anschließend kan
 const assessment=document.createElement("a");assessment.href="#apply";assessment.className="primary";assessment.style.display="inline-block";assessment.style.textDecoration="none";assessment.textContent="Meine Anwendung prüfen →";
 const caution=document.createElement("p");caution.className="note";caution.textContent="Diese Empfehlungen sind Transferideen aus einem fiktiven Lernfall, keine Diagnose deiner Kompetenz und keine nachgewiesene Wirkung.";
 transfer.append(transferTitle,label,select,buttonRow,status,handoff,assessment,caution);panel.append(transfer);
-$("feedback").hidden=true;$("submit-answer").hidden=true;$("next").hidden=true;$("next").disabled=true;$("next").textContent="Abgeschlossen";$("scene-tag").textContent="REFLEXION";$("scene-title").textContent="Was bleibt beim Menschen?";$("scene-description").textContent="Nicht ein perfekter KI-Output, sondern überprüfbares Verständnis, menschliche Zusammenarbeit und die Fähigkeit, verantwortlich zu handeln.";$("scene-focus").textContent="Übertrage die Erkenntnisse nun auf deine eigene Anwendung unten.";focusCurrentScene();}});
+$("feedback").hidden=true;$("edit-answer").hidden=true;$("submit-answer").hidden=true;$("next").hidden=true;$("next").disabled=true;$("next").textContent="Abgeschlossen";$("scene-tag").textContent="REFLEXION";$("scene-title").textContent="Was bleibt beim Menschen?";$("scene-description").textContent="Nicht ein perfekter KI-Output, sondern überprüfbares Verständnis, menschliche Zusammenarbeit und die Fähigkeit, verantwortlich zu handeln.";$("scene-focus").textContent="Übertrage die Erkenntnisse nun auf deine eigene Anwendung unten.";alignAndFocus($("decision-panel"));}});
 $("restart").addEventListener("click",()=>{step=0;selections.length=0;renderScene();focusCurrentScene()});renderScene();
 const items=[
 ["Human Agency","Können Menschen eigenständig entscheiden, korrigieren und widersprechen?"],
